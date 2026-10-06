@@ -1274,12 +1274,10 @@
 
       this.createObserver();
 
-      // Luna mobile: keep the header sticky from the very start of scrolling.
-      // Dawn normally waits until the original header has fully left the viewport,
-      // which creates a dead zone on this long mobile hero.
-      if (window.matchMedia('(max-width: 989px)').matches) {
-        this.header.classList.add('shopify-section-header-sticky');
-      }
+      // Luna: keep the header sticky from the very start of scrolling
+      // on both desktop and mobile. Dawn's default delayed activation creates
+      // a visible dead zone over the long hero / story sections.
+      this.header.classList.add('shopify-section-header-sticky');
     }
 
     disconnectedCallback() {
@@ -1332,13 +1330,8 @@
     }
 
     reset() {
-      if (window.matchMedia('(max-width: 989px)').matches) {
-        this.header.classList.add('shopify-section-header-sticky');
-        this.header.classList.remove('shopify-section-header-hidden', 'animate');
-        return;
-      }
-
-      this.header.classList.remove('shopify-section-header-hidden', 'shopify-section-header-sticky', 'animate');
+      this.header.classList.add('shopify-section-header-sticky');
+      this.header.classList.remove('shopify-section-header-hidden', 'animate');
     }
 
     closeMenuDisclosure() {
