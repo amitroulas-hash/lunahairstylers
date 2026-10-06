@@ -1273,6 +1273,13 @@
       window.addEventListener('scroll', this.onScrollHandler, false);
 
       this.createObserver();
+
+      // Luna mobile: keep the header sticky from the very start of scrolling.
+      // Dawn normally waits until the original header has fully left the viewport,
+      // which creates a dead zone on this long mobile hero.
+      if (window.matchMedia('(max-width: 989px)').matches) {
+        this.header.classList.add('shopify-section-header-sticky');
+      }
     }
 
     disconnectedCallback() {
@@ -1325,6 +1332,12 @@
     }
 
     reset() {
+      if (window.matchMedia('(max-width: 989px)').matches) {
+        this.header.classList.add('shopify-section-header-sticky');
+        this.header.classList.remove('shopify-section-header-hidden', 'animate');
+        return;
+      }
+
       this.header.classList.remove('shopify-section-header-hidden', 'shopify-section-header-sticky', 'animate');
     }
 
