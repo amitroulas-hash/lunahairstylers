@@ -1,0 +1,11 @@
+{
+  "sections": {
+    "seo_landing": {
+      "type": "collection-seo-landing",
+      "settings": {}
+    }
+  },
+  "order": [
+    "seo_landing"
+  ]
+}

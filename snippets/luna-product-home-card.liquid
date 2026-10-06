@@ -1,0 +1,104 @@
+{% assign p = product %}
+{% assign v = p.selected_or_first_available_variant %}
+{% assign img1 = p.featured_image %}
+{% assign img2 = p.images[1] %}
+{% assign img3 = p.images[2] %}
+{% assign price_variant = p.selected_or_first_available_variant %}
+
+{% assign card_badge = settings.luna_spend_offer_title %}
+{% assign card_title = p.title %}
+{% assign card_copy = '' %}
+
+{% if p.handle == dryer_handle or p.handle == 'dryer' %}
+  {% assign card_badge = 'BEST VALUE BUNDLE' %}
+  {% assign card_title = 'Ionic Hair Dryer' %}
+  {% assign card_copy = 'Fast dry. Smooth finish. Free kit.' %}
+{% elsif p.handle == 'ceramic-argan-oil-infused-straightener' %}
+  {% assign card_badge = 'SMOOTH + SHINE' %}
+  {% assign card_title = 'Argan Oil Straightener' %}
+  {% assign card_copy = 'Sleek styling without the premium price.' %}
+{% elsif p.handle == 'curling-tong' %}
+  {% assign card_badge = 'SOFT WAVES + CURL' %}
+  {% assign card_title = 'Ceramic Curling Tong' %}
+  {% assign card_copy = 'Soft waves, glossy curls and easy movement.' %}
+{% elsif p.title contains 'Mini Hair Straightener' or p.handle contains 'mini' %}
+  {% assign card_badge = 'MINI SMOOTHING' %}
+  {% assign card_title = 'Mini Straightener' %}
+  {% assign card_copy = 'Compact smoothing for touch-ups and travel.' %}
+{% elsif p.handle == 'travel-dryer' or p.title contains 'Travel Hair Dryer' %}
+  {% assign card_badge = 'TRAVEL READY' %}
+  {% assign card_title = 'Travel Hair Dryer' %}
+  {% assign card_copy = 'Lightweight drying for weekends and carry-ons.' %}
+{% endif %}
+
+<article class="lpv2-card-{{ section_id }}">
+   <a href="{{ p.url }}" class="lpv2-media-{{ section_id }}{% if img2 %} has-hover-image-{{ section_id }}{% endif %}">
+    <span class="lpv2-badge-{{ section_id }}">{{ card_badge }}</span>
+
+    {% if p.handle == dryer_handle %}
+      <span class="lpv2-gift-badge-{{ section_id }}">+ FREE LUXE KIT</span>
+    {% endif %}
+
+    <div class="lpv2-rotator-{{ section_id }}">
+      {% if img1 %}
+        <img class="lpv2-img-{{ section_id }} is-1" src="{{ img1 | image_url: width: 900 }}" alt="{{ p.title | escape }}" loading="lazy">
+      {% endif %}
+      {% if img2 %}
+        <img class="lpv2-img-{{ section_id }} is-2" src="{{ img2 | image_url: width: 900 }}" alt="{{ p.title | escape }}" loading="lazy">
+      {% endif %}
+      {% if img3 %}
+        <img class="lpv2-img-{{ section_id }} is-3" src="{{ img3 | image_url: width: 900 }}" alt="{{ p.title | escape }}" loading="lazy">
+      {% endif %}
+    </div>
+
+    {% if p.handle == dryer_handle and luxe_kit_gif != blank %}
+      <div class="lpv2-gift-tile-{{ section_id }}">
+        <img src="{{ luxe_kit_gif }}" alt="Free Luxe Kit">
+      </div>
+    {% endif %}
+  </a>
+
+  <div class="lpv2-info-{{ section_id }}">
+    <div class="lpv2-stars-{{ section_id }}">
+      <div class="jdgm-widget jdgm-preview-badge" data-id="{{ p.id }}">
+        {{ p.metafields.judgeme.badge }}
+      </div>
+    </div>
+
+    <h3 class="lpv2-title-{{ section_id }}">
+      <a href="{{ p.url }}" aria-label="{{ p.title | escape }}">{{ card_title }}</a>
+    </h3>
+
+    {% if card_copy != blank %}
+      <p class="lpv2-copy-{{ section_id }}">{{ card_copy }}</p>
+    {% endif %}
+
+    <div class="lpv2-price-{{ section_id }} luna-price">
+      {% if price_variant.compare_at_price > price_variant.price %}
+        <div class="luna-price__sale-row">
+          <span class="luna-price__sale">{{ price_variant.price | money }}</span>
+          <s class="luna-price__compare">{{ price_variant.compare_at_price | money }}</s>
+        </div>
+        <div class="luna-price__save">
+          Save {{ price_variant.compare_at_price | minus: price_variant.price | money }}
+        </div>
+      {% else %}
+        <span class="luna-price__regular">{{ price_variant.price | money }}</span>
+      {% endif %}
+    </div>
+
+    <div class="lpv2-buttons-{{ section_id }}">
+      <button
+        type="button"
+        class="lpv2-atc-{{ section_id }}"
+        data-variant-id="{{ v.id }}"
+        data-product-handle="{{ p.handle }}"
+        {% unless v.available %}disabled{% endunless %}
+      >
+        {% if v.available %}Add to Cart{% else %}Sold Out{% endif %}
+      </button>
+
+      <a href="{{ p.url }}" class="lpv2-view-{{ section_id }}">View Product</a>
+    </div>
+  </div>
+</article>

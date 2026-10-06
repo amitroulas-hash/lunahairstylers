@@ -1,0 +1,775 @@
+{% comment %}
+  Luna Scroll Story
+  Sticky/pinned brand takeover section inspired by campaign-scroll experiences.
+  Main media pins while proof cards scroll over it.
+{% endcomment %}
+
+<section class="luna-scroll-story-{{ section.id }}" id="luna-scroll-story-{{ section.id }}">
+  <div class="lss-pin-{{ section.id }}">
+
+    <div class="lss-sticky-{{ section.id }}">
+      <div class="lss-media-{{ section.id }}">
+        {% assign hero_media_type = section.settings.hero_media_type %}
+
+        {% if hero_media_type == 'video_picker' and section.settings.hero_video != blank %}
+          {{ section.settings.hero_video | video_tag: autoplay: true, loop: true, muted: true, controls: false, playsinline: true }}
+
+        {% elsif hero_media_type == 'video_url' and section.settings.hero_video_url != blank %}
+          <video autoplay muted loop playsinline preload="metadata">
+            <source src="{{ section.settings.hero_video_url | escape }}" type="video/mp4">
+          </video>
+
+        {% elsif hero_media_type == 'image_picker' and section.settings.hero_image != blank %}
+          <img
+            src="{{ section.settings.hero_image | image_url: width: 1600 }}"
+            alt="{{ section.settings.heading | escape }}"
+            loading="eager"
+          >
+
+        {% elsif section.settings.hero_image_url != blank %}
+          <img
+            src="{{ section.settings.hero_image_url | escape }}"
+            alt="{{ section.settings.heading | escape }}"
+            loading="eager"
+          >
+
+        {% else %}
+          <div class="lss-placeholder-{{ section.id }}">
+            Add Luna hero image or video
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="lss-shade-{{ section.id }}"></div>
+
+      <div class="lss-hero-copy-{{ section.id }}">
+        {% if section.settings.eyebrow != blank %}
+          <p>{{ section.settings.eyebrow }}</p>
+        {% endif %}
+
+        {% if section.settings.heading != blank %}
+          <h2>{{ section.settings.heading }}</h2>
+        {% endif %}
+
+        {% if section.settings.intro != blank %}
+          <div>{{ section.settings.intro }}</div>
+        {% endif %}
+
+        {% if section.settings.cta_link != blank %}
+          <a href="{{ section.settings.cta_link }}">{{ section.settings.cta_label }}</a>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="lss-overlays-{{ section.id }}">
+      <div class="lss-card-stack-{{ section.id }}">
+        {% for block in section.blocks %}
+          {% assign card_media_type = block.settings.card_media_type %}
+
+          <article class="lss-card-{{ section.id }}" {{ block.shopify_attributes }}>
+            <div class="lss-card__media-{{ section.id }}">
+              {% if card_media_type == 'video_picker' and block.settings.card_video != blank %}
+                {{ block.settings.card_video | video_tag: autoplay: true, loop: true, muted: true, controls: false, playsinline: true }}
+
+              {% elsif card_media_type == 'video_url' and block.settings.card_video_url != blank %}
+                <video autoplay muted loop playsinline preload="metadata">
+                  <source src="{{ block.settings.card_video_url | escape }}" type="video/mp4">
+                </video>
+
+              {% elsif card_media_type == 'image_picker' and block.settings.card_image != blank %}
+                <img
+                  src="{{ block.settings.card_image | image_url: width: 1000 }}"
+                  alt="{{ block.settings.headline | escape }}"
+                  loading="lazy"
+                >
+
+              {% elsif block.settings.card_image_url != blank %}
+                <img
+                  src="{{ block.settings.card_image_url | escape }}"
+                  alt="{{ block.settings.headline | escape }}"
+                  loading="lazy"
+                >
+
+              {% else %}
+                <div class="lss-card__placeholder-{{ section.id }}">
+                  Add image or video
+                </div>
+              {% endif %}
+            </div>
+
+            <div class="lss-card__content-{{ section.id }}">
+              {% if block.settings.badge != blank %}
+                <p class="lss-card__badge-{{ section.id }}">{{ block.settings.badge }}</p>
+              {% endif %}
+
+              {% if block.settings.headline != blank %}
+                <h3>{{ block.settings.headline }}</h3>
+              {% endif %}
+
+              {% if block.settings.text != blank %}
+                <div class="lss-card__text-{{ section.id }}">{{ block.settings.text }}</div>
+              {% endif %}
+
+              <div class="lss-card__proofs-{{ section.id }}">
+                {% if block.settings.proof_1 != blank %}
+                  <span>{{ block.settings.proof_1 }}</span>
+                {% endif %}
+                {% if block.settings.proof_2 != blank %}
+                  <span>{{ block.settings.proof_2 }}</span>
+                {% endif %}
+                {% if block.settings.proof_3 != blank %}
+                  <span>{{ block.settings.proof_3 }}</span>
+                {% endif %}
+              </div>
+
+              {% if block.settings.cta_link != blank %}
+                <a class="lss-card__cta-{{ section.id }}" href="{{ block.settings.cta_link }}">
+                  {{ block.settings.cta_label }}
+                </a>
+              {% endif %}
+            </div>
+          </article>
+        {% endfor %}
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<style>
+.luna-scroll-story-{{ section.id }} {
+  position: relative;
+  background: #fff7fb;
+  color: #111;
+  overflow: clip;
+}
+
+.lss-pin-{{ section.id }} {
+  position: relative;
+  min-height: 230svh;
+}
+
+.lss-sticky-{{ section.id }} {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+  background: #111;
+}
+
+.lss-media-{{ section.id }},
+.lss-media-{{ section.id }} img,
+.lss-media-{{ section.id }} video,
+.lss-placeholder-{{ section.id }} {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.lss-media-{{ section.id }} img,
+.lss-media-{{ section.id }} video {
+  object-fit: cover;
+  object-position: center;
+}
+
+.lss-placeholder-{{ section.id }} {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #55d3ff, #ffb8d2);
+  font-weight: 950;
+  font-size: 28px;
+}
+
+.lss-shade-{{ section.id }} {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 42%, rgba(255,255,255,.08), transparent 34%),
+    linear-gradient(180deg, rgba(0,0,0,.10) 0%, rgba(0,0,0,.36) 100%);
+  pointer-events: none;
+}
+
+.lss-hero-copy-{{ section.id }} {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  bottom: 8svh;
+  transform: translateX(-50%);
+  width: min(900px, calc(100% - 32px));
+  text-align: center;
+  color: #fff;
+}
+
+.lss-hero-copy-{{ section.id }} p {
+  margin: 0 0 10px;
+  font-size: 13px;
+  font-weight: 950;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.lss-hero-copy-{{ section.id }} h2 {
+  margin: 0;
+  font-size: clamp(42px, 8vw, 96px);
+  line-height: .86;
+  letter-spacing: -.055em;
+  font-weight: 950;
+  text-transform: none;
+}
+
+.lss-hero-copy-{{ section.id }} div {
+  max-width: 720px;
+  margin: 18px auto 0;
+  font-size: 18px;
+  line-height: 1.38;
+  font-weight: 750;
+}
+
+.lss-hero-copy-{{ section.id }} a {
+  margin-top: 24px;
+  min-height: 54px;
+  min-width: 230px;
+  padding: 16px 28px;
+  border-radius: 999px;
+  background: #ffb8d2;
+  color: #111;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: 950;
+  text-decoration: none;
+  box-shadow: 0 16px 36px rgba(0,0,0,.2);
+}
+
+.lss-overlays-{{ section.id }} {
+  position: relative;
+  z-index: 3;
+  margin-top: -100svh;
+  padding: 96svh 16px 78px;
+  pointer-events: none;
+}
+
+.lss-card-stack-{{ section.id }} {
+  max-width: 1180px;
+  margin: 0 auto;
+  display: grid;
+  gap: 26px;
+}
+
+.lss-card-{{ section.id }} {
+  pointer-events: auto;
+  display: grid;
+  grid-template-columns: .95fr 1.05fr;
+  gap: 0;
+  overflow: hidden;
+  border-radius: 34px;
+  background:
+    radial-gradient(circle at 16% 12%, rgba(86,211,255,.18), transparent 32%),
+    radial-gradient(circle at 90% 16%, rgba(255,184,210,.26), transparent 34%),
+    rgba(255,255,255,.88);
+  border: 1px solid rgba(255,255,255,.66);
+  box-shadow: 0 28px 70px rgba(0,0,0,.16);
+  backdrop-filter: blur(14px);
+}
+
+.lss-card__media-{{ section.id }} {
+  min-height: 430px;
+  background: #f7bfd3;
+  overflow: hidden;
+}
+
+.lss-card__media-{{ section.id }} img,
+.lss-card__media-{{ section.id }} video {
+  width: 100%;
+  height: 100%;
+  min-height: 430px;
+  object-fit: cover;
+  display: block;
+}
+
+.lss-card__placeholder-{{ section.id }} {
+  min-height: 430px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #ffb8d2, #c8efff);
+  font-weight: 950;
+}
+
+.lss-card__content-{{ section.id }} {
+  padding: 52px 48px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.lss-card__badge-{{ section.id }} {
+  width: fit-content;
+  margin: 0 0 16px;
+  padding: 9px 14px;
+  border-radius: 999px;
+  background: #fff;
+  color: #111;
+  font-size: 12px;
+  line-height: 1;
+  font-weight: 950;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  border: 1px solid rgba(230,160,170,.34);
+}
+
+.lss-card__content-{{ section.id }} h3 {
+  margin: 0;
+  font-size: clamp(34px, 4vw, 58px);
+  line-height: .92;
+  letter-spacing: -.045em;
+  font-weight: 950;
+}
+
+.lss-card__text-{{ section.id }} {
+  margin-top: 16px;
+  color: #333;
+  font-size: 17px;
+  line-height: 1.42;
+}
+
+.lss-card__proofs-{{ section.id }} {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 22px;
+}
+
+.lss-card__proofs-{{ section.id }} span {
+  padding: 9px 12px;
+  border-radius: 999px;
+  background: #fff;
+  color: #111;
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.lss-card__cta-{{ section.id }} {
+  margin-top: 26px;
+  width: fit-content;
+  min-height: 50px;
+  padding: 15px 24px;
+  border-radius: 999px;
+  background: #111;
+  color: #fff !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 950;
+}
+
+@media screen and (max-width: 989px) {
+  .lss-pin-{{ section.id }} {
+    min-height: 250svh;
+  }
+
+  .lss-hero-copy-{{ section.id }} {
+    bottom: 9svh;
+  }
+
+  .lss-hero-copy-{{ section.id }} h2 {
+    font-size: clamp(44px, 13vw, 74px);
+  }
+
+  .lss-hero-copy-{{ section.id }} div {
+    font-size: 16px;
+  }
+
+  .lss-overlays-{{ section.id }} {
+    padding: 92svh 12px 54px;
+  }
+
+  .lss-card-stack-{{ section.id }} {
+    gap: 18px;
+  }
+
+  .lss-card-{{ section.id }} {
+    grid-template-columns: 1fr;
+    border-radius: 28px;
+  }
+
+  .lss-card__media-{{ section.id }},
+  .lss-card__media-{{ section.id }} img,
+  .lss-card__media-{{ section.id }} video,
+  .lss-card__placeholder-{{ section.id }} {
+    min-height: 280px;
+  }
+
+  .lss-card__media-{{ section.id }} img,
+  .lss-card__media-{{ section.id }} video {
+    object-position: center top;
+  }
+
+  .lss-card__content-{{ section.id }} {
+    padding: 30px 22px 34px;
+    text-align: center;
+    align-items: center;
+  }
+
+  .lss-card__content-{{ section.id }} h3 {
+    font-size: 34px;
+  }
+
+  .lss-card__text-{{ section.id }} {
+    font-size: 15px;
+  }
+
+  .lss-card__proofs-{{ section.id }} {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: 100%;
+    gap: 7px;
+  }
+
+  .lss-card__proofs-{{ section.id }} span {
+    min-height: 38px;
+    padding: 7px 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10.5px;
+    line-height: 1.1;
+    text-align: center;
+  }
+
+  .lss-card__cta-{{ section.id }} {
+    width: min(360px, 88%);
+  }
+}
+
+@media screen and (max-width: 549px) {
+  .lss-pin-{{ section.id }} {
+    min-height: 265svh;
+  }
+
+  .lss-hero-copy-{{ section.id }} {
+    bottom: 10svh;
+  }
+
+  .lss-hero-copy-{{ section.id }} p {
+    font-size: 11px;
+  }
+
+  .lss-hero-copy-{{ section.id }} h2 {
+    font-size: 46px;
+  }
+
+  .lss-hero-copy-{{ section.id }} div {
+    font-size: 15px;
+  }
+
+  .lss-hero-copy-{{ section.id }} a {
+    min-width: 210px;
+    min-height: 50px;
+  }
+
+  .lss-card__media-{{ section.id }},
+  .lss-card__media-{{ section.id }} img,
+  .lss-card__media-{{ section.id }} video,
+  .lss-card__placeholder-{{ section.id }} {
+    min-height: 250px;
+  }
+
+  .lss-card__content-{{ section.id }} h3 {
+    font-size: 31px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lss-media-{{ section.id }} video,
+  .lss-card__media-{{ section.id }} video {
+    animation: none !important;
+  }
+}
+/* Luna Scroll Story — simplified hero sticker overlay */
+.lss-shade-{{ section.id }} {
+  background:
+    linear-gradient(180deg, rgba(0,0,0,.02) 0%, rgba(0,0,0,.04) 48%, rgba(0,0,0,.16) 100%);
+}
+
+.lss-hero-copy-{{ section.id }} {
+  left: 50%;
+  bottom: 7svh;
+  transform: translateX(-50%);
+  width: auto;
+  max-width: calc(100% - 32px);
+  padding: 18px 30px;
+  border-radius: 999px;
+  background: rgba(255, 184, 210, .86);
+  border: 1px solid rgba(255,255,255,.55);
+  color: #111;
+  text-align: center;
+  box-shadow: 0 18px 46px rgba(0,0,0,.22);
+  backdrop-filter: blur(14px);
+}
+
+.lss-hero-copy-{{ section.id }} p,
+.lss-hero-copy-{{ section.id }} div,
+.lss-hero-copy-{{ section.id }} a {
+  display: none;
+}
+
+.lss-hero-copy-{{ section.id }} h2 {
+  margin: 0;
+  font-size: clamp(34px, 5.4vw, 68px);
+  line-height: .9;
+  letter-spacing: -.055em;
+  font-weight: 950;
+  color: #111;
+  white-space: nowrap;
+}
+
+@media screen and (max-width: 749px) {
+  .lss-hero-copy-{{ section.id }} {
+    bottom: 9svh;
+    padding: 15px 22px;
+    max-width: calc(100% - 28px);
+  }
+
+  .lss-hero-copy-{{ section.id }} h2 {
+    font-size: clamp(32px, 9vw, 46px);
+  }
+}
+</style>
+
+{% schema %}
+{
+  "name": "Luna Scroll Story",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Why Luna"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Smart tools. Glossy results. No premium markup."
+    },
+    {
+      "type": "textarea",
+      "id": "intro",
+      "label": "Intro",
+      "default": "Luna brings beauty-tool energy to real routines — smooth finishes, smart tech and prices that make sense."
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Hero CTA label",
+      "default": "Shop Luna Range"
+    },
+    {
+  "type": "url",
+  "id": "cta_link",
+  "label": "Hero CTA link"
+},
+    {
+      "type": "select",
+      "id": "hero_media_type",
+      "label": "Pinned hero media type",
+      "default": "video_url",
+      "options": [
+        {
+          "value": "image_picker",
+          "label": "Selected Shopify image"
+        },
+        {
+          "value": "image_url",
+          "label": "Image URL"
+        },
+        {
+          "value": "video_picker",
+          "label": "Selected Shopify video"
+        },
+        {
+          "value": "video_url",
+          "label": "MP4 video URL"
+        }
+      ]
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Pinned selected Shopify image"
+    },
+    {
+      "type": "text",
+      "id": "hero_image_url",
+      "label": "Pinned image URL"
+    },
+    {
+      "type": "video",
+      "id": "hero_video",
+      "label": "Pinned selected Shopify video"
+    },
+    {
+      "type": "text",
+      "id": "hero_video_url",
+      "label": "Pinned MP4 video URL",
+      "default": "https://cdn.shopify.com/videos/c/o/v/53f6c2f3a9d14001814e56ec412647de.mp4"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "story_card",
+      "name": "Story card",
+      "settings": [
+        {
+          "type": "text",
+          "id": "badge",
+          "label": "Badge",
+          "default": "Visible Results"
+        },
+        {
+          "type": "text",
+          "id": "headline",
+          "label": "Headline",
+          "default": "Good hair days, made easier."
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text",
+          "default": "Smooth, polished, wearable results for real routines — from quick touch-ups to full styling days."
+        },
+        {
+          "type": "text",
+          "id": "proof_1",
+          "label": "Proof 1",
+          "default": "Smooth finish"
+        },
+        {
+          "type": "text",
+          "id": "proof_2",
+          "label": "Proof 2",
+          "default": "Glossy-looking hair"
+        },
+        {
+          "type": "text",
+          "id": "proof_3",
+          "label": "Proof 3",
+          "default": "Smart value"
+        },
+        {
+          "type": "text",
+          "id": "cta_label",
+          "label": "CTA label",
+          "default": "Shop Luna Range"
+        },
+       {
+  "type": "url",
+  "id": "cta_link",
+  "label": "CTA link"
+},
+        {
+          "type": "select",
+          "id": "card_media_type",
+          "label": "Card media type",
+          "default": "image_url",
+          "options": [
+            {
+              "value": "image_picker",
+              "label": "Selected Shopify image"
+            },
+            {
+              "value": "image_url",
+              "label": "Image URL"
+            },
+            {
+              "value": "video_picker",
+              "label": "Selected Shopify video"
+            },
+            {
+              "value": "video_url",
+              "label": "MP4 video URL"
+            }
+          ]
+        },
+        {
+          "type": "image_picker",
+          "id": "card_image",
+          "label": "Selected Shopify image"
+        },
+        {
+          "type": "text",
+          "id": "card_image_url",
+          "label": "Image URL"
+        },
+        {
+          "type": "video",
+          "id": "card_video",
+          "label": "Selected Shopify video"
+        },
+        {
+          "type": "text",
+          "id": "card_video_url",
+          "label": "MP4 video URL"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Luna Scroll Story",
+      "blocks": [
+        {
+          "type": "story_card",
+          "settings": {
+            "badge": "Visible Results",
+            "headline": "Good hair days, made easier.",
+            "text": "Smooth, polished, wearable results for real routines — from quick touch-ups to full styling days.",
+            "proof_1": "Smooth finish",
+            "proof_2": "Glossy-looking hair",
+            "proof_3": "Real-use styling",
+            "cta_label": "Shop Luna Range",
+            "cta_link": "/collections/frontpage",
+            "card_media_type": "video_url",
+            "card_video_url": "https://cdn.shopify.com/videos/c/o/v/e95390ada9cc4e95afa0403c1d44da5f.mp4"
+          }
+        },
+        {
+          "type": "story_card",
+          "settings": {
+            "badge": "Smart Styling Tech",
+            "headline": "Ceramic, ionic and easy-to-use performance.",
+            "text": "Argan Oil ceramic styling and ionic drying power help support smoother-looking, everyday styling results.",
+            "proof_1": "Ceramic glide",
+            "proof_2": "Ionic dryer power",
+            "proof_3": "Easy control",
+            "cta_label": "Explore Tools",
+            "cta_link": "/collections/frontpage",
+            "card_media_type": "image_url",
+            "card_image_url": "https://cdn.shopify.com/s/files/1/0609/7426/8657/files/Artboard1_1_3x_369b8461-0ff3-47c6-81bd-904e93a852c3.png?v=1776848608"
+          }
+        },
+        {
+          "type": "story_card",
+          "settings": {
+            "badge": "No Premium Markup",
+            "headline": "Pay for the results, not the logo.",
+            "text": "Luna gives you the styling essentials, the beauty energy and the everyday price point that makes sense.",
+            "proof_1": "Everyday prices",
+            "proof_2": "Bundle value",
+            "proof_3": "12-month warranty",
+            "cta_label": "Shop the Offer",
+            "cta_link": "/products/dryer",
+            "card_media_type": "video_url",
+"card_video_url": "https://cdn.shopify.com/videos/c/o/v/f0e4929d939144d0bf1213959d1bded1.mp4"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,524 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "blocks_GwNFni": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_742c1bf_dB8WpJ": {
+          "type": "ai_gen_block_742c1bf",
+          "name": "Floating badge",
+          "settings": {
+            "line_1": "🔥 FREE KIT",
+            "line_2": "CLAIM NOW",
+            "badge_link": "",
+            "badge_color": "#F4A0A0",
+            "text_color": "#000000",
+            "font_size": 12,
+            "font_weight": "700",
+            "padding_vertical": 12,
+            "padding_horizontal": 16,
+            "border_radius": 8,
+            "shadow_horizontal": -2,
+            "shadow_vertical": 2,
+            "shadow_blur": 8,
+            "shadow_color": "rgba(0, 0, 0, 0.15)",
+            "hover_expand": 8
+          },
+          "blocks": {}
+        },
+        "ai_gen_block_076723a_3n4KA8": {
+          "type": "ai_gen_block_076723a",
+          "name": "Bundle callout banner",
+          "settings": {
+            "heading": "🔥 Bundle & Save 30%!",
+            "subheading": "Add any 2nd Luna product to your cart and get 30% OFF automatically at checkout — no code needed!",
+            "button_text": "SHOP ALL PRODUCTS",
+            "button_link": "",
+            "background_color": "#f2acb9",
+            "border_radius": 12,
+            "padding_vertical": 25,
+            "padding_horizontal": 20,
+            "padding_vertical_mobile": 20,
+            "padding_horizontal_mobile": 15,
+            "heading_color": "#000000",
+            "heading_size": 24,
+            "heading_size_mobile": 20,
+            "subheading_color": "#000000",
+            "subheading_size": 15,
+            "subheading_size_mobile": 13,
+            "button_background": "#ffffff",
+            "button_text_color": "#000000",
+            "button_font_size": 13,
+            "button_font_size_mobile": 12,
+            "button_padding_vertical": 10,
+            "button_padding_horizontal": 20,
+            "button_border_radius": 6
+          },
+          "blocks": {}
+        },
+        "ai_gen_block_2b8b0b1_BbKHEd": {
+          "type": "ai_gen_block_2b8b0b1",
+          "settings": {
+            "max_width": 1400,
+            "column_gap": 60,
+            "section_padding": 40,
+            "show_vendor": false,
+            "show_rating": true,
+            "show_stock": true,
+            "low_stock_threshold": 5,
+            "show_dynamic_checkout": true,
+            "title_size": 32,
+            "price_size": 24,
+            "text_color": "#000000",
+            "accent_color": "#000000",
+            "border_color": "#e0e0e0",
+            "image_background": "#f5f5f5",
+            "variant_bg_color": "#ffffff",
+            "star_color": "#ffc107",
+            "button_bg_color": "#000000",
+            "button_text_color": "#ffffff",
+            "button_hover_color": "#333333",
+            "button_border_radius": 4,
+            "sale_badge_color": "#d82c0d",
+            "sale_badge_text_color": "#ffffff",
+            "in_stock_bg": "#e8f5e9",
+            "in_stock_color": "#2e7d32",
+            "low_stock_bg": "#fff3e0",
+            "low_stock_color": "#e65100",
+            "out_stock_bg": "#ffebee",
+            "out_stock_color": "#c62828",
+            "image_border_radius": 8,
+            "star_rating": "4.5"
+          },
+          "blocks": {}
+        },
+        "ai_gen_block_e026e72_j4pqy4": {
+          "type": "ai_gen_block_e026e72",
+          "settings": {
+            "video_source": "shopify",
+            "shopify_video": "shopify://files/videos/Luna Waves Educational-copy-copy.mp4",
+            "external_video_url": "",
+            "cover_type": "from_video",
+            "desktop_aspect_ratio": "1_1",
+            "desktop_max_width": 600,
+            "desktop_alignment": "center",
+            "mobile_aspect_ratio": "9_16",
+            "mobile_max_width": 65,
+            "mobile_alignment": "center",
+            "padding_top": 0,
+            "padding_bottom": 36,
+            "padding_left": 0,
+            "padding_right": 0,
+            "margin_top": 0,
+            "margin_bottom": 0,
+            "autoplay": false,
+            "loop": false,
+            "muted": true,
+            "show_controls": true,
+            "caption": "",
+            "caption_alignment": "center"
+          },
+          "blocks": {}
+        },
+        "ai_gen_block_07e3311_Wc34VG": {
+          "type": "ai_gen_block_07e3311",
+          "name": "Collapsible dropdown",
+          "disabled": true,
+          "settings": {
+            "title": "Product details",
+            "title_font_size": 18,
+            "title_color": "#000000",
+            "header_background_color": "#ffffff",
+            "header_hover_background_color": "#f9f9f9",
+            "header_padding": 16,
+            "arrow_color": "#000000",
+            "background_color": "#ffffff",
+            "content_text_color": "#000000",
+            "content_padding": 16,
+            "row_spacing": 12,
+            "bullet_color": "#000000",
+            "checkmark_color": "#008060",
+            "border_color": "#e0e0e0",
+            "border_radius": 8,
+            "desktop_width_percent": 100,
+            "row_1_type": "heading",
+            "row_1_heading": "Features",
+            "row_1_paragraph": "",
+            "row_1_bullet": "",
+            "row_1_checkmark": "",
+            "row_2_type": "checkmark",
+            "row_2_heading": "tes",
+            "row_2_paragraph": "tes",
+            "row_2_bullet": "",
+            "row_2_checkmark": "Premium quality materials",
+            "row_3_type": "checkmark",
+            "row_3_heading": "",
+            "row_3_paragraph": "",
+            "row_3_bullet": "",
+            "row_3_checkmark": "Easy to use and maintain",
+            "row_4_type": "checkmark",
+            "row_4_heading": "",
+            "row_4_paragraph": "",
+            "row_4_bullet": "",
+            "row_4_checkmark": "Durable and long-lasting",
+            "row_5_type": "none",
+            "row_5_heading": "",
+            "row_5_paragraph": "",
+            "row_5_bullet": "",
+            "row_5_checkmark": "",
+            "row_6_type": "none",
+            "row_6_heading": "",
+            "row_6_paragraph": "",
+            "row_6_bullet": "",
+            "row_6_checkmark": ""
+          },
+          "blocks": {}
+        },
+        "ai_gen_block_c6886db_RxrPCY": {
+          "type": "ai_gen_block_c6886db",
+          "disabled": true,
+          "settings": {
+            "layout_style": "carousel",
+            "desktop_width_percent": 100,
+            "image_spacing": 12,
+            "border_radius": 8,
+            "grid_columns_mobile": "2",
+            "nav_button_bg": "#ffffff",
+            "nav_button_color": "#000000",
+            "dot_color": "#000000"
+          },
+          "blocks": {}
+        },
+        "ai_gen_block_07e3311_GiqJPN": {
+          "type": "ai_gen_block_07e3311",
+          "disabled": true,
+          "settings": {
+            "title": "Product details",
+            "title_font_size": 18,
+            "title_color": "#000000",
+            "header_background_color": "#ffffff",
+            "header_hover_background_color": "#f9f9f9",
+            "header_padding": 16,
+            "arrow_color": "#000000",
+            "background_color": "#ffffff",
+            "content_text_color": "#000000",
+            "content_padding": 16,
+            "row_spacing": 12,
+            "bullet_color": "#000000",
+            "checkmark_color": "#008060",
+            "border_color": "#e0e0e0",
+            "border_radius": 8,
+            "desktop_width_percent": 100,
+            "row_1_type": "heading",
+            "row_1_heading": "Features",
+            "row_1_paragraph": "",
+            "row_1_bullet": "Argan Oil Infused Plates",
+            "row_1_checkmark": "test",
+            "row_2_type": "checkmark",
+            "row_2_heading": "test",
+            "row_2_paragraph": "",
+            "row_2_bullet": "",
+            "row_2_checkmark": "Argan Oil Infused Plates",
+            "row_3_type": "checkmark",
+            "row_3_heading": "",
+            "row_3_paragraph": "",
+            "row_3_bullet": "",
+            "row_3_checkmark": "Variable heat between 150˚-230˚C",
+            "row_4_type": "checkmark",
+            "row_4_heading": "Fast Heat Up Time",
+            "row_4_paragraph": "",
+            "row_4_bullet": "",
+            "row_4_checkmark": "Durable and long-lasting",
+            "row_5_type": "checkmark",
+            "row_5_heading": "test 1",
+            "row_5_paragraph": "",
+            "row_5_bullet": "Advanced Heat Sensors",
+            "row_5_checkmark": "",
+            "row_6_type": "none",
+            "row_6_heading": "",
+            "row_6_paragraph": "",
+            "row_6_bullet": "",
+            "row_6_checkmark": ""
+          },
+          "blocks": {}
+        },
+        "ai_gen_block_487fcca_YyY4He": {
+          "type": "ai_gen_block_487fcca",
+          "settings": {
+            "before_image": "shopify://shop_images/before_3x_36ff66de-1f54-4cf1-9c52-8ddeb9f08b93.png",
+            "after_image": "shopify://shop_images/Artboard_3_3x_450ea2e7-d279-467e-9583-6594e5fad24a.png",
+            "aspect_ratio": "1 / 1",
+            "border_radius": 0,
+            "desktop_width_percent": 50,
+            "show_labels": true,
+            "before_label": "Before",
+            "after_label": "After",
+            "label_font": "assistant_n4",
+            "label_font_size": 14,
+            "label_font_weight": "600",
+            "label_padding": 4,
+            "label_border_radius": 4,
+            "label_position_vertical": 20,
+            "label_position_horizontal": 20,
+            "label_opacity": 0.9,
+            "label_background_color": "#000000",
+            "label_text_color": "#ffffff",
+            "divider_width": 3,
+            "divider_color": "#ffffff",
+            "handle_size": 50,
+            "handle_color": "#ffffff",
+            "handle_icon_color": "#000000"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_742c1bf_dB8WpJ",
+        "ai_gen_block_076723a_3n4KA8",
+        "ai_gen_block_2b8b0b1_BbKHEd",
+        "ai_gen_block_e026e72_j4pqy4",
+        "ai_gen_block_07e3311_Wc34VG",
+        "ai_gen_block_c6886db_RxrPCY",
+        "ai_gen_block_07e3311_GiqJPN",
+        "ai_gen_block_487fcca_YyY4He"
+      ],
+      "name": "Product media gallery",
+      "settings": {}
+    },
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "vendor": {
+          "type": "text",
+          "settings": {
+            "text": "{{ product.vendor }}",
+            "text_style": "uppercase"
+          }
+        },
+        "title": {
+          "type": "title",
+          "settings": {}
+        },
+        "subtitle": {
+          "type": "text",
+          "settings": {
+            "text": "{{ product.metafields.descriptors.subtitle.value }}",
+            "text_style": "subtitle"
+          }
+        },
+        "price": {
+          "type": "price",
+          "settings": {}
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "button"
+          }
+        },
+        "quantity_selector": {
+          "type": "quantity_selector",
+          "settings": {}
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true
+          }
+        },
+        "description": {
+          "type": "description",
+          "settings": {}
+        },
+        "share": {
+          "type": "share",
+          "settings": {
+            "share_label": "Share"
+          }
+        }
+      },
+      "block_order": [
+        "vendor",
+        "title",
+        "subtitle",
+        "price",
+        "variant_picker",
+        "quantity_selector",
+        "buy_buttons",
+        "description",
+        "share"
+      ],
+      "disabled": true,
+      "settings": {
+        "enable_sticky_info": true,
+        "hide_variants": true,
+        "enable_video_looping": false
+      }
+    },
+    "product-recommendations": {
+      "type": "product-recommendations",
+      "disabled": true,
+      "settings": {
+        "heading": "You may also like",
+        "image_ratio": "adapt",
+        "show_secondary_image": false,
+        "add_image_padding": false,
+        "show_image_outline": true,
+        "show_vendor": false,
+        "show_rating": false
+      }
+    },
+    "blocks_EDxfxN": {
+      "type": "_blocks",
+      "name": "Before and after slider",
+      "settings": {}
+    },
+    "blocks_trGFMQ": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_e026e72_fMiaXN": {
+          "type": "ai_gen_block_e026e72",
+          "name": "Video All Options",
+          "settings": {
+            "video_source": "external",
+            "external_video_url": "https://youtu.be/cbJRSESYsXc",
+            "cover_type": "custom",
+            "custom_cover_image": "shopify://shop_images/video_jadfen_curls_copy_3x_3a6aba44-8df6-4831-a3aa-14f44d153909.png",
+            "desktop_aspect_ratio": "1_1",
+            "desktop_max_width": 600,
+            "desktop_alignment": "center",
+            "mobile_aspect_ratio": "1_1",
+            "mobile_max_width": 100,
+            "mobile_alignment": "center",
+            "padding_top": 36,
+            "padding_bottom": 36,
+            "padding_left": 0,
+            "padding_right": 0,
+            "margin_top": 0,
+            "margin_bottom": 0,
+            "autoplay": false,
+            "loop": false,
+            "muted": true,
+            "show_controls": true,
+            "caption": "",
+            "caption_alignment": "center"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_e026e72_fMiaXN"
+      ],
+      "name": "Video All Options",
+      "settings": {}
+    },
+    "collage_HgTgtj": {
+      "type": "collage",
+      "blocks": {
+        "video_97cBiK": {
+          "type": "video",
+          "settings": {
+            "cover_image": "shopify://shop_images/video_jadfen_curls_copy_3x_3a6aba44-8df6-4831-a3aa-14f44d153909.png",
+            "video_url": "https://youtu.be/cbJRSESYsXc",
+            "description": "Vibing Curls with Jadene",
+            "image_padding": true
+          }
+        },
+        "product_4kwpzc": {
+          "type": "product",
+          "disabled": true,
+          "settings": {
+            "product": "ceramic-argan-oil-infused-straightener",
+            "second_image": true,
+            "image_padding": false,
+            "secondary_background": false
+          }
+        },
+        "collection_yUaXF8": {
+          "type": "collection",
+          "disabled": true,
+          "settings": {
+            "collection": "frontpage",
+            "image_padding": false,
+            "color_scheme": "background-1"
+          }
+        }
+      },
+      "block_order": [
+        "video_97cBiK",
+        "product_4kwpzc",
+        "collection_yUaXF8"
+      ],
+      "disabled": true,
+      "name": "t:sections.collage.presets.name",
+      "settings": {
+        "heading": "Multimedia collage",
+        "desktop_layout": "left",
+        "mobile_layout": "collage"
+      }
+    },
+    "image_banner_4FeDFK": {
+      "type": "image-banner",
+      "blocks": {
+        "heading_EJTAm7": {
+          "type": "heading",
+          "settings": {
+            "heading": "LUNA LOOKS",
+            "heading_size": "medium"
+          }
+        },
+        "text_KEY4NG": {
+          "type": "text",
+          "settings": {
+            "text": "Check out some of Luna ladies creating some easy styles."
+          }
+        },
+        "buttons_wfKecy": {
+          "type": "buttons",
+          "settings": {
+            "button_label_1": "MORE LUNA LOOKS",
+            "button_link_1": "",
+            "button_style_secondary_1": true,
+            "button_label_2": "",
+            "button_link_2": "",
+            "button_style_secondary_2": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_EJTAm7",
+        "text_KEY4NG",
+        "buttons_wfKecy"
+      ],
+      "name": "t:sections.image-banner.presets.name",
+      "settings": {
+        "image": "shopify://shop_images/POLAROID_STRP_3x_f8d3fb9a-f798-45ba-ac68-d02a9f0f3771.png",
+        "image_height": "large",
+        "adapt_height_first_image": true,
+        "desktop_text_box_position": "center",
+        "show_text_box": true,
+        "image_overlay_opacity": 0,
+        "color_scheme": "background-1",
+        "stack_images_on_mobile": true,
+        "show_text_below": true
+      }
+    }
+  },
+  "order": [
+    "blocks_GwNFni",
+    "main",
+    "product-recommendations",
+    "blocks_EDxfxN",
+    "blocks_trGFMQ",
+    "collage_HgTgtj",
+    "image_banner_4FeDFK"
+  ]
+}

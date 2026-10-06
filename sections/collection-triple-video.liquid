@@ -1,0 +1,496 @@
+<section id="CollectionTripleVideo-{{ section.id }}" class="collection-triple-video-section">
+  <div class="collection-triple-video__outer">
+    <div class="collection-triple-video__grid">
+
+      <div class="collection-triple-video__item collection-triple-video__item--1 is-active" data-video-index="1">
+        <div class="collection-triple-video__glow"></div>
+        <div class="collection-triple-video__frame">
+          {% if section.settings.video_1 != blank %}
+            {{
+              section.settings.video_1
+              | video_tag:
+                autoplay: false,
+                loop: false,
+                muted: true,
+                controls: false,
+                playsinline: true,
+                preload: 'metadata',
+                class: 'collection-triple-video__video'
+            }}
+            {% if section.settings.video_1_label != blank %}
+              <div class="collection-triple-video__label">{{ section.settings.video_1_label }}</div>
+            {% endif %}
+          {% else %}
+            <div class="collection-triple-video__placeholder">Select video 1</div>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="collection-triple-video__item collection-triple-video__item--2" data-video-index="2">
+        <div class="collection-triple-video__glow"></div>
+        <div class="collection-triple-video__frame">
+          {% if section.settings.video_2 != blank %}
+            {{
+              section.settings.video_2
+              | video_tag:
+                autoplay: false,
+                loop: false,
+                muted: true,
+                controls: false,
+                playsinline: true,
+                preload: 'metadata',
+                class: 'collection-triple-video__video'
+            }}
+            {% if section.settings.video_2_label != blank %}
+              <div class="collection-triple-video__label">{{ section.settings.video_2_label }}</div>
+            {% endif %}
+          {% else %}
+            <div class="collection-triple-video__placeholder">Select video 2</div>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="collection-triple-video__item collection-triple-video__item--3" data-video-index="3">
+        <div class="collection-triple-video__glow"></div>
+        <div class="collection-triple-video__frame">
+          {% if section.settings.video_3 != blank %}
+            {{
+              section.settings.video_3
+              | video_tag:
+                autoplay: false,
+                loop: false,
+                muted: true,
+                controls: false,
+                playsinline: true,
+                preload: 'metadata',
+                class: 'collection-triple-video__video'
+            }}
+            {% if section.settings.video_3_label != blank %}
+              <div class="collection-triple-video__label">{{ section.settings.video_3_label }}</div>
+            {% endif %}
+          {% else %}
+            <div class="collection-triple-video__placeholder">Select video 3</div>
+          {% endif %}
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <style>
+    #CollectionTripleVideo-{{ section.id }} {
+      --hero-height-desktop: {{ section.settings.height_desktop }}px;
+      --hero-height-mobile: {{ section.settings.height_mobile }}px;
+      --hero-gap: {{ section.settings.gap }}px;
+      --hero-radius: {{ section.settings.radius }}px;
+      --hero-glow: {{ section.settings.glow_color }};
+      --hero-glow-strength: {{ section.settings.glow_strength }}px;
+      margin-top: {{ section.settings.margin_top }}px;
+      margin-bottom: {{ section.settings.margin_bottom }}px;
+      background: transparent !important;
+    }
+
+    #CollectionTripleVideo-{{ section.id }} .collection-triple-video__outer {
+      width: 100%;
+      padding: 12px;
+      box-sizing: border-box;
+      background: transparent !important;
+      margin: 0;
+    }
+
+    #CollectionTripleVideo-{{ section.id }} .collection-triple-video__grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: var(--hero-gap);
+      width: 100%;
+      background: transparent !important;
+      margin: 0;
+      align-items: stretch;
+    }
+
+   #CollectionTripleVideo-{{ section.id }} .collection-triple-video__item {
+  position: relative;
+  padding: 6px;
+  border-radius: calc(var(--hero-radius) + 6px);
+  background: transparent !important;
+  transition: box-shadow 0.25s ease, opacity 0.25s ease;
+}
+
+    #CollectionTripleVideo-{{ section.id }} .collection-triple-video__frame {
+      position: relative;
+      z-index: 2;
+      height: var(--hero-height-desktop);
+      overflow: hidden;
+      border-radius: var(--hero-radius);
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      line-height: 0;
+    }
+
+    #CollectionTripleVideo-{{ section.id }} .collection-triple-video__video,
+    #CollectionTripleVideo-{{ section.id }} .collection-triple-video__frame video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      border-radius: var(--hero-radius);
+      background: transparent !important;
+    }
+
+    #CollectionTripleVideo-{{ section.id }} .collection-triple-video__label {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      z-index: 3;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.28);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    #CollectionTripleVideo-{{ section.id }} .collection-triple-video__placeholder {
+      width: 100%;
+      height: 100%;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, #fff5f9 0%, #eef8ff 100%);
+      color: #444;
+      font-size: 15px;
+      font-weight: 600;
+      text-align: center;
+      padding: 24px;
+      border-radius: var(--hero-radius);
+    }
+
+    #CollectionTripleVideo-{{ section.id }} .collection-triple-video__glow {
+      position: absolute;
+      inset: -3px;
+      z-index: 1;
+      opacity: 0;
+      pointer-events: none;
+      border-radius: calc(var(--hero-radius) + 8px);
+      background: linear-gradient(
+        120deg,
+        transparent 0%,
+        var(--hero-glow) 18%,
+        #ffffff 34%,
+        #b6f0ff 50%,
+        var(--hero-glow) 66%,
+        #ffffff 82%,
+        transparent 100%
+      );
+      background-size: 220% 220%;
+    }
+
+    #CollectionTripleVideo-{{ section.id }} .collection-triple-video__item.is-active {
+  box-shadow:
+    0 0 0 2px rgba(243, 181, 208, 0.95),
+    0 0 18px rgba(243, 181, 208, 0.65),
+    0 0 34px rgba(243, 181, 208, 0.38);
+}
+
+    #CollectionTripleVideo-{{ section.id }} .collection-triple-video__item.is-active .collection-triple-video__glow {
+      opacity: 1;
+      animation:
+        tripleHeroGlowMove-{{ section.id }} 1.9s linear infinite,
+        tripleHeroGlowPulse-{{ section.id }} 1.6s ease-in-out infinite;
+      box-shadow:
+        0 0 0 2px rgba(243, 181, 208, 0.95),
+        0 0 22px rgba(243, 181, 208, 0.75),
+        0 0 40px rgba(243, 181, 208, 0.42);
+    }
+
+    @keyframes tripleHeroGlowMove-{{ section.id }} {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 200% 50%; }
+    }
+
+    @keyframes tripleHeroGlowPulse-{{ section.id }} {
+  0%, 100% {
+    filter: brightness(1);
+    opacity: 1;
+  }
+  50% {
+    filter: brightness(1.06);
+    opacity: 0.96;
+  }
+}
+
+    @media screen and (max-width: 749px) {
+  #CollectionTripleVideo-{{ section.id }} .collection-triple-video__grid {
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+  }
+
+  #CollectionTripleVideo-{{ section.id }} .collection-triple-video__item {
+    padding: 5px;
+  }
+
+  #CollectionTripleVideo-{{ section.id }} .collection-triple-video__frame {
+    height: var(--hero-height-mobile);
+  }
+
+  #CollectionTripleVideo-{{ section.id }} .collection-triple-video__label {
+    top: 8px;
+    left: 8px;
+    padding: 6px 8px;
+    font-size: 10px;
+  }
+}
+
+#shopify-section-{{ section.id }} {
+  margin-bottom: 0 !important;
+}
+
+#shopify-section-{{ section.id }} + .shopify-section .collection-hero,
+#shopify-section-{{ section.id }} + .shopify-section .page-width {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+    }
+  </style>
+
+  <script>
+    (function() {
+      var sectionId = 'CollectionTripleVideo-{{ section.id }}';
+
+      function initTripleVideo(root) {
+        if (!root || root.dataset.heroInit === 'true') return;
+        root.dataset.heroInit = 'true';
+
+        var items = Array.from(root.querySelectorAll('.collection-triple-video__item'));
+        var videos = items.map(function(item) {
+          return item.querySelector('video');
+        });
+
+        var validVideos = videos.filter(Boolean);
+        if (!validVideos.length) return;
+
+        function setActive(index) {
+          items.forEach(function(item, i) {
+            item.classList.toggle('is-active', i === index);
+          });
+        }
+
+        function resetAll() {
+          videos.forEach(function(video) {
+            if (!video) return;
+            video.pause();
+            try { video.currentTime = 0; } catch(e) {}
+          });
+        }
+
+        function playAt(index) {
+          if (!videos[index]) {
+            var nextIndex = (index + 1) % videos.length;
+            if (nextIndex !== index) playAt(nextIndex);
+            return;
+          }
+
+          resetAll();
+          setActive(index);
+
+          var currentVideo = videos[index];
+          currentVideo.muted = true;
+          currentVideo.playsInline = true;
+          currentVideo.setAttribute('muted', 'muted');
+          currentVideo.setAttribute('playsinline', 'playsinline');
+
+          var playPromise = currentVideo.play();
+          if (playPromise && typeof playPromise.then === 'function') {
+            playPromise.catch(function() {
+              setTimeout(function() {
+                playAt((index + 1) % videos.length);
+              }, 300);
+            });
+          }
+
+          currentVideo.onended = function() {
+            currentVideo.pause();
+            setTimeout(function() {
+              playAt((index + 1) % videos.length);
+            }, 250);
+          };
+        }
+
+        var readyCount = 0;
+
+        function handleReady() {
+          readyCount += 1;
+          if (readyCount >= validVideos.length) {
+            playAt(0);
+          }
+        }
+
+        validVideos.forEach(function(video) {
+          if (video.readyState >= 1) {
+            handleReady();
+          } else {
+            video.addEventListener('loadedmetadata', handleReady, { once: true });
+          }
+        });
+
+        document.addEventListener('visibilitychange', function() {
+          if (!document.hidden) {
+            setTimeout(function() {
+              playAt(0);
+            }, 250);
+          }
+        });
+      }
+
+      function boot() {
+        var root = document.getElementById(sectionId);
+        if (root) initTripleVideo(root);
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', boot);
+      } else {
+        boot();
+      }
+
+      document.addEventListener('shopify:section:load', function(event) {
+        var target = event.target && event.target.querySelector
+          ? event.target.querySelector('#' + sectionId)
+          : null;
+
+        if (target) {
+          target.dataset.heroInit = 'false';
+          initTripleVideo(target);
+        }
+      });
+    })();
+  </script>
+</section>
+
+{% schema %}
+{
+  "name": "Luna range triple video",
+  "settings": [
+    {
+      "type": "video",
+      "id": "video_1",
+      "label": "Video 1"
+    },
+    {
+      "type": "text",
+      "id": "video_1_label",
+      "label": "Video 1 label",
+      "default": "Straighten"
+    },
+    {
+      "type": "video",
+      "id": "video_2",
+      "label": "Video 2"
+    },
+    {
+      "type": "text",
+      "id": "video_2_label",
+      "label": "Video 2 label",
+      "default": "Dry"
+    },
+    {
+      "type": "video",
+      "id": "video_3",
+      "label": "Video 3"
+    },
+    {
+      "type": "text",
+      "id": "video_3_label",
+      "label": "Video 3 label",
+      "default": "Style"
+    },
+    {
+      "type": "range",
+      "id": "height_desktop",
+      "min": 240,
+      "max": 520,
+      "step": 10,
+      "unit": "px",
+      "label": "Desktop height",
+      "default": 420
+    },
+    {
+      "type": "range",
+      "id": "height_mobile",
+      "min": 180,
+      "max": 420,
+      "step": 10,
+      "unit": "px",
+      "label": "Mobile height",
+      "default": 300
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "min": 4,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "label": "Gap",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "radius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "label": "Corner radius",
+      "default": 18
+    },
+    {
+      "type": "color",
+      "id": "glow_color",
+      "label": "Glow color",
+      "default": "#f2b7d4"
+    },
+    {
+      "type": "range",
+      "id": "glow_strength",
+      "min": 8,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Glow strength",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "label": "Top margin",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom margin",
+      "default": 8
+    }
+  ],
+  "presets": [
+    {
+      "name": "Luna range triple video"
+    }
+  ]
+}
+{% endschema %}

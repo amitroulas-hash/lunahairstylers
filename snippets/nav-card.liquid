@@ -1,0 +1,117 @@
+{% liquid
+  assign nav_image = blank
+  assign nav_title = nav_link.title
+  assign nav_badge = blank
+  assign nav_caption = blank
+
+  if nav_link.type == 'product_link'
+    assign nav_obj = nav_link.object
+    if nav_obj.featured_image
+      assign nav_image = nav_obj.featured_image
+    endif
+    if nav_obj.metafields.custom.nav_badge != blank
+      assign nav_badge = nav_obj.metafields.custom.nav_badge.value
+    endif
+    if nav_obj.metafields.custom.nav_subtitle != blank
+      assign nav_caption = nav_obj.metafields.custom.nav_subtitle.value
+    endif
+
+  elsif nav_link.type == 'collection_link'
+    assign nav_obj = nav_link.object
+    if nav_obj.image
+      assign nav_image = nav_obj.image
+    elsif nav_obj.products.first.featured_image
+      assign nav_image = nav_obj.products.first.featured_image
+    endif
+    if nav_obj.metafields.custom.nav_badge != blank
+      assign nav_badge = nav_obj.metafields.custom.nav_badge.value
+    endif
+    if nav_obj.metafields.custom.nav_subtitle != blank
+      assign nav_caption = nav_obj.metafields.custom.nav_subtitle.value
+    endif
+  endif
+
+  if nav_badge == blank
+    if nav_title contains 'Dryer'
+      assign nav_badge = 'Best Seller'
+    elsif nav_title contains 'Mini'
+      assign nav_badge = 'Travel Friendly'
+    elsif nav_title contains 'Straightener'
+      assign nav_badge = 'Smooth + Shine'
+    elsif nav_title contains 'Curl'
+      assign nav_badge = 'Soft Waves + Curl'
+    elsif nav_title contains 'Shop All'
+      assign nav_badge = 'Explore the Range'
+    endif
+  endif
+
+  if nav_caption == blank
+    if nav_title contains 'Dryer'
+      assign nav_caption = 'Fast drying performance with Luna attitude.'
+    elsif nav_title contains 'Mini'
+      assign nav_caption = 'Compact styling tools for weekends, gym bags and travel.'
+    elsif nav_title contains 'Straightener'
+      assign nav_caption = 'Sleek, polished styling without the premium markup.'
+    elsif nav_title contains 'Curl'
+      assign nav_caption = 'Glossy curl and movement, made easy.'
+    elsif nav_title contains 'Shop All'
+      assign nav_caption = 'See the full Luna styling lineup.'
+    else
+      assign nav_caption = 'Discover more from Luna Hair Stylers.'
+    endif
+  endif
+%}
+
+<a href="{{ nav_link.url }}" class="luna-nav-card full-unstyled-link">
+  <div class="luna-nav-card__media">
+    {% if nav_image != blank %}
+      {% if nav_title contains 'Hair dryer + FREE Kit' or nav_title contains 'Hair Dryer + FREE Kit' %}
+        <div class="luna-nav-card__rotator">
+          {{
+            nav_image
+            | image_url: width: 900
+            | image_tag:
+              class: 'luna-nav-card__image luna-nav-card__image--rotate is-1',
+              loading: 'lazy',
+              widths: '240, 360, 480, 720, 900',
+              sizes: '(min-width: 990px) 280px, 42vw',
+              alt: nav_title | escape
+          }}
+
+          <img
+            class="luna-nav-card__image luna-nav-card__image--rotate is-2"
+            src="https://cdn.shopify.com/s/files/1/0609/7426/8657/files/website_26_offer_1.gif?v=1775184170"
+            alt="Free Luxe Kit included"
+            loading="lazy"
+          >
+        </div>
+
+        <span class="luna-nav-card__free-badge">FREE KIT</span>
+      {% else %}
+        {{
+          nav_image
+          | image_url: width: 900
+          | image_tag:
+            class: 'luna-nav-card__image',
+            loading: 'lazy',
+            widths: '240, 360, 480, 720, 900',
+            sizes: '(min-width: 990px) 280px, 42vw',
+            alt: nav_title | escape
+        }}
+      {% endif %}
+    {% else %}
+      <div class="luna-nav-card__placeholder">
+        <span>{{ nav_title }}</span>
+      </div>
+    {% endif %}
+
+    {% if nav_badge != blank %}
+      <span class="luna-nav-card__badge">{{ nav_badge }}</span>
+    {% endif %}
+  </div>
+
+  <div class="luna-nav-card__content">
+    <h4 class="luna-nav-card__title">{{ nav_title }}</h4>
+    <p class="luna-nav-card__caption">{{ nav_caption }}</p>
+  </div>
+</a>

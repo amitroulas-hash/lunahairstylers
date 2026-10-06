@@ -1,0 +1,68 @@
+{% comment %}
+  Renders product price with sale price, compare-at price and save amount.
+  Usage:
+  {% render 'price', product: product %}
+{% endcomment %}
+
+{%- liquid
+  if use_variant
+    assign target = product.selected_or_first_available_variant
+  else
+    assign target = product.selected_or_first_available_variant
+  endif
+
+  assign compare_at_price = target.compare_at_price
+  assign price = target.price | default: 1999
+  assign available = target.available | default: false
+
+  if settings.currency_code_enabled
+    assign money_price = price | money_with_currency
+    assign money_compare = compare_at_price | money_with_currency
+    assign money_save = compare_at_price | minus: price | money_with_currency
+  else
+    assign money_price = price | money
+    assign money_compare = compare_at_price | money
+    assign money_save = compare_at_price | minus: price | money
+  endif
+-%}
+
+<div class="price luna-price
+  {%- if price_class %} {{ price_class }}{% endif -%}
+  {%- if available == false %} price--sold-out{% endif -%}
+  {%- if compare_at_price > price %} price--on-sale{% endif -%}
+  {%- if show_badges %} price--show-badge{% endif -%}">
+
+  {% if compare_at_price > price %}
+    <div class="luna-price__sale-row">
+      <span class="price-item price-item--sale luna-price__sale">
+        {{ money_price }}
+      </span>
+
+      <s class="price-item price-item--regular luna-price__compare">
+        {{ money_compare }}
+      </s>
+    </div>
+
+    <div class="luna-price__save">
+      Save {{ money_save }}
+    </div>
+  {% else %}
+    <span class="price-item price-item--regular luna-price__regular">
+      {{ money_price }}
+    </span>
+  {% endif %}
+
+  {% if price == 0 %}
+    <span class="price__free-label">FREE</span>
+  {% endif %}
+
+  {%- if show_badges -%}
+    <span class="badge price__badge-sale color-{{ settings.sale_badge_color_scheme }}" aria-hidden="true">
+      {{ 'products.product.on_sale' | t }}
+    </span>
+
+    <span class="badge price__badge-sold-out color-{{ settings.sold_out_badge_color_scheme }}" aria-hidden="true">
+      {{ 'products.product.sold_out' | t }}
+    </span>
+  {%- endif -%}
+</div>

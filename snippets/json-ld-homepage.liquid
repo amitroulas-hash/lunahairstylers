@@ -1,0 +1,34 @@
+{% if request.page_type == 'index' %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": {{ shop.name | json }},
+  "url": {{ shop.url | append: '/' | json }},
+ "potentialAction": {
+  "@type": "SearchAction",
+  "target": {
+    "@type": "EntryPoint",
+"urlTemplate": {{ shop.url | append: '/search?q=%7Bsearch_term_string%7D' | json }}
+  },
+  "query-input": "required name=search_term_string"
+}
+
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": {{ shop.name | json }},
+  "url": {{ shop.url | append: '/' | json }},
+  "logo": "https://cdn.shopify.com/s/files/1/0688/3325/0247/files/logo_moon_black_3x_f5b880f7-f81f-4655-9ad5-e09b8b110834.png",
+  "sameAs": [
+    "https://www.instagram.com/lunahairstylers/",
+    "https://www.facebook.com/p/LUNA-Hair-Stylers-100063979965702/",
+    "https://www.youtube.com/channel/UC5uT8Czb7W3YkglMnMm0Ywg"
+  ]
+}
+</script>
+{% endif %}
+

@@ -1,0 +1,1088 @@
+{% comment %}
+  Luna Spotlight Slider
+  Brand/editorial product discovery section.
+  Left: lifestyle/emotional image.
+  Right: product story, product image, benefits and CTA.
+{% endcomment %}
+
+<section class="luna-spotlight-{{ section.id }}" id="luna-spotlight-{{ section.id }}">
+  <div class="luna-spotlight__intro-{{ section.id }}">
+    {% if section.settings.eyebrow != blank %}
+      <p class="luna-spotlight__eyebrow-{{ section.id }}">{{ section.settings.eyebrow }}</p>
+    {% endif %}
+
+    {% if section.settings.heading != blank %}
+      <h2 class="luna-spotlight__heading-{{ section.id }}">{{ section.settings.heading }}</h2>
+    {% endif %}
+
+    {% if section.settings.intro != blank %}
+      <p class="luna-spotlight__sub-{{ section.id }}">{{ section.settings.intro }}</p>
+    {% endif %}
+  </div>
+
+  <div class="luna-spotlight__shell-{{ section.id }}">
+    {% if section.blocks.size > 0 %}
+      {% for block in section.blocks %}
+        {% assign p = block.settings.product %}
+        {% assign lifestyle_image = block.settings.lifestyle_image %}
+        {% assign product_image = block.settings.product_image %}
+        {% assign cta_url = block.settings.cta_link %}
+
+        {% if lifestyle_image == blank and p != blank and p.images.size > 1 %}
+          {% assign lifestyle_image = p.images[1] %}
+        {% endif %}
+
+        {% if lifestyle_image == blank and p != blank %}
+          {% assign lifestyle_image = p.featured_image %}
+        {% endif %}
+
+        {% if product_image == blank and p != blank %}
+          {% assign product_image = p.featured_image %}
+        {% endif %}
+
+        {% if cta_url == blank and p != blank %}
+          {% assign cta_url = p.url %}
+        {% endif %}
+
+        <article
+          class="luna-spotlight__slide-{{ section.id }}{% if forloop.first %} is-active{% endif %}"
+          data-slide-index="{{ forloop.index0 }}"
+          style="--spotlight-bg: {{ block.settings.background_color }};"
+          {{ block.shopify_attributes }}
+        >
+          <div class="luna-spotlight__visual-{{ section.id }}">
+            {% if lifestyle_image != blank %}
+              <img
+                src="{{ lifestyle_image | image_url: width: 1400 }}"
+                alt="{{ block.settings.headline | default: p.title | escape }}"
+                loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+              >
+            {% else %}
+              <div class="luna-spotlight__visual-placeholder-{{ section.id }}">
+                <span>Add a lifestyle image</span>
+              </div>
+            {% endif %}
+
+            {% if block.settings.visual_caption != blank %}
+              <div class="luna-spotlight__caption-{{ section.id }}">
+                {{ block.settings.visual_caption }}
+              </div>
+            {% endif %}
+          </div>
+
+          <div class="luna-spotlight__story-{{ section.id }}">
+            {% if block.settings.badge != blank %}
+              <p class="luna-spotlight__badge-{{ section.id }}">{{ block.settings.badge }}</p>
+            {% endif %}
+
+            {% if product_image != blank %}
+              <div class="luna-spotlight__product-stage-{{ section.id }}">
+                <img
+                  src="{{ product_image | image_url: width: 900 }}"
+                  alt="{{ p.title | default: block.settings.headline | escape }}"
+                  loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+                >
+              </div>
+            {% endif %}
+
+            {% if block.settings.headline != blank %}
+              <h3 class="luna-spotlight__title-{{ section.id }}">{{ block.settings.headline }}</h3>
+            {% endif %}
+
+            {% if block.settings.hook != blank %}
+              <p class="luna-spotlight__hook-{{ section.id }}">{{ block.settings.hook }}</p>
+            {% endif %}
+
+            <ul class="luna-spotlight__bullets-{{ section.id }}">
+              {% if block.settings.bullet_1 != blank %}
+                <li>{{ block.settings.bullet_1 }}</li>
+              {% endif %}
+              {% if block.settings.bullet_2 != blank %}
+                <li>{{ block.settings.bullet_2 }}</li>
+              {% endif %}
+              {% if block.settings.bullet_3 != blank %}
+                <li>{{ block.settings.bullet_3 }}</li>
+              {% endif %}
+            </ul>
+
+            {% if section.settings.show_price and p != blank %}
+              {% assign v = p.selected_or_first_available_variant %}
+              <p class="luna-spotlight__price-{{ section.id }}">
+                {{ v.price | money }}
+                {% if v.compare_at_price > v.price %}
+                  <s>{{ v.compare_at_price | money }}</s>
+                {% endif %}
+              </p>
+            {% endif %}
+
+            {% if cta_url != blank %}
+              <a href="{{ cta_url }}" class="luna-spotlight__cta-{{ section.id }}">
+                {{ block.settings.cta_label | default: 'Shop now' }}
+              </a>
+            {% endif %}
+          </div>
+        </article>
+      {% endfor %}
+
+      <button class="luna-spotlight__arrow-{{ section.id }} luna-spotlight__arrow--prev-{{ section.id }}" type="button" aria-label="Previous Luna spotlight">
+        ←
+      </button>
+
+      <button class="luna-spotlight__arrow-{{ section.id }} luna-spotlight__arrow--next-{{ section.id }}" type="button" aria-label="Next Luna spotlight">
+        →
+      </button>
+
+      <div class="luna-spotlight__dots-{{ section.id }}" aria-label="Luna spotlight slides">
+        {% for block in section.blocks %}
+          <button
+            class="luna-spotlight__dot-{{ section.id }}{% if forloop.first %} is-active{% endif %}"
+            type="button"
+            data-dot-index="{{ forloop.index0 }}"
+            aria-label="Go to Luna spotlight slide {{ forloop.index }}"
+          ></button>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="luna-spotlight__empty-{{ section.id }}">
+        Add spotlight slides in the theme editor.
+      </div>
+      {% endif %}
+  </div>
+
+  <div class="luna-spotlight__tape-{{ section.id }}" aria-hidden="true">
+    <div class="luna-spotlight__tape-track-{{ section.id }}">
+      <span>GOOD HAIR ENERGY</span>
+      <span>LOVE YOUR HAIR</span>
+      <span>SMARTER PRICES</span>
+      <span>GLOSSY RESULTS</span>
+      <span>NO PREMIUM MARKUP</span>
+      <span>GOOD HAIR ENERGY</span>
+      <span>LOVE YOUR HAIR</span>
+      <span>SMARTER PRICES</span>
+      <span>GLOSSY RESULTS</span>
+      <span>NO PREMIUM MARKUP</span>
+    </div>
+  </div>
+</section>
+
+<style>
+.luna-spotlight-{{ section.id }} {
+  position: relative;
+  overflow: hidden;
+  padding: 54px 16px 64px;
+  background:
+    radial-gradient(circle at 12% 12%, rgba(88, 207, 255, .32), transparent 34%),
+    radial-gradient(circle at 88% 16%, rgba(255, 176, 210, .48), transparent 34%),
+    linear-gradient(135deg, #f5fbff 0%, #fff7fb 50%, #fdeef6 100%);
+  color: #111;
+}
+
+.luna-spotlight-{{ section.id }}::before {
+  content: "";
+  position: absolute;
+  width: 520px;
+  height: 520px;
+  left: -220px;
+  top: 140px;
+  border-radius: 999px;
+  background: rgba(67, 204, 255, .16);
+  filter: blur(6px);
+  pointer-events: none;
+}
+
+.luna-spotlight-{{ section.id }}::after {
+  content: "";
+  position: absolute;
+  width: 560px;
+  height: 560px;
+  right: -220px;
+  bottom: -220px;
+  border-radius: 999px;
+  background: rgba(255, 126, 183, .16);
+  filter: blur(8px);
+  pointer-events: none;
+}
+
+.luna-spotlight__intro-{{ section.id }} {
+  position: relative;
+  z-index: 1;
+  max-width: 980px;
+  margin: 0 auto 28px;
+  text-align: center;
+}
+
+.luna-spotlight__eyebrow-{{ section.id }} {
+  margin: 0 0 8px;
+  color: #a7657b;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.luna-spotlight__heading-{{ section.id }} {
+  margin: 0;
+  font-size: clamp(36px, 5vw, 66px);
+  line-height: .92;
+  letter-spacing: -.045em;
+  font-weight: 950;
+}
+
+.luna-spotlight__sub-{{ section.id }} {
+  max-width: 720px;
+  margin: 16px auto 0;
+  color: #555;
+  font-size: 16px;
+  line-height: 1.45;
+}
+
+.luna-spotlight__shell-{{ section.id }} {
+  position: relative;
+  z-index: 1;
+  max-width: 1480px;
+  margin: 0 auto;
+  border-radius: 34px;
+  overflow: hidden;
+  box-shadow: 0 26px 70px rgba(230, 160, 170, .24);
+  background: #fff;
+}
+
+.luna-spotlight__slide-{{ section.id }} {
+  display: none;
+  min-height: 620px;
+  background: var(--spotlight-bg, #f6bfd4);
+}
+
+.luna-spotlight__slide-{{ section.id }}.is-active {
+  display: grid;
+  grid-template-columns: 1.05fr .95fr;
+}
+
+.luna-spotlight__visual-{{ section.id }} {
+  position: relative;
+  min-height: 620px;
+  overflow: hidden;
+  background: #f7b7cf;
+}
+
+.luna-spotlight__visual-{{ section.id }} img {
+  width: 100%;
+  height: 100%;
+  min-height: 620px;
+  object-fit: cover;
+  display: block;
+}
+
+.luna-spotlight__visual-placeholder-{{ section.id }} {
+  height: 100%;
+  min-height: 620px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #f9c7dc, #a7e8ff);
+  color: #111;
+  font-weight: 900;
+}
+
+.luna-spotlight__caption-{{ section.id }} {
+  position: absolute;
+  left: 28px;
+  bottom: 28px;
+  max-width: 420px;
+  padding: 16px 18px;
+  background: rgba(255,255,255,.88);
+  border: 1px solid rgba(255,255,255,.58);
+  border-radius: 20px;
+  color: #111;
+  font-size: 24px;
+  line-height: 1;
+  font-weight: 950;
+  letter-spacing: -.02em;
+  box-shadow: 0 14px 30px rgba(0,0,0,.12);
+}
+
+.luna-spotlight__story-{{ section.id }} {
+  position: relative;
+  min-height: 620px;
+  padding: 58px 56px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+  isolation: isolate;
+  background:
+    radial-gradient(circle at 50% 18%, rgba(255,255,255,.54), transparent 32%),
+    radial-gradient(circle at 50% 78%, rgba(255,255,255,.24), transparent 36%),
+    linear-gradient(160deg, rgba(255,255,255,.18), rgba(255,255,255,.0));
+}
+
+
+.luna-spotlight__story-{{ section.id }} > * {
+  position: relative;
+  z-index: 1;
+}
+
+.luna-spotlight__badge-{{ section.id }} {
+  margin: 0 0 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 9px 15px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.82);
+  border: 1px solid rgba(255,255,255,.62);
+  color: #111;
+  font-size: 12px;
+  font-weight: 950;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.luna-spotlight__product-stage-{{ section.id }} {
+  position: relative;
+  width: min(390px, 74%);
+  margin: 0 auto 24px;
+  padding: 14px;
+  border-radius: 30px;
+  background: rgba(255,255,255,.28);
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.34),
+    0 22px 46px rgba(0,0,0,.08);
+  animation: lunaSpotlightFloat{{ section.id }} 4.8s ease-in-out infinite;
+}
+
+.luna-spotlight__product-stage-{{ section.id }} img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 20px 28px rgba(0,0,0,.16));
+}
+
+@keyframes lunaSpotlightFloat{{ section.id }} {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-10px) scale(1.015);
+  }
+}
+
+.luna-spotlight__title-{{ section.id }} {
+  max-width: 620px;
+  margin: 0;
+  font-size: clamp(34px, 3.8vw, 58px);
+  line-height: .94;
+  letter-spacing: -.04em;
+  font-weight: 950;
+}
+
+.luna-spotlight__hook-{{ section.id }} {
+  max-width: 520px;
+  margin: 18px auto 0;
+  color: #333;
+  font-size: 17px;
+  line-height: 1.42;
+}
+
+.luna-spotlight__bullets-{{ section.id }} {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  padding: 0;
+  margin: 24px auto 0;
+  max-width: 560px;
+}
+
+.luna-spotlight__bullets-{{ section.id }} li {
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.72);
+  border: 1px solid rgba(255,255,255,.58);
+  color: #111;
+  font-size: 13px;
+  font-weight: 850;
+}
+
+.luna-spotlight__price-{{ section.id }} {
+  margin: 22px 0 0;
+  font-size: 18px;
+  font-weight: 900;
+}
+
+.luna-spotlight__price-{{ section.id }} s {
+  margin-left: 8px;
+  color: rgba(0,0,0,.42);
+}
+
+.luna-spotlight__cta-{{ section.id }} {
+  margin-top: 26px;
+  min-width: 220px;
+  min-height: 52px;
+  padding: 15px 26px;
+  border-radius: 999px;
+  background: #111;
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  font-size: 15px;
+  line-height: 1;
+  font-weight: 950;
+  transition: transform .22s ease, box-shadow .22s ease;
+}
+
+.luna-spotlight__cta-{{ section.id }}:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 28px rgba(0,0,0,.18);
+}
+
+.luna-spotlight__arrow-{{ section.id }} {
+  position: absolute;
+  top: 50%;
+  z-index: 5;
+  width: 54px;
+  height: 54px;
+  border-radius: 999px;
+  border: 2px solid rgba(255,255,255,.78);
+  background: rgba(255,255,255,.86);
+  color: #111;
+  font-size: 24px;
+  font-weight: 950;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(-50%);
+  box-shadow: 0 12px 28px rgba(0,0,0,.12);
+}
+
+.luna-spotlight__arrow--prev-{{ section.id }} {
+  left: calc(50% + 52px);
+}
+
+.luna-spotlight__arrow--next-{{ section.id }} {
+  right: 28px;
+}
+
+.luna-spotlight__dots-{{ section.id }} {
+  position: absolute;
+  z-index: 6;
+  left: 75%;
+  bottom: 22px;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+}
+
+.luna-spotlight__dot-{{ section.id }} {
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  border: 0;
+  background: rgba(255,255,255,.58);
+  cursor: pointer;
+  padding: 0;
+}
+
+.luna-spotlight__dot-{{ section.id }}.is-active {
+  width: 24px;
+  background: #fff;
+}
+
+.luna-spotlight__empty-{{ section.id }} {
+  padding: 60px 20px;
+  text-align: center;
+  font-weight: 900;
+}
+.luna-spotlight__tape-{{ section.id }} {
+  position: relative;
+  z-index: 1;
+  max-width: 1480px;
+  margin: 18px auto 0;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255,255,255,.78);
+  border: 1px solid rgba(230,160,170,.28);
+  box-shadow: 0 14px 34px rgba(230,160,170,.16);
+}
+
+.luna-spotlight__tape-track-{{ section.id }} {
+  display: flex;
+  width: max-content;
+  gap: 22px;
+  padding: 13px 18px;
+  animation: lunaSpotlightTape{{ section.id }} 24s linear infinite;
+}
+
+.luna-spotlight__tape-track-{{ section.id }} span {
+  white-space: nowrap;
+  font-size: 13px;
+  font-weight: 950;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: #111;
+}
+
+.luna-spotlight__tape-track-{{ section.id }} span::after {
+  content: "♥";
+  margin-left: 22px;
+  color: #e6a0aa;
+}
+
+@keyframes lunaSpotlightTape{{ section.id }} {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+@media screen and (max-width: 989px) {
+  .luna-spotlight-{{ section.id }} {
+    padding: 36px 12px 44px;
+  }
+
+  .luna-spotlight__intro-{{ section.id }} {
+    margin-bottom: 22px;
+  }
+
+  .luna-spotlight__heading-{{ section.id }} {
+    font-size: clamp(36px, 8.5vw, 48px);
+    line-height: .96;
+  }
+
+  .luna-spotlight__sub-{{ section.id }} {
+    max-width: 680px;
+    font-size: 16px;
+    line-height: 1.38;
+    margin-top: 12px;
+  }
+
+  .luna-spotlight__shell-{{ section.id }} {
+    border-radius: 28px;
+  }
+
+  .luna-spotlight__slide-{{ section.id }} {
+    min-height: initial;
+  }
+
+  .luna-spotlight__slide-{{ section.id }}.is-active {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .luna-spotlight__visual-{{ section.id }},
+  .luna-spotlight__visual-{{ section.id }} img,
+  .luna-spotlight__visual-placeholder-{{ section.id }} {
+    min-height: 330px;
+  }
+
+  .luna-spotlight__visual-{{ section.id }} img {
+    object-position: center top;
+  }
+
+  .luna-spotlight__caption-{{ section.id }} {
+    left: 18px;
+    right: 18px;
+    bottom: 14px;
+    max-width: none;
+    padding: 13px 15px;
+    border-radius: 20px;
+    font-size: 20px;
+    line-height: 1.05;
+  }
+
+  .luna-spotlight__story-{{ section.id }} {
+    min-height: initial;
+    padding: 28px 22px 86px;
+  }
+
+  .luna-spotlight__badge-{{ section.id }} {
+    margin-bottom: 18px;
+    padding: 10px 15px;
+    font-size: 12px;
+  }
+
+  .luna-spotlight__product-stage-{{ section.id }} {
+    width: min(260px, 70%);
+    margin-bottom: 18px;
+  }
+
+  .luna-spotlight__title-{{ section.id }} {
+    font-size: 34px;
+    line-height: .98;
+    max-width: 620px;
+  }
+
+  .luna-spotlight__hook-{{ section.id }} {
+    margin-top: 14px;
+    font-size: 16px;
+    line-height: 1.34;
+    max-width: 620px;
+  }
+
+  .luna-spotlight__bullets-{{ section.id }} {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: 100%;
+    max-width: 680px;
+    gap: 7px;
+    margin-top: 18px;
+  }
+
+  .luna-spotlight__bullets-{{ section.id }} li {
+    min-height: 40px;
+    padding: 7px 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 11px;
+    line-height: 1.1;
+  }
+
+  .luna-spotlight__cta-{{ section.id }} {
+    width: min(390px, 86%);
+    min-height: 50px;
+    margin-top: 22px;
+  }
+
+  .luna-spotlight__arrow-{{ section.id }} {
+    top: 56%;
+    bottom: auto;
+    width: 46px;
+    height: 46px;
+    transform: translateY(-50%);
+  }
+
+  .luna-spotlight__arrow--prev-{{ section.id }} {
+    left: 18px;
+  }
+
+  .luna-spotlight__arrow--next-{{ section.id }} {
+    right: 18px;
+  }
+
+  .luna-spotlight__dots-{{ section.id }} {
+    left: 50%;
+    bottom: 24px;
+    transform: translateX(-50%);
+  }
+
+  .luna-spotlight__tape-{{ section.id }} {
+    margin-top: 14px;
+  }
+
+  .luna-spotlight__tape-track-{{ section.id }} {
+    padding: 11px 16px;
+    gap: 18px;
+  }
+
+  .luna-spotlight__tape-track-{{ section.id }} span {
+    font-size: 12px;
+    letter-spacing: .11em;
+  }
+
+  .luna-spotlight__tape-track-{{ section.id }} span::after {
+    margin-left: 18px;
+  }
+}
+
+@media screen and (max-width: 549px) {
+  .luna-spotlight-{{ section.id }} {
+    padding: 32px 10px 40px;
+  }
+
+  .luna-spotlight__intro-{{ section.id }} {
+    margin-bottom: 18px;
+  }
+
+  .luna-spotlight__eyebrow-{{ section.id }} {
+    font-size: 11px;
+    letter-spacing: .14em;
+  }
+
+  .luna-spotlight__heading-{{ section.id }} {
+    font-size: 34px;
+  }
+
+  .luna-spotlight__sub-{{ section.id }} {
+    font-size: 15px;
+  }
+
+  .luna-spotlight__visual-{{ section.id }},
+  .luna-spotlight__visual-{{ section.id }} img,
+  .luna-spotlight__visual-placeholder-{{ section.id }} {
+    min-height: 270px;
+  }
+
+  .luna-spotlight__caption-{{ section.id }} {
+    font-size: 18px;
+    padding: 12px 14px;
+  }
+
+  .luna-spotlight__story-{{ section.id }} {
+    padding: 26px 18px 82px;
+  }
+
+  .luna-spotlight__product-stage-{{ section.id }} {
+    width: min(240px, 72%);
+    margin-bottom: 16px;
+  }
+
+  .luna-spotlight__title-{{ section.id }} {
+    font-size: 31px;
+  }
+
+  .luna-spotlight__hook-{{ section.id }} {
+    font-size: 15px;
+  }
+
+  .luna-spotlight__bullets-{{ section.id }} {
+    gap: 6px;
+  }
+
+  .luna-spotlight__bullets-{{ section.id }} li {
+    min-height: 38px;
+    font-size: 10.5px;
+    padding: 6px 5px;
+  }
+
+  .luna-spotlight__arrow-{{ section.id }} {
+    top: 55%;
+    width: 44px;
+    height: 44px;
+  }
+
+  .luna-spotlight__dots-{{ section.id }} {
+    bottom: 22px;
+  }
+}
+
+/* Luna Spotlight — final mobile flow polish */
+@media screen and (max-width: 549px) {
+  .luna-spotlight__visual-{{ section.id }},
+  .luna-spotlight__visual-{{ section.id }} img,
+  .luna-spotlight__visual-placeholder-{{ section.id }} {
+    min-height: 245px;
+  }
+
+  .luna-spotlight__caption-{{ section.id }} {
+    bottom: 12px;
+    padding: 11px 13px;
+    font-size: 17px;
+    line-height: 1.05;
+  }
+
+  .luna-spotlight__story-{{ section.id }} {
+    padding: 24px 16px 76px;
+  }
+
+  .luna-spotlight__badge-{{ section.id }} {
+    margin-bottom: 14px;
+  }
+
+  .luna-spotlight__product-stage-{{ section.id }} {
+    width: min(220px, 68%);
+    margin-bottom: 14px;
+  }
+
+  .luna-spotlight__title-{{ section.id }} {
+    font-size: 29px;
+    line-height: 1;
+  }
+
+  .luna-spotlight__hook-{{ section.id }} {
+    margin-top: 12px;
+    font-size: 14.5px;
+    line-height: 1.32;
+  }
+
+  .luna-spotlight__bullets-{{ section.id }} {
+    margin-top: 16px;
+  }
+
+  .luna-spotlight__cta-{{ section.id }} {
+    margin-top: 18px;
+    min-height: 48px;
+  }
+
+  .luna-spotlight__dots-{{ section.id }} {
+    bottom: 18px;
+  }
+}
+/* Luna Spotlight — mobile hierarchy clean-up */
+@media screen and (max-width: 749px) {
+  .luna-spotlight__caption-{{ section.id }} {
+    display: none;
+  }
+
+  .luna-spotlight__badge-{{ section.id }} {
+    margin: 0 0 16px;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    color: #9d6b79;
+    font-size: 11px;
+    line-height: 1.1;
+    letter-spacing: .18em;
+    box-shadow: none;
+  }
+
+  .luna-spotlight__story-{{ section.id }} {
+    padding-top: 28px;
+  }
+
+  .luna-spotlight__product-stage-{{ section.id }} {
+    margin-top: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .luna-spotlight__product-stage-{{ section.id }},
+  .luna-spotlight__tape-track-{{ section.id }} {
+    animation: none !important;
+  }
+
+  .luna-spotlight__cta-{{ section.id }} {
+    transition: none !important;
+  }
+}
+</style>
+
+<script>
+(function() {
+  var section = document.querySelector('#luna-spotlight-{{ section.id }}');
+  if (!section) return;
+
+  var slides = section.querySelectorAll('.luna-spotlight__slide-{{ section.id }}');
+  var dots = section.querySelectorAll('.luna-spotlight__dot-{{ section.id }}');
+  var prev = section.querySelector('.luna-spotlight__arrow--prev-{{ section.id }}');
+  var next = section.querySelector('.luna-spotlight__arrow--next-{{ section.id }}');
+  var current = 0;
+
+  function showSlide(index) {
+    if (!slides.length) return;
+
+    if (index < 0) index = slides.length - 1;
+    if (index >= slides.length) index = 0;
+
+    slides.forEach(function(slide) {
+      slide.classList.remove('is-active');
+    });
+
+    dots.forEach(function(dot) {
+      dot.classList.remove('is-active');
+    });
+
+    slides[index].classList.add('is-active');
+
+    if (dots[index]) {
+      dots[index].classList.add('is-active');
+    }
+
+    current = index;
+  }
+
+  if (prev) {
+    prev.addEventListener('click', function() {
+      showSlide(current - 1);
+    });
+  }
+
+  if (next) {
+    next.addEventListener('click', function() {
+      showSlide(current + 1);
+    });
+  }
+
+  dots.forEach(function(dot) {
+    dot.addEventListener('click', function() {
+      var index = parseInt(dot.dataset.dotIndex, 10);
+      if (!isNaN(index)) showSlide(index);
+    });
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Luna Spotlight Slider",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Luna spotlight"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Your styling mood starts here."
+    },
+    {
+      "type": "textarea",
+      "id": "intro",
+      "label": "Intro",
+      "default": "Explore the Luna stylers made for smooth finishes, glossy waves, fast drying and everyday good hair energy."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_price",
+      "label": "Show product price",
+      "default": false
+    }
+  ],
+  "blocks": [
+    {
+      "type": "spotlight_slide",
+      "name": "Spotlight slide",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        },
+        {
+          "type": "image_picker",
+          "id": "lifestyle_image",
+          "label": "Left lifestyle image"
+        },
+        {
+          "type": "image_picker",
+          "id": "product_image",
+          "label": "Right product image override"
+        },
+        {
+          "type": "text",
+          "id": "badge",
+          "label": "Badge",
+          "default": "SMOOTH + SHINE"
+        },
+        {
+          "type": "text",
+          "id": "headline",
+          "label": "Headline",
+          "default": "Sleek styling without the salon spend."
+        },
+        {
+          "type": "textarea",
+          "id": "hook",
+          "label": "Hook",
+          "default": "A beauty-led Luna styler made for everyday routines, glossy results and smarter prices."
+        },
+        {
+          "type": "text",
+          "id": "bullet_1",
+          "label": "Bullet 1",
+          "default": "Easy everyday styling"
+        },
+        {
+          "type": "text",
+          "id": "bullet_2",
+          "label": "Bullet 2",
+          "default": "Glossy-looking results"
+        },
+        {
+          "type": "text",
+          "id": "bullet_3",
+          "label": "Bullet 3",
+          "default": "Smart value"
+        },
+        {
+          "type": "text",
+          "id": "visual_caption",
+          "label": "Left image caption",
+          "default": "Good hair days, minus the big spend."
+        },
+        {
+          "type": "text",
+          "id": "cta_label",
+          "label": "CTA label",
+          "default": "Shop now"
+        },
+        {
+          "type": "url",
+          "id": "cta_link",
+          "label": "CTA link override"
+        },
+        {
+          "type": "color",
+          "id": "background_color",
+          "label": "Right panel background colour",
+          "default": "#f7bfd3"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Luna Spotlight Slider",
+      "blocks": [
+        {
+          "type": "spotlight_slide",
+          "settings": {
+            "badge": "BEST VALUE ROUTINE",
+            "headline": "Dry fast. Style smarter.",
+            "hook": "Your everyday drying essential for a smooth finish.",
+            "bullet_1": "Fast everyday drying",
+            "bullet_2": "Smoother finish",
+            "bullet_3": "Ionic drying power",
+            "visual_caption": "Fast dry. Smooth finish.",
+            "cta_label": "Shop Hair Dryer",
+            "background_color": "#f7bdd3"
+          }
+        },
+        {
+          "type": "spotlight_slide",
+          "settings": {
+            "badge": "SMOOTH + SHINE",
+            "headline": "Sleek without the salon spend.",
+            "hook": "Smooth, polished styling with a glossy finish and smart price.",
+            "bullet_1": "Ceramic plates",
+            "bullet_2": "Easy everyday glide",
+            "bullet_3": "Smooth finish",
+            "visual_caption": "Smooth moves. Smart spend.",
+            "cta_label": "Shop Straightener",
+            "background_color": "#f3bddc"
+          }
+        },
+        {
+          "type": "spotlight_slide",
+          "settings": {
+            "badge": "SOFT WAVES + CURL",
+            "headline": "Glossy movement, made easy.",
+            "hook": "Create soft waves, bend and curl without overcomplicating your routine.",
+            "bullet_1": "25mm ceramic barrel",
+            "bullet_2": "Soft wave styling",
+            "bullet_3": "Everyday shape",
+            "visual_caption": "Curl it. Wave it. Own it.",
+            "cta_label": "Shop Curling Tong",
+            "background_color": "#e9c2f4"
+          }
+        },
+        {
+          "type": "spotlight_slide",
+          "settings": {
+            "badge": "TRAVEL READY",
+            "headline": "Touch-ups that travel.",
+            "hook": "Compact styling for weekends, gym bags, carry-ons and quick fixes.",
+            "bullet_1": "Compact format",
+            "bullet_2": "Easy to pack",
+            "bullet_3": "On-the-go styling",
+            "visual_caption": "Your good hair backup plan.",
+            "cta_label": "Shop Travel Stylers",
+            "background_color": "#c4ecff"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

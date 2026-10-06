@@ -1,0 +1,722 @@
+{% if collection.handle == 'free-luxe-hair-kit' %}
+<div class="page-width" style="padding:60px 20px;text-align:center"><h1>This promotion has ended</h1><p>Explore the current Luna hair tools range.</p><a class="button" href="/collections/meet-luna">Shop Luna Hair Tools</a></div>
+{% else %}
+{% assign mf = collection.metafields.custom %}
+
+{% assign hero_eyebrow = mf.hero_eyebrow.value | default: collection.title %}
+{% assign hero_heading = mf.hero_heading_override.value | default: collection.title %}
+{% assign hero_intro = mf.hero_intro.value | default: collection.description %}
+{% assign hero_primary_label = mf.hero_primary_cta_label.value | default: 'Shop Now' %}
+{% assign hero_primary_link = mf.hero_primary_cta_link.value | default: '#CollectionProductGrid' %}
+{% assign hero_secondary_label = mf.hero_secondary_cta_label.value %}
+{% assign hero_secondary_link = mf.hero_secondary_cta_link.value %}
+
+<section class="cseo-{{ section.id }}">
+      <nav class="cseo-breadcrumbs">
+    <a href="/">Home</a>
+    <span>/</span>
+    <a href="/collections/meet-luna">Shop All</a>
+    <span>/</span>
+    <span>{{ collection.title }}</span>
+  </nav>
+
+  <div class="cseo-hero">
+    <div class="cseo-hero__copy">
+      <p class="cseo-kicker">{{ hero_eyebrow }}</p>
+      <h1>{{ hero_heading }}</h1>
+      {% if hero_intro != blank %}
+        <p>{{ hero_intro }}</p>
+      {% endif %}
+
+      <div class="cseo-hero__buttons">
+        <a href="{{ hero_primary_link }}" class="cseo-btn cseo-btn--dark">{{ hero_primary_label }}</a>
+        {% if hero_secondary_label != blank and hero_secondary_link != blank %}
+          <a href="{{ hero_secondary_link }}" class="cseo-btn cseo-btn--soft">{{ hero_secondary_label }}</a>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="cseo-hero__media">
+      {% if mf.hero_video.value != blank %}
+        {{ mf.hero_video.value | video_tag: autoplay: true, loop: true, muted: true, controls: false, playsinline: true }}
+      {% elsif mf.hero_image.value != blank %}
+        <img
+          src="{{ mf.hero_image.value | image_url: width: 1400 }}"
+          alt="{{ mf.hero_alt_text.value | default: collection.title | escape }}"
+          loading="eager"
+        >
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="cseo-trust">
+    <div>{{ mf.trust_point_1.value | default: 'Fast dispatch from Australia' }}</div>
+    <div>{{ mf.trust_point_2.value | default: 'Free shipping over $50' }}</div>
+    <div>{{ mf.trust_point_3.value | default: '12-month warranty' }}</div>
+  </div>
+
+  <div id="CollectionProductGrid" class="cseo-products">
+    {% for product in collection.products %}
+      {% assign v = product.selected_or_first_available_variant %}
+      <article class="cseo-product-card">
+        <a href="{{ product.url }}" class="cseo-product-card__image">
+         {% if product.handle == 'dryer' %}
+  <span class="cseo-product-badge">Best for home styling</span>
+{% elsif product.handle contains 'travel' %}
+  <span class="cseo-product-badge">Best for travel</span>
+{% elsif product.title contains 'Hair Straightener' and product.title contains 'Argan Oil' %}
+  <span class="cseo-product-badge">Best for everyday styling</span>
+{% elsif product.title contains 'Mini Hair Straightener' %}
+  <span class="cseo-product-badge">Best for travel</span>
+{% elsif product.handle == 'curling-tong' %}
+  <span class="cseo-product-badge">Best for waves & curls</span>
+{% endif %}
+
+          {% if product.featured_image %}
+            <img src="{{ product.featured_image | image_url: width: 700 }}" alt="{{ product.title | escape }}" loading="lazy">
+          {% endif %}
+        </a>
+
+        <div class="cseo-product-card__info">
+          <div class="cseo-stars">
+            <div class="jdgm-widget jdgm-preview-badge" data-id="{{ product.id }}">
+              {{ product.metafields.judgeme.badge }}
+            </div>
+          </div>
+
+          <h2><a href="{{ product.url }}">{{ product.title }}</a></h2>
+
+          <div class="cseo-price">
+            {% if v.compare_at_price > v.price %}
+              <strong>{{ v.price | money }}</strong>
+              <s>{{ v.compare_at_price | money }}</s>
+              <span>Save {{ v.compare_at_price | minus: v.price | money }}</span>
+            {% else %}
+              <strong>{{ v.price | money }}</strong>
+            {% endif %}
+          </div>
+
+                   <div class="cseo-product-card__buttons">
+            {% unless product.handle contains 'luxe' %}
+              <button type="button" class="cseo-atc" data-variant-id="{{ v.id }}" {% unless v.available %}disabled{% endunless %}>
+                {% if v.available %}Add to Cart{% else %}Sold Out{% endif %}
+              </button>
+            {% endunless %}
+
+            <a href="{{ product.url }}">View Product</a>
+          </div>
+        </div>
+      </article>
+    {% endfor %}
+  </div>
+
+  <section class="cseo-compare">
+    <p class="cseo-kicker">Compare</p>
+    <h2>{{ mf.comparison_heading.value | default: 'Which Luna tool is right for you?' }}</h2>
+    <p>{{ mf.comparison_intro.value }}</p>
+
+    <div class="cseo-compare__grid">
+      <div class="cseo-compare-card">
+        <h3>{{ mf.compare_card_1_title.value }}</h3>
+        <strong>{{ mf.compare_card_1_best_for.value }}</strong>
+        {% assign points_1 = mf.compare_card_1_points.value | newline_to_br | split: '<br />' %}
+        <ul>
+          {% for point in points_1 %}
+            {% if point != blank %}<li>{{ point }}</li>{% endif %}
+          {% endfor %}
+        </ul>
+        {% if mf.compare_card_1_cta_link.value != blank %}
+          <a href="{{ mf.compare_card_1_cta_link.value }}">{{ mf.compare_card_1_cta_label.value }}</a>
+        {% endif %}
+      </div>
+
+{% unless mf.compare_card_2_cta_link.value contains 'travel-dryer' %}
+      <div class="cseo-compare-card">
+        <h3>{{ mf.compare_card_2_title.value }}</h3>
+        <strong>{{ mf.compare_card_2_best_for.value }}</strong>
+        {% assign points_2 = mf.compare_card_2_points.value | newline_to_br | split: '<br />' %}
+        <ul>
+          {% for point in points_2 %}
+            {% if point != blank %}<li>{{ point }}</li>{% endif %}
+          {% endfor %}
+        </ul>
+        {% if mf.compare_card_2_cta_link.value != blank %}
+          <a href="{{ mf.compare_card_2_cta_link.value }}">{{ mf.compare_card_2_cta_label.value }}</a>
+        {% endif %}
+      </div>
+{% endunless %}
+    </div>
+  </section>
+
+  <section class="cseo-proof">
+    <h2>{{ mf.proof_heading.value }}</h2>
+    <div class="cseo-proof__grid">
+      {% if mf.proof_quote_1.value != blank %}<div>“{{ mf.proof_quote_1.value }}”</div>{% endif %}
+      {% if mf.proof_quote_2.value != blank %}<div>“{{ mf.proof_quote_2.value }}”</div>{% endif %}
+      {% if mf.proof_quote_3.value != blank %}<div>“{{ mf.proof_quote_3.value }}”</div>{% endif %}
+    </div>
+  </section>
+
+  <section class="cseo-seo">
+    <h2>{{ mf.seo_heading.value }}</h2>
+<div class="rte">
+  {{ mf.seo_body | metafield_tag }}
+</div>
+  </section>
+
+  <section class="cseo-faq">
+    <h2>{{ mf.faq_heading.value | default: 'FAQs' }}</h2>
+
+    {% for i in (1..4) %}
+      {% assign q_key = 'faq_' | append: i | append: '_q' %}
+      {% assign a_key = 'faq_' | append: i | append: '_a' %}
+      {% if mf[q_key].value != blank %}
+        <details>
+          <summary>{{ mf[q_key].value }}</summary>
+          <p>{{ mf[a_key].value }}</p>
+        </details>
+      {% endif %}
+    {% endfor %}
+  </section>
+
+  <section class="cseo-related">
+    <h2>{{ mf.related_heading.value | default: 'Shop related hair tools' }}</h2>
+    <div>
+      {% for i in (1..4) %}
+        {% assign label_key = 'related_link_' | append: i | append: '_label' %}
+        {% assign url_key = 'related_link_' | append: i | append: '_url' %}
+        {% if mf[label_key].value != blank and mf[url_key].value != blank %}
+          <a href="{{ mf[url_key].value }}">{{ mf[label_key].value }}</a>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </section>
+
+  <section class="cseo-final">
+    <p>{{ mf.final_cta_text.value }}</p>
+    {% if mf.final_cta_link.value != blank %}
+      <a href="{{ mf.final_cta_link.value }}" class="cseo-btn cseo-btn--dark">{{ mf.final_cta_label.value }}</a>
+    {% endif %}
+  </section>
+</section>
+
+<style>
+.cseo-{{ section.id }} {
+  background:#fff;
+  color:#111;
+  padding-bottom:54px;
+}
+
+.cseo-{{ section.id }} h1,
+.cseo-{{ section.id }} h2,
+.cseo-{{ section.id }} h3,
+.cseo-{{ section.id }} p {
+  margin:0;
+}
+
+.cseo-breadcrumbs {
+  max-width:1280px;
+  margin:0 auto;
+  padding:18px 16px 0;
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  font-size:13px;
+  color:#777;
+}
+
+.cseo-breadcrumbs a {
+  color:#777;
+  text-decoration:none;
+}
+
+.cseo-kicker {
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:#9d6b79;
+  margin-bottom:10px !important;
+}
+
+.cseo-hero {
+  max-width:1280px;
+  margin:0 auto;
+  padding:28px 16px 34px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:28px;
+  align-items:center;
+}
+
+.cseo-hero__copy h1 {
+  font-size:52px;
+  line-height:1.02;
+  letter-spacing:-.02em;
+  font-weight:700;
+  margin-bottom:14px;
+}
+
+.cseo-hero__copy > p:not(.cseo-kicker) {
+  font-size:18px;
+  line-height:1.5;
+  color:#555;
+  max-width:590px;
+}
+
+.cseo-hero__buttons {
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-top:22px;
+}
+
+.cseo-btn {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:48px;
+  padding:13px 20px;
+  border-radius:14px;
+  font-size:15px;
+  font-weight:700;
+  text-decoration:none;
+}
+
+.cseo-btn--dark {
+  background:#111;
+  color:#fff;
+}
+
+.cseo-btn--soft {
+  background:#FDF4F6;
+  color:#111;
+  border:1px solid rgba(230,160,170,.42);
+}
+
+.cseo-hero__media {
+  border-radius:24px;
+  overflow:hidden;
+  background:#FDF4F6;
+}
+
+.cseo-hero__media img,
+.cseo-hero__media video {
+  width:100%;
+  aspect-ratio:1 / .82;
+  object-fit:cover;
+  display:block;
+}
+
+.cseo-trust {
+  max-width:1280px;
+  margin:0 auto 28px;
+  padding:0 16px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+}
+
+.cseo-trust div {
+  background:#FDF4F6;
+  border:1px solid rgba(230,160,170,.32);
+  border-radius:16px;
+  padding:14px;
+  text-align:center;
+  font-size:14px;
+  font-weight:700;
+}
+
+.cseo-products {
+  max-width:980px;
+  margin:0 auto;
+  padding:0 16px 48px;
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:18px;
+}
+
+.cseo-product-card {
+  border:1px solid rgba(0,0,0,.08);
+  border-radius:20px;
+  background:#fff;
+  overflow:hidden;
+  box-shadow:0 12px 30px rgba(230,160,170,.10);
+}
+
+.cseo-product-card__image {
+  position:relative;
+  display:block;
+  background:#fff;
+  aspect-ratio:1 / 1;
+  overflow:hidden;
+  padding:28px;
+}
+
+.cseo-product-card__image img {
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  display:block;
+}
+
+
+.cseo-product-badge {
+  position:absolute;
+  top:12px;
+  left:12px;
+  z-index:2;
+  background:#FDF4F6;
+  border:1px solid rgba(230,160,170,.45);
+  border-radius:999px;
+  padding:7px 10px;
+  font-size:11px;
+  font-weight:700;
+}
+
+.cseo-product-card__info {
+  padding:16px;
+}
+
+.cseo-stars {
+  min-height:20px;
+  margin-bottom:8px;
+}
+
+.cseo-product-card h2 {
+  font-size:20px;
+  line-height:1.18;
+  margin-bottom:8px;
+}
+
+.cseo-product-card h2 a {
+  color:#111;
+  text-decoration:none;
+}
+
+.cseo-price {
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-bottom:14px;
+}
+
+.cseo-price strong {
+  font-size:18px;
+}
+
+.cseo-price s {
+  color:#999;
+}
+
+.cseo-price span {
+  color:#B93A3A;
+  font-weight:700;
+  font-size:13px;
+}
+
+.cseo-product-card__buttons {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.cseo-atc,
+.cseo-product-card__buttons a,
+.cseo-compare-card a {
+  min-height:44px;
+  border-radius:12px;
+  border:0;
+  background:#111;
+  color:#fff;
+  font-size:14px;
+  font-weight:700;
+  cursor:pointer;
+  text-decoration:none;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+}
+
+.cseo-product-card__buttons a,
+.cseo-compare-card a {
+  background:#FDF4F6;
+  color:#111;
+  border:1px solid rgba(230,160,170,.38);
+}
+.cseo-product-card__buttons a:only-child {
+  grid-column: 1 / -1;
+}
+.cseo-compare,
+.cseo-proof,
+.cseo-seo,
+.cseo-faq,
+.cseo-related,
+.cseo-final {
+  max-width:1180px;
+  margin:0 auto;
+  padding:54px 16px;
+}
+
+.cseo-compare {
+  text-align:center;
+}
+
+.cseo-compare h2,
+.cseo-proof h2,
+.cseo-seo h2,
+.cseo-faq h2,
+.cseo-related h2 {
+  font-size:36px;
+  line-height:1.08;
+  letter-spacing:-.025em;
+  margin-bottom:14px;
+}
+
+.cseo-compare > p {
+  color:#555;
+  font-size:17px;
+  line-height:1.5;
+  max-width:720px;
+  margin:0 auto 24px;
+}
+
+.cseo-compare__grid {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+  text-align:left;
+}
+
+.cseo-compare-card,
+.cseo-proof__grid div {
+  border:1px solid rgba(230,160,170,.32);
+  border-radius:20px;
+  background:#FDF4F6;
+  padding:22px;
+}
+
+.cseo-compare-card {
+  display:flex;
+  flex-direction:column;
+}
+
+.cseo-compare-card a {
+  margin-top:auto;
+}
+
+.cseo-compare-card h3 {
+  font-size:24px;
+  margin-bottom:8px;
+}
+
+.cseo-compare-card strong {
+  display:block;
+  color:#9d6b79;
+  margin-bottom:12px;
+}
+
+.cseo-compare-card ul {
+  list-style:none;
+  padding:0;
+  margin:0 0 18px;
+}
+
+.cseo-compare-card li {
+  padding:6px 0;
+  color:#444;
+}
+
+.cseo-compare-card li:before {
+  content:"✓";
+  color:#E6A0AA;
+  margin-right:8px;
+}
+
+.cseo-proof {
+  text-align:center;
+}
+
+.cseo-proof__grid {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+  margin-top:18px;
+}
+
+.cseo-proof__grid div {
+  font-size:16px;
+  line-height:1.45;
+  font-weight:600;
+}
+
+.cseo-seo {
+  max-width:940px;
+}
+
+.cseo-seo .rte {
+  color:#444;
+  font-size:16px;
+  line-height:1.65;
+}
+
+.cseo-faq details {
+  border:1px solid rgba(230,160,170,.32);
+  border-radius:14px;
+  margin-bottom:10px;
+  background:#fff;
+  overflow:hidden;
+}
+
+.cseo-faq summary {
+  cursor:pointer;
+  padding:16px;
+  font-weight:700;
+}
+
+.cseo-faq details p {
+  padding:0 16px 16px;
+  color:#555;
+  line-height:1.55;
+}
+
+.cseo-related {
+  text-align:center;
+}
+
+.cseo-related div {
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:10px;
+}
+
+.cseo-related a {
+  background:#FDF4F6;
+  border:1px solid rgba(230,160,170,.35);
+  border-radius:999px;
+  padding:11px 16px;
+  color:#111;
+  text-decoration:none;
+  font-weight:700;
+}
+
+.cseo-final {
+  text-align:center;
+  background:#FDF4F6;
+  border-radius:24px;
+  margin-top:24px;
+}
+
+.cseo-final p {
+  font-size:22px;
+  font-weight:700;
+  line-height:1.3;
+  margin-bottom:18px;
+}
+
+@media screen and (max-width:749px) {
+  .cseo-hero {
+    grid-template-columns:1fr;
+    padding-top:18px;
+  }
+
+  .cseo-hero__media {
+    order:-1;
+  }
+
+  .cseo-hero__copy h1 {
+    font-size:38px;
+  }
+
+  .cseo-hero__copy > p:not(.cseo-kicker) {
+    font-size:16px;
+  }
+
+  .cseo-hero__buttons {
+    display:grid;
+    grid-template-columns:1fr;
+  }
+
+  .cseo-trust {
+    grid-template-columns:1fr;
+  }
+
+  .cseo-products {
+    grid-template-columns:1fr;
+  }
+
+  .cseo-product-card__buttons {
+    grid-template-columns:1fr;
+  }
+
+  .cseo-compare__grid,
+  .cseo-proof__grid {
+    grid-template-columns:1fr;
+  }
+
+  .cseo-compare h2,
+  .cseo-proof h2,
+  .cseo-seo h2,
+  .cseo-faq h2,
+  .cseo-related h2 {
+    font-size:30px;
+  }
+
+  .cseo-final {
+    border-radius:0;
+    margin-left:0;
+    margin-right:0;
+  }
+}
+</style>
+
+<script>
+(function() {
+  var section = document.querySelector('.cseo-{{ section.id }}');
+  if (!section) return;
+
+  section.addEventListener('click', async function(event) {
+    var button = event.target.closest('.cseo-atc');
+    if (!button) return;
+
+    event.preventDefault();
+
+    var variantId = parseInt(button.dataset.variantId, 10);
+    if (!variantId) return;
+
+    button.disabled = true;
+    var oldText = button.textContent;
+    button.textContent = 'Adding...';
+
+    try {
+      await fetch(window.Shopify.routes.root + 'cart/add.js', {
+        method:'POST',
+        headers:{'Content-Type':'application/json','Accept':'application/json'},
+        body:JSON.stringify({ items:[{ id:variantId, quantity:1 }] })
+      });
+
+      window.location.href = window.Shopify.routes.root + 'cart';
+    } catch(error) {
+      button.disabled = false;
+      button.textContent = oldText;
+      alert('Sorry, something went wrong. Please try again.');
+    }
+  });
+})();
+</script>
+
+
+{% endif %}
+{% schema %}
+{
+  "name": "Collection SEO Landing",
+  "presets": [
+    {
+      "name": "Collection SEO Landing"
+    }
+  ]
+}
+{% endschema %}
