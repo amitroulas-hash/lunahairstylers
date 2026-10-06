@@ -12,6 +12,28 @@
 <style>
 /* ===== LUNA HEADER + MEGA MENU CLEAN VERSION ===== */
 
+/*
+  Keep the Luna header above all homepage storytelling/sticky sections
+  on both desktop and mobile. Some Luna sections create their own
+  stacking contexts, so Dawn's default z-index: 3 is not sufficient.
+*/
+#shopify-section-header,
+#shopify-section-header.shopify-section-header-sticky,
+#shopify-section-header.animate {
+  z-index: 1000 !important;
+}
+
+#shopify-section-header .header-wrapper,
+#shopify-section-header sticky-header {
+  position: relative;
+  z-index: 1000 !important;
+}
+
+#shopify-section-header .menu-drawer,
+#shopify-section-header .luna-header-mega {
+  z-index: 1100 !important;
+}
+
 .header__inline-menu ul,
 .header__inline-menu li,
 .menu-drawer__menu,
