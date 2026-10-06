@@ -224,8 +224,9 @@
 
 @media screen and (max-width: 749px) {
   .luna-hero-{{ section.id }} {
-    margin-bottom: 30px;
+    margin-bottom: 0;
     overflow: visible;
+    z-index: 3;
   }
 
   .luna-hero__slide-{{ section.id }} {
@@ -240,14 +241,14 @@
     position: absolute;
     left: 50%;
     right: auto;
-    bottom: -22px;
+    bottom: -20px;
     transform: translateX(-50%);
     width: auto;
     padding: 0;
     align-items: center;
     gap: 0;
     background: transparent;
-    z-index: 6;
+    z-index: 20;
   }
 
   .luna-hero__btn-{{ section.id }} {
