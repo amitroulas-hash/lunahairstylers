@@ -324,6 +324,31 @@
 
 /* MOBILE */
 @media screen and (max-width: 989px) {
+  /*
+    Keep the mobile header and drawer above hero / sticky story sections.
+    The Luna hero intentionally overlaps the next section, so the header
+    needs its own stronger stacking context.
+  */
+  #shopify-section-header,
+  #shopify-section-header.shopify-section-header-sticky,
+  #shopify-section-header.animate {
+    z-index: 1000 !important;
+  }
+
+  #shopify-section-header .header-wrapper,
+  #shopify-section-header sticky-header {
+    position: relative;
+    z-index: 1000 !important;
+  }
+
+  #shopify-section-header .menu-drawer {
+    z-index: 1100 !important;
+  }
+
+  #shopify-section-header menu-drawer > details > summary::before {
+    z-index: 1090 !important;
+  }
+
   .header__inline-menu {
     display: none !important;
   }
