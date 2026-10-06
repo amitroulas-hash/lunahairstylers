@@ -223,42 +223,64 @@
 }
 
 @media screen and (max-width: 749px) {
-  .luna-hero__cta-wrap-{{ section.id }} {
-    position: static;
-    transform: none;
-    width: 100%;
-    padding: 14px 16px 18px;
-    align-items: center;
-    gap: 0;
-    background: #fff7f8;
+  .luna-hero-{{ section.id }} {
+    margin-bottom: 0;
+  }
+
+  .luna-hero__slide-{{ section.id }} {
+    position: relative;
   }
 
   .luna-hero__pill-{{ section.id }} {
     display: none;
   }
 
-  .luna-hero__btn-{{ section.id }} {
-    width: min(100%, 340px);
-    min-height: 48px;
-    padding: 12px 20px;
-    border-radius: 14px;
-    font-size: 14px;
-    box-shadow: none;
+  .luna-hero__cta-wrap-{{ section.id }} {
+    position: absolute;
+    left: 50%;
+    right: auto;
+    bottom: 22px;
+    transform: translateX(-50%);
+    width: auto;
+    padding: 0;
+    align-items: center;
+    gap: 0;
+    background: transparent;
   }
 
-  .luna-hero-{{ section.id }} {
-    margin-bottom: 0;
+  .luna-hero__btn-{{ section.id }} {
+    width: auto;
+    min-width: 220px;
+    max-width: calc(100vw - 64px);
+    min-height: 44px;
+    padding: 10px 22px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 900;
+    background: rgba(236, 176, 193, 0.88);
+    color: #111 !important;
+    border: 1px solid rgba(255,255,255,.58);
+    box-shadow: 0 10px 26px rgba(17,17,17,.14);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+  }
+
+  .luna-hero__btn-{{ section.id }}:hover,
+  .luna-hero__btn-{{ section.id }}:focus-visible {
+    background: rgba(242, 172, 185, 0.96);
+    transform: translateY(-1px);
+    box-shadow: 0 12px 28px rgba(17,17,17,.16);
   }
 
   .luna-hero__dots-{{ section.id }} {
-    position: relative;
-    left: auto;
-    bottom: auto;
-    transform: none;
+    position: absolute;
+    left: 50%;
+    bottom: 76px;
+    transform: translateX(-50%);
     width: fit-content;
-    margin: 10px auto 12px;
-    background: rgba(242,172,185,.24);
-    border: 1px solid rgba(230,160,170,.28);
+    margin: 0;
+    background: rgba(255,255,255,.24);
+    border: 1px solid rgba(255,255,255,.32);
   }
 }
 
