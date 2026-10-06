@@ -10,9 +10,9 @@
 {% assign card_copy = '' %}
 
 {% if p.handle == dryer_handle or p.handle == 'dryer' %}
-  {% assign card_badge = 'BEST VALUE BUNDLE' %}
+  {% assign card_badge = 'BEST SELLER' %}
   {% assign card_title = 'Ionic Hair Dryer' %}
-  {% assign card_copy = 'Fast dry. Smooth finish. Free kit.' %}
+  {% assign card_copy = 'Fast dry. Smooth finish. Everyday value.' %}
 {% elsif p.handle == 'ceramic-argan-oil-infused-straightener' %}
   {% assign card_badge = 'SMOOTH + SHINE' %}
   {% assign card_title = 'Argan Oil Straightener' %}
@@ -35,10 +35,6 @@
    <a href="{{ p.url }}" class="lpv2-media-{{ section_id }}{% if img2 %} has-hover-image-{{ section_id }}{% endif %}">
     <span class="lpv2-badge-{{ section_id }}">{{ card_badge }}</span>
 
-    {% if p.handle == dryer_handle %}
-      <span class="lpv2-gift-badge-{{ section_id }}">+ FREE LUXE KIT</span>
-    {% endif %}
-
     <div class="lpv2-rotator-{{ section_id }}">
       {% if img1 %}
         <img class="lpv2-img-{{ section_id }} is-1" src="{{ img1 | image_url: width: 900 }}" alt="{{ p.title | escape }}" loading="lazy">
@@ -50,12 +46,6 @@
         <img class="lpv2-img-{{ section_id }} is-3" src="{{ img3 | image_url: width: 900 }}" alt="{{ p.title | escape }}" loading="lazy">
       {% endif %}
     </div>
-
-    {% if p.handle == dryer_handle and luxe_kit_gif != blank %}
-      <div class="lpv2-gift-tile-{{ section_id }}">
-        <img src="{{ luxe_kit_gif }}" alt="Free Luxe Kit">
-      </div>
-    {% endif %}
   </a>
 
   <div class="lpv2-info-{{ section_id }}">
