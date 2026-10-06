@@ -1,0 +1,732 @@
+{% liquid
+  assign desktop_card_width = 30
+  if section.settings.desktop_columns == 2
+    assign desktop_card_width = 44
+  elsif section.settings.desktop_columns == 4
+    assign desktop_card_width = 24
+  endif
+%}
+
+{% style %}
+  .luna-finished-proof-{{ section.id }} {
+    background:
+      radial-gradient(circle at 10% 8%, rgba(72,205,255,.14), transparent 30%),
+      radial-gradient(circle at 92% 4%, rgba(255,168,204,.20), transparent 34%),
+      linear-gradient(90deg, #dfeef9 0%, #f9edf3 100%);
+    padding: 56px 0 64px;
+    overflow: hidden;
+  }
+
+  .luna-finished-proof-{{ section.id }} .page-width {
+    max-width: 1320px;
+  }
+
+  .luna-finished-proof__header-{{ section.id }} {
+    text-align: center;
+    max-width: 860px;
+    margin: 0 auto 34px;
+  }
+
+  .luna-finished-proof__kicker-{{ section.id }} {
+    margin: 0 0 10px;
+    font-size: 13px;
+    line-height: 1;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    font-weight: 950;
+    color: #9d6e7d;
+  }
+
+  .luna-finished-proof__heading-{{ section.id }} {
+    margin: 0 0 10px;
+    font-size: clamp(30px, 4vw, 54px);
+    line-height: .98;
+    font-weight: 950;
+    letter-spacing: -.045em;
+    color: #111;
+  }
+
+  .luna-finished-proof__subheading-{{ section.id }} {
+    margin: 0;
+    font-size: 20px;
+    line-height: 1.35;
+    font-weight: 700;
+    color: #5c5c5c;
+  }
+
+  .luna-finished-proof__looks-{{ section.id }} {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(280px, 82%);
+    gap: 18px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 2px 0 14px;
+    margin-top: 26px;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+  }
+
+  .luna-finished-proof__looks-{{ section.id }}::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  .luna-finished-proof__looks-{{ section.id }}::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,.16);
+    border-radius: 999px;
+  }
+
+  .luna-finished-proof__look-{{ section.id }} {
+    scroll-snap-align: start;
+  }
+
+  .luna-finished-proof__look-image-wrap-{{ section.id }} {
+    border-radius: 24px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 18px 40px rgba(0,0,0,.08);
+    border: 1px solid rgba(230,160,170,.22);
+  }
+
+  .luna-finished-proof__look-image-{{ section.id }} {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .luna-finished-proof__look-caption-{{ section.id }} {
+    margin: 10px 2px 0;
+    font-size: 15px;
+    line-height: 1.45;
+    color: #6a6a6a;
+    font-weight: 750;
+    text-align: center;
+  }
+
+  .luna-finished-proof__reviews-{{ section.id }} {
+    display: grid;
+    gap: 16px;
+    margin-top: 34px;
+  }
+
+  .luna-finished-proof__review-{{ section.id }} {
+    background: rgba(255,255,255,.76);
+    border: 1px solid rgba(232,188,199,.72);
+    border-radius: 22px;
+    padding: 18px 18px 16px;
+    box-shadow: 0 10px 24px rgba(0,0,0,.04);
+  }
+
+  .luna-finished-proof__review-quote-{{ section.id }} {
+    margin: 0 0 10px;
+    font-size: 18px;
+    line-height: 1.45;
+    font-weight: 750;
+    color: #202020;
+  }
+
+  .luna-finished-proof__review-meta-{{ section.id }} {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 12px;
+    align-items: center;
+    font-size: 13px;
+    line-height: 1.2;
+    color: #777;
+    font-weight: 850;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+  }
+
+  .luna-finished-proof__footer-{{ section.id }} {
+    text-align: center;
+    margin-top: 26px;
+    font-size: 15px;
+    line-height: 1.5;
+    color: #666;
+    font-weight: 700;
+  }
+
+  @media screen and (min-width: 750px) {
+    .luna-finished-proof__looks-{{ section.id }} {
+      grid-auto-columns: minmax(340px, 38%);
+    }
+
+    .luna-finished-proof__reviews-{{ section.id }} {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media screen and (min-width: 1100px) {
+    .luna-finished-proof__looks-{{ section.id }} {
+      grid-auto-columns: minmax(360px, {{ desktop_card_width }}%);
+    }
+
+    .luna-finished-proof__reviews-{{ section.id }} {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .luna-finished-proof-{{ section.id }} {
+      padding: 40px 0 46px;
+    }
+
+    .luna-finished-proof__header-{{ section.id }} {
+      margin-bottom: 24px;
+    }
+
+    .luna-finished-proof__subheading-{{ section.id }} {
+      font-size: 16px;
+    }
+
+    .luna-finished-proof__reviews-{{ section.id }} {
+      margin-top: 26px;
+    }
+  }
+{% endstyle %}
+
+<section class="luna-finished-proof-{{ section.id }}">
+  <div class="page-width">
+    <div class="luna-finished-proof__header-{{ section.id }}">
+      {% if section.settings.kicker != blank %}
+        <p class="luna-finished-proof__kicker-{{ section.id }}">{{ section.settings.kicker }}</p>
+      {% endif %}
+
+      {% if section.settings.heading != blank %}
+        <h2 class="luna-finished-proof__heading-{{ section.id }}">{{ section.settings.heading }}</h2>
+      {% endif %}
+
+      {% if section.settings.subheading != blank %}
+        <p class="luna-finished-proof__subheading-{{ section.id }}">{{ section.settings.subheading }}</p>
+      {% endif %}
+    </div>
+
+    <div class="luna-finished-proof__looks-{{ section.id }}">
+      {% if section.settings.look_1_show %}
+        <div class="luna-finished-proof__look-{{ section.id }}">
+          <div class="luna-finished-proof__look-image-wrap-{{ section.id }}">
+            {% if section.settings.look_1_image != blank %}
+              <img class="luna-finished-proof__look-image-{{ section.id }}" src="{{ section.settings.look_1_image | image_url: width: 1400 }}" alt="{{ section.settings.look_1_caption | escape }}" loading="lazy">
+            {% elsif section.settings.look_1_url != blank %}
+              <img class="luna-finished-proof__look-image-{{ section.id }}" src="{{ section.settings.look_1_url | escape }}" alt="{{ section.settings.look_1_caption | escape }}" loading="lazy">
+            {% endif %}
+          </div>
+          {% if section.settings.look_1_caption != blank %}
+            <p class="luna-finished-proof__look-caption-{{ section.id }}">{{ section.settings.look_1_caption }}</p>
+          {% endif %}
+        </div>
+      {% endif %}
+
+      {% if section.settings.look_2_show %}
+        <div class="luna-finished-proof__look-{{ section.id }}">
+          <div class="luna-finished-proof__look-image-wrap-{{ section.id }}">
+            {% if section.settings.look_2_image != blank %}
+              <img class="luna-finished-proof__look-image-{{ section.id }}" src="{{ section.settings.look_2_image | image_url: width: 1400 }}" alt="{{ section.settings.look_2_caption | escape }}" loading="lazy">
+            {% elsif section.settings.look_2_url != blank %}
+              <img class="luna-finished-proof__look-image-{{ section.id }}" src="{{ section.settings.look_2_url | escape }}" alt="{{ section.settings.look_2_caption | escape }}" loading="lazy">
+            {% endif %}
+          </div>
+          {% if section.settings.look_2_caption != blank %}
+            <p class="luna-finished-proof__look-caption-{{ section.id }}">{{ section.settings.look_2_caption }}</p>
+          {% endif %}
+        </div>
+      {% endif %}
+
+      {% if section.settings.look_3_show %}
+        <div class="luna-finished-proof__look-{{ section.id }}">
+          <div class="luna-finished-proof__look-image-wrap-{{ section.id }}">
+            {% if section.settings.look_3_image != blank %}
+              <img class="luna-finished-proof__look-image-{{ section.id }}" src="{{ section.settings.look_3_image | image_url: width: 1400 }}" alt="{{ section.settings.look_3_caption | escape }}" loading="lazy">
+            {% elsif section.settings.look_3_url != blank %}
+              <img class="luna-finished-proof__look-image-{{ section.id }}" src="{{ section.settings.look_3_url | escape }}" alt="{{ section.settings.look_3_caption | escape }}" loading="lazy">
+            {% endif %}
+          </div>
+          {% if section.settings.look_3_caption != blank %}
+            <p class="luna-finished-proof__look-caption-{{ section.id }}">{{ section.settings.look_3_caption }}</p>
+          {% endif %}
+        </div>
+      {% endif %}
+
+      {% if section.settings.look_4_show %}
+        <div class="luna-finished-proof__look-{{ section.id }}">
+          <div class="luna-finished-proof__look-image-wrap-{{ section.id }}">
+            {% if section.settings.look_4_image != blank %}
+              <img class="luna-finished-proof__look-image-{{ section.id }}" src="{{ section.settings.look_4_image | image_url: width: 1400 }}" alt="{{ section.settings.look_4_caption | escape }}" loading="lazy">
+            {% elsif section.settings.look_4_url != blank %}
+              <img class="luna-finished-proof__look-image-{{ section.id }}" src="{{ section.settings.look_4_url | escape }}" alt="{{ section.settings.look_4_caption | escape }}" loading="lazy">
+            {% endif %}
+          </div>
+          {% if section.settings.look_4_caption != blank %}
+            <p class="luna-finished-proof__look-caption-{{ section.id }}">{{ section.settings.look_4_caption }}</p>
+          {% endif %}
+        </div>
+      {% endif %}
+
+      {% if section.settings.look_5_show %}
+        <div class="luna-finished-proof__look-{{ section.id }}">
+          <div class="luna-finished-proof__look-image-wrap-{{ section.id }}">
+            {% if section.settings.look_5_image != blank %}
+              <img class="luna-finished-proof__look-image-{{ section.id }}" src="{{ section.settings.look_5_image | image_url: width: 1400 }}" alt="{{ section.settings.look_5_caption | escape }}" loading="lazy">
+            {% elsif section.settings.look_5_url != blank %}
+              <img class="luna-finished-proof__look-image-{{ section.id }}" src="{{ section.settings.look_5_url | escape }}" alt="{{ section.settings.look_5_caption | escape }}" loading="lazy">
+            {% endif %}
+          </div>
+          {% if section.settings.look_5_caption != blank %}
+            <p class="luna-finished-proof__look-caption-{{ section.id }}">{{ section.settings.look_5_caption }}</p>
+          {% endif %}
+        </div>
+      {% endif %}
+
+      {% if section.settings.look_6_show %}
+        <div class="luna-finished-proof__look-{{ section.id }}">
+          <div class="luna-finished-proof__look-image-wrap-{{ section.id }}">
+            {% if section.settings.look_6_image != blank %}
+              <img class="luna-finished-proof__look-image-{{ section.id }}" src="{{ section.settings.look_6_image | image_url: width: 1400 }}" alt="{{ section.settings.look_6_caption | escape }}" loading="lazy">
+            {% elsif section.settings.look_6_url != blank %}
+              <img class="luna-finished-proof__look-image-{{ section.id }}" src="{{ section.settings.look_6_url | escape }}" alt="{{ section.settings.look_6_caption | escape }}" loading="lazy">
+            {% endif %}
+          </div>
+          {% if section.settings.look_6_caption != blank %}
+            <p class="luna-finished-proof__look-caption-{{ section.id }}">{{ section.settings.look_6_caption }}</p>
+          {% endif %}
+        </div>
+      {% endif %}
+
+      {% if section.settings.look_7_show %}
+        <div class="luna-finished-proof__look-{{ section.id }}">
+          <div class="luna-finished-proof__look-image-wrap-{{ section.id }}">
+            {% if section.settings.look_7_image != blank %}
+              <img class="luna-finished-proof__look-image-{{ section.id }}" src="{{ section.settings.look_7_image | image_url: width: 1400 }}" alt="{{ section.settings.look_7_caption | escape }}" loading="lazy">
+            {% elsif section.settings.look_7_url != blank %}
+              <img class="luna-finished-proof__look-image-{{ section.id }}" src="{{ section.settings.look_7_url | escape }}" alt="{{ section.settings.look_7_caption | escape }}" loading="lazy">
+            {% endif %}
+          </div>
+          {% if section.settings.look_7_caption != blank %}
+            <p class="luna-finished-proof__look-caption-{{ section.id }}">{{ section.settings.look_7_caption }}</p>
+          {% endif %}
+        </div>
+      {% endif %}
+
+      {% if section.settings.look_8_show %}
+        <div class="luna-finished-proof__look-{{ section.id }}">
+          <div class="luna-finished-proof__look-image-wrap-{{ section.id }}">
+            {% if section.settings.look_8_image != blank %}
+              <img class="luna-finished-proof__look-image-{{ section.id }}" src="{{ section.settings.look_8_image | image_url: width: 1400 }}" alt="{{ section.settings.look_8_caption | escape }}" loading="lazy">
+            {% elsif section.settings.look_8_url != blank %}
+              <img class="luna-finished-proof__look-image-{{ section.id }}" src="{{ section.settings.look_8_url | escape }}" alt="{{ section.settings.look_8_caption | escape }}" loading="lazy">
+            {% endif %}
+          </div>
+          {% if section.settings.look_8_caption != blank %}
+            <p class="luna-finished-proof__look-caption-{{ section.id }}">{{ section.settings.look_8_caption }}</p>
+          {% endif %}
+        </div>
+      {% endif %}
+
+      {% if section.settings.look_9_show %}
+        <div class="luna-finished-proof__look-{{ section.id }}">
+          <div class="luna-finished-proof__look-image-wrap-{{ section.id }}">
+            {% if section.settings.look_9_image != blank %}
+              <img class="luna-finished-proof__look-image-{{ section.id }}" src="{{ section.settings.look_9_image | image_url: width: 1400 }}" alt="{{ section.settings.look_9_caption | escape }}" loading="lazy">
+            {% elsif section.settings.look_9_url != blank %}
+              <img class="luna-finished-proof__look-image-{{ section.id }}" src="{{ section.settings.look_9_url | escape }}" alt="{{ section.settings.look_9_caption | escape }}" loading="lazy">
+            {% endif %}
+          </div>
+          {% if section.settings.look_9_caption != blank %}
+            <p class="luna-finished-proof__look-caption-{{ section.id }}">{{ section.settings.look_9_caption }}</p>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+
+    {% assign has_review_blocks = false %}
+    {% for block in section.blocks %}
+      {% if block.type == 'review' %}
+        {% assign has_review_blocks = true %}
+      {% endif %}
+    {% endfor %}
+
+    <div class="luna-finished-proof__reviews-{{ section.id }}">
+      {% if has_review_blocks %}
+        {% for block in section.blocks %}
+          {% if block.type == 'review' %}
+            <div class="luna-finished-proof__review-{{ section.id }}" {{ block.shopify_attributes }}>
+              {% if block.settings.quote != blank %}
+                <p class="luna-finished-proof__review-quote-{{ section.id }}">“{{ block.settings.quote }}”</p>
+              {% endif %}
+              <div class="luna-finished-proof__review-meta-{{ section.id }}">
+                {% if block.settings.name != blank %}
+                  <span>{{ block.settings.name }}</span>
+                {% endif %}
+                {% if block.settings.meta != blank %}
+                  <span>{{ block.settings.meta }}</span>
+                {% endif %}
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      {% else %}
+        <div class="luna-finished-proof__review-{{ section.id }}">
+          <p class="luna-finished-proof__review-quote-{{ section.id }}">“Easy to use, quick to style and the finish looked so polished.”</p>
+          <div class="luna-finished-proof__review-meta-{{ section.id }}"><span>Verified customer</span><span>Smooth finish</span></div>
+        </div>
+
+        <div class="luna-finished-proof__review-{{ section.id }}">
+          <p class="luna-finished-proof__review-quote-{{ section.id }}">“I loved how fast I could do my hair and still get that salon-style result.”</p>
+          <div class="luna-finished-proof__review-meta-{{ section.id }}"><span>Verified customer</span><span>Fast styling</span></div>
+        </div>
+
+        <div class="luna-finished-proof__review-{{ section.id }}">
+          <p class="luna-finished-proof__review-quote-{{ section.id }}">“It gave me shine, shape and a much more put-together look without the big spend.”</p>
+          <div class="luna-finished-proof__review-meta-{{ section.id }}"><span>Verified customer</span><span>Value + performance</span></div>
+        </div>
+
+        <div class="luna-finished-proof__review-{{ section.id }}">
+          <p class="luna-finished-proof__review-quote-{{ section.id }}">“Perfect for everyday use when I want my hair to look done but not overworked.”</p>
+          <div class="luna-finished-proof__review-meta-{{ section.id }}"><span>Verified customer</span><span>Everyday routine</span></div>
+        </div>
+
+        <div class="luna-finished-proof__review-{{ section.id }}">
+          <p class="luna-finished-proof__review-quote-{{ section.id }}">“The result lasted and my hair still felt smooth and easy to manage.”</p>
+          <div class="luna-finished-proof__review-meta-{{ section.id }}"><span>Verified customer</span><span>Lasting result</span></div>
+        </div>
+
+        <div class="luna-finished-proof__review-{{ section.id }}">
+          <p class="luna-finished-proof__review-quote-{{ section.id }}">“A really good styling tool if you want a polished finish without paying premium prices.”</p>
+          <div class="luna-finished-proof__review-meta-{{ section.id }}"><span>Verified customer</span><span>No premium markup</span></div>
+        </div>
+      {% endif %}
+    </div>
+
+    {% if section.settings.footer_note != blank %}
+      <div class="luna-finished-proof__footer-{{ section.id }}">
+        {{ section.settings.footer_note }}
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Luna Finished Looks Proof",
+  "settings": [
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "Kicker",
+      "default": "Finished Looks"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Real women. Real routines. Real Luna results."
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Different hair types, different styling goals, one common result — polished hair without the premium price tag."
+    },
+    {
+      "type": "range",
+      "id": "desktop_columns",
+      "label": "Visible image cards on desktop",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "textarea",
+      "id": "footer_note",
+      "label": "Footer note",
+      "default": "From sleek and smooth to soft movement and bounce — Luna makes everyday styling feel easy."
+    },
+
+    {
+      "type": "header",
+      "content": "Look 1"
+    },
+    {
+      "type": "checkbox",
+      "id": "look_1_show",
+      "label": "Show look 1",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "look_1_image",
+      "label": "Look 1 override image"
+    },
+    {
+      "type": "text",
+      "id": "look_1_url",
+      "label": "Look 1 default image URL",
+      "default": "https://cdn.shopify.com/s/files/1/0609/7426/8657/files/mithia_before_and_after_3x_ea6be77b-4c1c-4662-b33b-79c8ac56ead0.png?v=1779134363"
+    },
+    {
+      "type": "text",
+      "id": "look_1_caption",
+      "label": "Look 1 caption",
+      "default": "Sleek results across different hair types."
+    },
+
+    {
+      "type": "header",
+      "content": "Look 2"
+    },
+    {
+      "type": "checkbox",
+      "id": "look_2_show",
+      "label": "Show look 2",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "look_2_image",
+      "label": "Look 2 override image"
+    },
+    {
+      "type": "text",
+      "id": "look_2_url",
+      "label": "Look 2 default image URL",
+      "default": "https://cdn.shopify.com/s/files/1/0609/7426/8657/files/Kaitlyn_3x_95cff94c-a888-4b28-8bfd-4ad2fe28670b.png?v=1779134363"
+    },
+    {
+      "type": "text",
+      "id": "look_2_caption",
+      "label": "Look 2 caption",
+      "default": "Blow-dry confidence with Luna."
+    },
+
+    {
+      "type": "header",
+      "content": "Look 3"
+    },
+    {
+      "type": "checkbox",
+      "id": "look_3_show",
+      "label": "Show look 3",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "look_3_image",
+      "label": "Look 3 override image"
+    },
+    {
+      "type": "text",
+      "id": "look_3_url",
+      "label": "Look 3 default image URL",
+      "default": "https://cdn.shopify.com/s/files/1/0609/7426/8657/files/Jadene_Before_and_after_straight_3x_8b029e24-167d-49c3-9b9d-239cb2734173.png?v=1779134363"
+    },
+    {
+      "type": "text",
+      "id": "look_3_caption",
+      "label": "Look 3 caption",
+      "default": "Smooth, glossy results at home."
+    },
+
+    {
+      "type": "header",
+      "content": "Look 4"
+    },
+    {
+      "type": "checkbox",
+      "id": "look_4_show",
+      "label": "Show look 4",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "look_4_image",
+      "label": "Look 4 override image"
+    },
+    {
+      "type": "text",
+      "id": "look_4_url",
+      "label": "Look 4 default image URL",
+      "default": "https://cdn.shopify.com/s/files/1/0609/7426/8657/files/ERIN_3x_copy.png?v=1779134362"
+    },
+    {
+      "type": "text",
+      "id": "look_4_caption",
+      "label": "Look 4 caption",
+      "default": "Bouncy finished hair without the salon price."
+    },
+
+    {
+      "type": "header",
+      "content": "Look 5"
+    },
+    {
+      "type": "checkbox",
+      "id": "look_5_show",
+      "label": "Show look 5",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "look_5_image",
+      "label": "Look 5 override image"
+    },
+    {
+      "type": "text",
+      "id": "look_5_url",
+      "label": "Look 5 default image URL",
+      "default": "https://cdn.shopify.com/s/files/1/0609/7426/8657/files/emma_before_and_after_3x_e4bc00ab-eeb6-4460-8392-31be7c5c89e3.png?v=1779134362"
+    },
+    {
+      "type": "text",
+      "id": "look_5_caption",
+      "label": "Look 5 caption",
+      "default": "Styled, smooth and ready to go."
+    },
+
+    {
+      "type": "header",
+      "content": "Look 6"
+    },
+    {
+      "type": "checkbox",
+      "id": "look_6_show",
+      "label": "Show look 6",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "look_6_image",
+      "label": "Look 6 override image"
+    },
+    {
+      "type": "text",
+      "id": "look_6_url",
+      "label": "Look 6 default image URL",
+      "default": "https://cdn.shopify.com/s/files/1/0609/7426/8657/files/EMILYcopy_3x_44995663-c8df-4620-8974-4c64ada51a9b.png?v=1779134362"
+    },
+    {
+      "type": "text",
+      "id": "look_6_caption",
+      "label": "Look 6 caption",
+      "default": "Soft curls with everyday shine."
+    },
+
+    {
+      "type": "header",
+      "content": "Look 7"
+    },
+    {
+      "type": "checkbox",
+      "id": "look_7_show",
+      "label": "Show look 7",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "look_7_image",
+      "label": "Look 7 override image"
+    },
+    {
+      "type": "text",
+      "id": "look_7_url",
+      "label": "Look 7 default image URL",
+      "default": "https://cdn.shopify.com/s/files/1/0609/7426/8657/files/ARIADNEDRY27_3x_b5bf5f7c-76d1-4c7b-85d8-52d1ade18846.png?v=1779134361"
+    },
+    {
+      "type": "text",
+      "id": "look_7_caption",
+      "label": "Look 7 caption",
+      "default": "Fast drying with a polished finish."
+    },
+
+    {
+      "type": "header",
+      "content": "Look 8"
+    },
+    {
+      "type": "checkbox",
+      "id": "look_8_show",
+      "label": "Show look 8",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "look_8_image",
+      "label": "Look 8 override image"
+    },
+    {
+      "type": "text",
+      "id": "look_8_url",
+      "label": "Look 8 default image URL",
+      "default": "https://cdn.shopify.com/s/files/1/0609/7426/8657/files/ARIADNE_3x_60c57afb-1355-4b34-8c2e-0f3b1ace37f3.png?v=1779134361"
+    },
+    {
+      "type": "text",
+      "id": "look_8_caption",
+      "label": "Look 8 caption",
+      "default": "From frizz to polished movement."
+    },
+
+    {
+      "type": "header",
+      "content": "Look 9"
+    },
+    {
+      "type": "checkbox",
+      "id": "look_9_show",
+      "label": "Show look 9",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "look_9_image",
+      "label": "Look 9 override image"
+    },
+    {
+      "type": "text",
+      "id": "look_9_url",
+      "label": "Look 9 default image URL",
+      "default": "https://cdn.shopify.com/s/files/1/0609/7426/8657/files/JADENE_b45db11e-61db-423c-997c-7c37ba09105f.png?v=1779134362"
+    },
+    {
+      "type": "text",
+      "id": "look_9_caption",
+      "label": "Look 9 caption",
+      "default": "Finished looks that feel effortless."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review quote",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "Quote",
+          "default": "Easy to use, quick to style and the finish looked so polished."
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "Verified customer"
+        },
+        {
+          "type": "text",
+          "id": "meta",
+          "label": "Meta line",
+          "default": "Smooth finish"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Luna Finished Looks Proof"
+    }
+  ]
+}
+{% endschema %}

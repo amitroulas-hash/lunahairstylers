@@ -1,0 +1,860 @@
+{% comment %}
+  Luna Brand Engine
+  Dynamic brand proof section: Results / Technology / Value
+{% endcomment %}
+
+<section class="luna-engine-{{ section.id }}" id="luna-engine-{{ section.id }}">
+  <div class="luna-engine__inner-{{ section.id }}">
+
+    <div class="luna-engine__header-{{ section.id }}">
+      {% if section.settings.eyebrow != blank %}
+        <p class="luna-engine__eyebrow-{{ section.id }}">{{ section.settings.eyebrow }}</p>
+      {% endif %}
+
+      {% if section.settings.heading != blank %}
+        <h2 class="luna-engine__heading-{{ section.id }}">{{ section.settings.heading }}</h2>
+      {% endif %}
+
+      {% if section.settings.intro != blank %}
+        <p class="luna-engine__intro-{{ section.id }}">{{ section.settings.intro }}</p>
+      {% endif %}
+    </div>
+
+    {% if section.blocks.size > 0 %}
+      <div class="luna-engine__shell-{{ section.id }}">
+        <div class="luna-engine__nav-{{ section.id }}" role="tablist" aria-label="Luna brand proof tabs">
+          {% for block in section.blocks %}
+            <button
+              type="button"
+              class="luna-engine__tab-{{ section.id }}{% if forloop.first %} is-active{% endif %}"
+              data-engine-tab="{{ forloop.index0 }}"
+              role="tab"
+              aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+            >
+              {{ block.settings.tab_label }}
+            </button>
+          {% endfor %}
+        </div>
+
+        {% for block in section.blocks %}
+          <article
+            class="luna-engine__panel-{{ section.id }}{% if forloop.first %} is-active{% endif %}"
+            data-engine-panel="{{ forloop.index0 }}"
+            style="--engine-bg: {{ block.settings.background_color }};"
+            {{ block.shopify_attributes }}
+          >
+         <div class="luna-engine__visual-{{ section.id }}">
+          {% assign main_media_type = block.settings.main_media_type %}
+
+  {% if main_media_type == 'video_picker' and block.settings.main_video != blank %}
+    {{ block.settings.main_video | video_tag: autoplay: true, loop: true, muted: true, controls: false, playsinline: true }}
+
+  {% elsif main_media_type == 'video_url' and block.settings.main_video_url != blank %}
+    <video autoplay muted loop playsinline preload="metadata">
+      <source src="{{ block.settings.main_video_url | escape }}" type="video/mp4">
+    </video>
+
+  {% elsif main_media_type == 'image_picker' and block.settings.main_image != blank %}
+    <img
+      src="{{ block.settings.main_image | image_url: width: 1300 }}"
+      alt="{{ block.settings.headline | escape }}"
+      loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+    >
+
+  {% elsif block.settings.main_image_url != blank %}
+    <img
+      src="{{ block.settings.main_image_url | escape }}"
+      alt="{{ block.settings.headline | escape }}"
+      loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+    >
+
+  {% else %}
+    <div class="luna-engine__placeholder-{{ section.id }}">
+      Add a strong Luna image or video
+    </div>
+  {% endif %}
+
+  {% if block.settings.image_caption != blank %}
+    <div class="luna-engine__visual-caption-{{ section.id }}">
+      {{ block.settings.image_caption }}
+    </div>
+  {% endif %}
+</div>
+
+            <div class="luna-engine__story-{{ section.id }}">
+              {% if block.settings.badge != blank %}
+                <p class="luna-engine__badge-{{ section.id }}">{{ block.settings.badge }}</p>
+              {% endif %}
+
+             {% assign product_media_type = block.settings.product_media_type %}
+
+{% if product_media_type == 'image_picker' and block.settings.product_image != blank %}
+  <div class="luna-engine__product-{{ section.id }}">
+    <img
+      src="{{ block.settings.product_image | image_url: width: 800 }}"
+      alt="{{ block.settings.headline | escape }}"
+      loading="lazy"
+    >
+  </div>
+
+{% elsif block.settings.product_image_url != blank %}
+  <div class="luna-engine__product-{{ section.id }}">
+    <img
+      src="{{ block.settings.product_image_url | escape }}"
+      alt="{{ block.settings.headline | escape }}"
+      loading="lazy"
+    >
+  </div>
+{% endif %}
+
+              {% if block.settings.headline != blank %}
+                <h3>{{ block.settings.headline }}</h3>
+              {% endif %}
+
+              {% if block.settings.text != blank %}
+                <p class="luna-engine__text-{{ section.id }}">{{ block.settings.text }}</p>
+              {% endif %}
+
+              <div class="luna-engine__proofs-{{ section.id }}">
+                {% if block.settings.proof_1 != blank %}
+                  <span>{{ block.settings.proof_1 }}</span>
+                {% endif %}
+                {% if block.settings.proof_2 != blank %}
+                  <span>{{ block.settings.proof_2 }}</span>
+                {% endif %}
+                {% if block.settings.proof_3 != blank %}
+                  <span>{{ block.settings.proof_3 }}</span>
+                {% endif %}
+              </div>
+
+              {% if block.settings.cta_link != blank %}
+                <a href="{{ block.settings.cta_link }}" class="luna-engine__cta-{{ section.id }}">
+                  {{ block.settings.cta_label }}
+                </a>
+              {% endif %}
+            </div>
+          </article>
+        {% endfor %}
+      </div>
+
+      <div class="luna-engine__tape-{{ section.id }}" aria-hidden="true">
+        <div class="luna-engine__tape-track-{{ section.id }}">
+          <span>GLOSSY RESULTS</span>
+          <span>SMART TECHNOLOGY</span>
+          <span>EVERYDAY PRICES</span>
+          <span>NO PREMIUM MARKUP</span>
+          <span>GOOD HAIR ENERGY</span>
+          <span>GLOSSY RESULTS</span>
+          <span>SMART TECHNOLOGY</span>
+          <span>EVERYDAY PRICES</span>
+          <span>NO PREMIUM MARKUP</span>
+          <span>GOOD HAIR ENERGY</span>
+        </div>
+      </div>
+    {% endif %}
+
+  </div>
+</section>
+
+<style>
+.luna-engine-{{ section.id }} {
+  position: relative;
+  overflow: hidden;
+  padding: 62px 16px 68px;
+  background:
+    radial-gradient(circle at 10% 10%, rgba(75,206,238,.26), transparent 34%),
+    radial-gradient(circle at 92% 8%, rgba(242,172,185,.38), transparent 38%),
+    linear-gradient(180deg, #fff8fb 0%, #edf9ff 100%);
+  color: #111;
+}
+
+.luna-engine-{{ section.id }}::before,
+.luna-engine-{{ section.id }}::after {
+  content: "";
+  position: absolute;
+  border-radius: 999px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.luna-engine-{{ section.id }}::before {
+  width: 460px;
+  height: 460px;
+  left: -180px;
+  top: 120px;
+  background: rgba(84, 207, 244, .18);
+  filter: blur(8px);
+}
+
+.luna-engine-{{ section.id }}::after {
+  width: 520px;
+  height: 520px;
+  right: -200px;
+  bottom: -200px;
+  background: rgba(242, 172, 185, .22);
+  filter: blur(8px);
+}
+
+.luna-engine__inner-{{ section.id }} {
+  position: relative;
+  z-index: 1;
+  max-width: 1480px;
+  margin: 0 auto;
+}
+
+.luna-engine__header-{{ section.id }} {
+  max-width: 980px;
+  margin: 0 auto 30px;
+  text-align: center;
+}
+
+.luna-engine__eyebrow-{{ section.id }} {
+  margin: 0 0 10px;
+  font-size: 12px;
+  font-weight: 950;
+  letter-spacing: .17em;
+  text-transform: uppercase;
+  color: #a7657b;
+}
+
+.luna-engine__heading-{{ section.id }} {
+  margin: 0;
+  font-size: clamp(38px, 5vw, 72px);
+  line-height: .9;
+  letter-spacing: -.05em;
+  font-weight: 950;
+}
+
+.luna-engine__intro-{{ section.id }} {
+  max-width: 760px;
+  margin: 18px auto 0;
+  font-size: 17px;
+  line-height: 1.45;
+  color: #555;
+}
+
+.luna-engine__shell-{{ section.id }} {
+  position: relative;
+  border-radius: 34px;
+  overflow: hidden;
+  background: rgba(255,255,255,.7);
+  border: 1px solid rgba(230,160,170,.24);
+  box-shadow: 0 26px 70px rgba(230,160,170,.22);
+}
+
+.luna-engine__nav-{{ section.id }} {
+  position: absolute;
+  top: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  display: flex;
+  gap: 8px;
+  padding: 7px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.82);
+  box-shadow: 0 14px 34px rgba(0,0,0,.10);
+  backdrop-filter: blur(12px);
+}
+
+.luna-engine__tab-{{ section.id }} {
+  min-height: 40px;
+  border: 0;
+  border-radius: 999px;
+  padding: 10px 16px;
+  background: transparent;
+  color: #111;
+  font-size: 12px;
+  font-weight: 950;
+  letter-spacing: .11em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.luna-engine__tab-{{ section.id }}.is-active {
+  background: #111;
+  color: #fff;
+}
+
+.luna-engine__panel-{{ section.id }} {
+  display: none;
+  min-height: 640px;
+  background: var(--engine-bg, #f7bfd3);
+}
+
+.luna-engine__panel-{{ section.id }}.is-active {
+  display: grid;
+  grid-template-columns: 1.05fr .95fr;
+}
+
+.luna-engine__visual-{{ section.id }} {
+  position: relative;
+  min-height: 640px;
+  overflow: hidden;
+  background: #f7bfd3;
+}
+
+.luna-engine__visual-{{ section.id }} img,
+.luna-engine__visual-{{ section.id }} video {
+  width: 100%;
+  height: 100%;
+  min-height: 640px;
+  object-fit: cover;
+  display: block;
+}
+
+.luna-engine__placeholder-{{ section.id }} {
+  min-height: 640px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #f7bfd3, #b9ecff);
+  font-weight: 950;
+}
+
+.luna-engine__visual-caption-{{ section.id }} {
+  position: absolute;
+  left: 28px;
+  bottom: 28px;
+  max-width: 430px;
+  padding: 16px 18px;
+  border-radius: 22px;
+  background: rgba(255,255,255,.88);
+  color: #111;
+  font-size: 28px;
+  line-height: 1;
+  letter-spacing: -.035em;
+  font-weight: 950;
+  box-shadow: 0 16px 34px rgba(0,0,0,.14);
+}
+
+.luna-engine__story-{{ section.id }} {
+  position: relative;
+  min-height: 640px;
+  padding: 84px 58px 58px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  overflow: hidden;
+}
+
+.luna-engine__story-{{ section.id }}::before {
+  content: "LUNA";
+  position: absolute;
+  top: 44px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: clamp(90px, 11vw, 170px);
+  line-height: .8;
+  font-weight: 950;
+  letter-spacing: -.09em;
+  color: rgba(255,255,255,.25);
+  pointer-events: none;
+}
+
+.luna-engine__story-{{ section.id }} > * {
+  position: relative;
+  z-index: 1;
+}
+
+.luna-engine__badge-{{ section.id }} {
+  margin: 0 0 22px;
+  display: inline-flex;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.86);
+  color: #111;
+  font-size: 12px;
+  font-weight: 950;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+}
+
+.luna-engine__product-{{ section.id }} {
+  width: min(340px, 72%);
+  margin: 0 auto 24px;
+  animation: lunaEngineFloat{{ section.id }} 4.8s ease-in-out infinite;
+}
+
+.luna-engine__product-{{ section.id }} img {
+  width: 100%;
+  display: block;
+  filter: drop-shadow(0 20px 28px rgba(0,0,0,.14));
+}
+
+@keyframes lunaEngineFloat{{ section.id }} {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-9px) scale(1.015);
+  }
+}
+
+.luna-engine__story-{{ section.id }} h3 {
+  max-width: 640px;
+  margin: 0;
+  font-size: clamp(36px, 4vw, 62px);
+  line-height: .92;
+  letter-spacing: -.045em;
+  font-weight: 950;
+}
+
+.luna-engine__text-{{ section.id }} {
+  max-width: 580px;
+  margin: 18px auto 0;
+  color: #333;
+  font-size: 17px;
+  line-height: 1.42;
+}
+
+.luna-engine__proofs-{{ section.id }} {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 9px;
+  margin-top: 24px;
+}
+
+.luna-engine__proofs-{{ section.id }} span {
+  padding: 9px 13px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.78);
+  color: #111;
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.luna-engine__cta-{{ section.id }} {
+  margin-top: 28px;
+  min-width: 220px;
+  min-height: 52px;
+  padding: 15px 26px;
+  border-radius: 999px;
+  background: #111;
+  color: #fff !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 950;
+}
+
+.luna-engine__tape-{{ section.id }} {
+  margin: 18px auto 0;
+  max-width: 1480px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255,255,255,.8);
+  border: 1px solid rgba(230,160,170,.28);
+  box-shadow: 0 14px 34px rgba(230,160,170,.16);
+}
+
+.luna-engine__tape-track-{{ section.id }} {
+  display: flex;
+  width: max-content;
+  gap: 22px;
+  padding: 13px 18px;
+  animation: lunaEngineTape{{ section.id }} 24s linear infinite;
+}
+
+.luna-engine__tape-track-{{ section.id }} span {
+  white-space: nowrap;
+  font-size: 13px;
+  font-weight: 950;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.luna-engine__tape-track-{{ section.id }} span::after {
+  content: "♥";
+  margin-left: 22px;
+  color: #e6a0aa;
+}
+
+@keyframes lunaEngineTape{{ section.id }} {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@media screen and (max-width: 989px) {
+  .luna-engine-{{ section.id }} {
+    padding: 42px 12px 50px;
+  }
+
+  .luna-engine__header-{{ section.id }} {
+    margin-bottom: 24px;
+  }
+
+  .luna-engine__heading-{{ section.id }} {
+    font-size: 40px;
+  }
+
+  .luna-engine__intro-{{ section.id }} {
+    font-size: 15px;
+  }
+
+  .luna-engine__shell-{{ section.id }} {
+    border-radius: 28px;
+  }
+
+  .luna-engine__nav-{{ section.id }} {
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
+    margin: 0;
+    border-radius: 0;
+    overflow-x: auto;
+    justify-content: flex-start;
+  }
+
+  .luna-engine__panel-{{ section.id }}.is-active {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+ .luna-engine__visual-{{ section.id }},
+.luna-engine__visual-{{ section.id }} img,
+.luna-engine__visual-{{ section.id }} video,
+.luna-engine__placeholder-{{ section.id }} {
+  min-height: 320px;
+}
+
+  .luna-engine__visual-{{ section.id }} img,
+.luna-engine__visual-{{ section.id }} video {
+  object-position: center top;
+}
+
+  .luna-engine__visual-caption-{{ section.id }} {
+    left: 18px;
+    right: 18px;
+    bottom: 16px;
+    max-width: none;
+    font-size: 22px;
+    padding: 14px 16px;
+  }
+
+  .luna-engine__story-{{ section.id }} {
+    min-height: initial;
+    padding: 34px 20px 42px;
+  }
+
+  .luna-engine__product-{{ section.id }} {
+    width: min(250px, 70%);
+  }
+
+  .luna-engine__story-{{ section.id }} h3 {
+    font-size: 34px;
+  }
+
+  .luna-engine__text-{{ section.id }} {
+    font-size: 15px;
+  }
+
+  .luna-engine__proofs-{{ section.id }} {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: 100%;
+    gap: 7px;
+  }
+
+  .luna-engine__proofs-{{ section.id }} span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 38px;
+    padding: 7px 6px;
+    font-size: 10.5px;
+    line-height: 1.1;
+    text-align: center;
+  }
+
+  .luna-engine__visual-caption-{{ section.id }} {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .luna-engine__product-{{ section.id }},
+  .luna-engine__tape-track-{{ section.id }} {
+    animation: none !important;
+  }
+}
+</style>
+
+<script>
+(function() {
+  var section = document.querySelector('#luna-engine-{{ section.id }}');
+  if (!section) return;
+
+  var tabs = section.querySelectorAll('.luna-engine__tab-{{ section.id }}');
+  var panels = section.querySelectorAll('.luna-engine__panel-{{ section.id }}');
+
+  function showPanel(index) {
+    tabs.forEach(function(tab) {
+      tab.classList.remove('is-active');
+      tab.setAttribute('aria-selected', 'false');
+    });
+
+    panels.forEach(function(panel) {
+      panel.classList.remove('is-active');
+    });
+
+    if (tabs[index]) {
+      tabs[index].classList.add('is-active');
+      tabs[index].setAttribute('aria-selected', 'true');
+    }
+
+    if (panels[index]) {
+      panels[index].classList.add('is-active');
+    }
+  }
+
+  tabs.forEach(function(tab) {
+    tab.addEventListener('click', function() {
+      var index = parseInt(tab.dataset.engineTab, 10);
+      if (!isNaN(index)) showPanel(index);
+    });
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Luna Brand Engine",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Why Luna"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Smart tools. Glossy results. No premium markup."
+    },
+    {
+      "type": "textarea",
+      "id": "intro",
+      "label": "Intro",
+      "default": "Luna is made for real routines, real hair days and women who want the look without overpaying for the logo."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "brand_pillar",
+      "name": "Brand pillar",
+      "settings": [
+        {
+          "type": "text",
+          "id": "tab_label",
+          "label": "Tab label",
+          "default": "Results"
+        },
+        {
+          "type": "select",
+          "id": "main_media_type",
+          "label": "Main media type",
+          "default": "image_url",
+          "options": [
+            {
+              "value": "image_picker",
+              "label": "Selected Shopify image"
+            },
+            {
+              "value": "image_url",
+              "label": "Image URL"
+            },
+            {
+              "value": "video_picker",
+              "label": "Selected Shopify video"
+            },
+            {
+              "value": "video_url",
+              "label": "MP4 video URL"
+            }
+          ]
+        },
+        {
+          "type": "image_picker",
+          "id": "main_image",
+          "label": "Main selected Shopify image"
+        },
+        {
+          "type": "text",
+          "id": "main_image_url",
+          "label": "Main image URL"
+        },
+        {
+          "type": "video",
+          "id": "main_video",
+          "label": "Main selected Shopify video"
+        },
+        {
+          "type": "text",
+          "id": "main_video_url",
+          "label": "Main MP4 video URL"
+        },
+        {
+          "type": "select",
+          "id": "product_media_type",
+          "label": "Product / tech image type",
+          "default": "image_url",
+          "options": [
+            {
+              "value": "image_picker",
+              "label": "Selected Shopify image"
+            },
+            {
+              "value": "image_url",
+              "label": "Image URL"
+            }
+          ]
+        },
+        {
+          "type": "image_picker",
+          "id": "product_image",
+          "label": "Selected product / tech image"
+        },
+        {
+          "type": "text",
+          "id": "product_image_url",
+          "label": "Product / tech image URL"
+        },
+        {
+          "type": "text",
+          "id": "image_caption",
+          "label": "Image caption",
+          "default": "Good hair energy, made easy."
+        },
+        {
+          "type": "text",
+          "id": "badge",
+          "label": "Badge",
+          "default": "Visible Results"
+        },
+        {
+          "type": "text",
+          "id": "headline",
+          "label": "Headline",
+          "default": "Glossy hair without the salon-tool spend."
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text",
+          "default": "Beauty-led hair tools designed for smooth, wearable results at everyday prices."
+        },
+        {
+          "type": "text",
+          "id": "proof_1",
+          "label": "Proof 1",
+          "default": "Smooth finish"
+        },
+        {
+          "type": "text",
+          "id": "proof_2",
+          "label": "Proof 2",
+          "default": "Easy routine"
+        },
+        {
+          "type": "text",
+          "id": "proof_3",
+          "label": "Proof 3",
+          "default": "Smart value"
+        },
+        {
+          "type": "text",
+          "id": "cta_label",
+          "label": "CTA label",
+          "default": "Shop Luna Range"
+        },
+        {
+          "type": "url",
+          "id": "cta_link",
+          "label": "CTA link"
+        },
+        {
+          "type": "color",
+          "id": "background_color",
+          "label": "Panel background colour",
+          "default": "#f7bfd3"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Luna Brand Engine",
+      "blocks": [
+        {
+          "type": "brand_pillar",
+          "settings": {
+            "tab_label": "Results",
+            "main_media_type": "video_url",
+            "main_video_url": "https://cdn.shopify.com/videos/c/o/v/e95390ada9cc4e95afa0403c1d44da5f.mp4",
+            "product_media_type": "image_url",
+            "product_image_url": "https://cdn.shopify.com/s/files/1/0609/7426/8657/files/StraightenerArganOil_hair_pic.png?v=1776433119",
+            "badge": "Visible Results",
+            "headline": "Good hair days, made easier.",
+            "text": "Smooth, polished, wearable results for real routines — from quick touch-ups to full styling days.",
+            "proof_1": "Smooth finish",
+            "proof_2": "Glossy-looking hair",
+            "proof_3": "Real-use styling",
+            "image_caption": "The look, without the big spend.",
+            "cta_label": "Shop Luna Range",
+            "cta_link": "/collections/meet-luna",
+            "background_color": "#f7bfd3"
+          }
+        },
+        {
+          "type": "brand_pillar",
+          "settings": {
+            "tab_label": "Technology",
+            "main_media_type": "image_url",
+            "main_image_url": "https://cdn.shopify.com/s/files/1/0609/7426/8657/files/Artboard1_1_3x_369b8461-0ff3-47c6-81bd-904e93a852c3.png?v=1776848608",
+            "product_media_type": "image_url",
+            "product_image_url": "https://cdn.shopify.com/s/files/1/0609/7426/8657/files/Straightner_results_for_product_page_4x_7f610f45-5ff8-47ec-9aa3-409afeaef3af.png?v=1776417221",
+            "badge": "Smart Styling Tech",
+            "headline": "Ceramic, ionic and easy-to-use performance.",
+            "text": "Argan Oil ceramic styling and ionic drying power help support smoother-looking, everyday styling results.",
+            "proof_1": "Ceramic glide",
+            "proof_2": "Ionic dryer power",
+            "proof_3": "Easy control",
+            "image_caption": "Smart tech. Simple routine.",
+            "cta_label": "Explore Tools",
+            "cta_link": "/collections/meet-luna",
+            "background_color": "#c9edff"
+          }
+        },
+        {
+          "type": "brand_pillar",
+          "settings": {
+            "tab_label": "Value",
+            "main_media_type": "video_url",
+            "main_video_url": "https://cdn.shopify.com/videos/c/o/v/188382af210f41d6a4903e419363e586.mp4",
+            "product_media_type": "image_url",
+            "product_image_url": "https://cdn.shopify.com/s/files/1/0609/7426/8657/files/StraightenerArganOil_hair_pic.png?v=1776433119",
+            "badge": "No Premium Markup",
+            "headline": "Pay for the results, not the logo.",
+            "text": "Luna gives you the styling essentials, the beauty energy and the everyday price point that makes sense.",
+            "proof_1": "Everyday prices",
+            "proof_2": "Bundle value",
+            "proof_3": "12-month warranty",
+            "image_caption": "Smarter prices. Better hair energy.",
+            "cta_label": "Shop the Offer",
+            "cta_link": "/products/dryer",
+            "background_color": "#f4c6e7"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

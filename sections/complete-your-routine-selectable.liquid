@@ -1,0 +1,490 @@
+<section class="complete-routine-{{ section.id }}">
+  <div class="cr-inner-{{ section.id }}">
+    <div class="cr-heading-wrap-{{ section.id }}">
+      <p class="cr-kicker-{{ section.id }}">
+        {{ section.settings.kicker | default: 'Complete Your Routine' }}
+      </p>
+
+      <h2 class="cr-heading-{{ section.id }}">
+        {{ section.settings.heading | default: 'Add another Luna favourite & save 20%' }}
+      </h2>
+
+      <p class="cr-subtext-{{ section.id }}">
+        {{ section.settings.subheading | default: 'Pair this with another Luna tool. Spend $50+ and your saving applies automatically at checkout.' }}
+      </p>
+    </div>
+
+    <div class="cr-scroll-wrap-{{ section.id }}">
+      <button class="cr-arrow-{{ section.id }} cr-arrow-left-{{ section.id }}" type="button" aria-label="Scroll left">‹</button>
+
+      <div class="cr-products-{{ section.id }}">
+        {% for block in section.blocks %}
+          {% assign featured_product = block.settings.product %}
+
+          {% if featured_product != blank and featured_product.handle != product.handle %}
+            {% assign variant = featured_product.selected_or_first_available_variant %}
+            {% assign price_variant = featured_product.selected_or_first_available_variant %}
+
+            <div class="cr-card-{{ section.id }}" {{ block.shopify_attributes }}>
+              <a href="{{ featured_product.url }}" class="cr-image-link-{{ section.id }}">
+                <span class="cr-badge-{{ section.id }}">Bundle Eligible</span>
+
+                
+
+                {% if featured_product.featured_image %}
+                  <img
+                    src="{{ featured_product.featured_image | image_url: width: 900 }}"
+                    alt="{{ featured_product.title | escape }}"
+                    loading="lazy"
+                  >
+                {% endif %}
+              </a>
+
+              <div class="cr-info-{{ section.id }}">
+                <p class="cr-title-{{ section.id }}">{{ featured_product.title }}</p>
+
+                <div class="cr-price-{{ section.id }} luna-price">
+                  {% if price_variant.compare_at_price > price_variant.price %}
+                    <div class="luna-price__sale-row">
+                      <span class="luna-price__sale">{{ price_variant.price | money }}</span>
+                      <s class="luna-price__compare">{{ price_variant.compare_at_price | money }}</s>
+                    </div>
+                    <div class="luna-price__save">
+                      Save {{ price_variant.compare_at_price | minus: price_variant.price | money }}
+                    </div>
+                  {% else %}
+                    <span class="luna-price__regular">{{ price_variant.price | money }}</span>
+                  {% endif %}
+                </div>
+
+                <button
+                  type="button"
+                  class="cr-button-{{ section.id }}"
+                  data-current-variant="{{ product.selected_or_first_available_variant.id }}"
+                  data-featured-variant="{{ variant.id }}"
+                  data-current-handle="{{ product.handle }}"
+                  data-featured-handle="{{ featured_product.handle }}"
+                >
+                  {{ section.settings.button_label | default: 'Add & Save' }}
+                </button>
+
+                <p class="cr-mini-note-{{ section.id }}">
+                  Adds this to your Luna routine
+                </p>
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      <button class="cr-arrow-{{ section.id }} cr-arrow-right-{{ section.id }}" type="button" aria-label="Scroll right">›</button>
+    </div>
+
+    <div class="cr-footer-note-{{ section.id }}">
+      <span>Spend ${{ settings.luna_spend_minimum | default: 50 }}+ and save {{ settings.luna_spend_discount | default: 20 }}%</span>
+      <span>Discount applies automatically at checkout.</span>
+    </div>
+  </div>
+</section>
+
+<style>
+.complete-routine-{{ section.id }} {
+  background:
+    radial-gradient(circle at 8% 10%, rgba(72,205,255,.16), transparent 32%),
+    radial-gradient(circle at 92% 8%, rgba(255,168,204,.28), transparent 34%),
+    linear-gradient(180deg, #fff 0%, #fff7fb 100%);
+  padding: 38px 0 44px;
+  overflow: hidden;
+}
+
+.cr-inner-{{ section.id }} {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.cr-heading-wrap-{{ section.id }} {
+  text-align: center;
+  max-width: 760px;
+  margin: 0 auto 24px;
+}
+
+.cr-kicker-{{ section.id }} {
+  font-size: 12px;
+  font-weight: 950;
+  color: #A7657B;
+  text-transform: uppercase;
+  letter-spacing: .16em;
+  margin: 0 0 8px;
+}
+
+.cr-heading-{{ section.id }} {
+  font-size: clamp(30px, 5vw, 52px);
+  line-height: .95;
+  font-weight: 950;
+  letter-spacing: -.055em;
+  text-align: center;
+  margin: 0 0 10px;
+  color: #111;
+}
+
+.cr-subtext-{{ section.id }} {
+  font-size: 15px;
+  line-height: 1.45;
+  color: #555;
+  text-align: center;
+  max-width: 660px;
+  margin: 0 auto;
+  font-weight: 650;
+}
+
+.cr-scroll-wrap-{{ section.id }} {
+  position: relative;
+}
+
+.cr-products-{{ section.id }} {
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding: 4px 4px 14px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.cr-products-{{ section.id }}::-webkit-scrollbar {
+  display: none;
+}
+
+.cr-card-{{ section.id }} {
+  flex: 0 0 74%;
+  max-width: 286px;
+  scroll-snap-align: start;
+  border: 1px solid rgba(230,160,170,.28);
+  border-radius: 22px;
+  overflow: hidden;
+  background: rgba(255,255,255,.92);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 16px 40px rgba(230,160,170,.10);
+}
+
+.cr-image-link-{{ section.id }} {
+  position: relative;
+  display: block;
+  text-decoration: none;
+  background:
+    radial-gradient(circle at 18% 16%, rgba(72,205,255,.14), transparent 30%),
+    radial-gradient(circle at 82% 16%, rgba(255,168,204,.22), transparent 34%),
+    #fff;
+}
+
+.cr-image-link-{{ section.id }} img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+  display: block;
+  padding: 18px;
+}
+
+.cr-badge-{{ section.id }} {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: rgba(255,255,255,.9);
+  border: 1px solid rgba(230,160,170,.48);
+  color: #111;
+  font-size: 10px;
+  font-weight: 950;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  padding: 7px 9px;
+  border-radius: 999px;
+  z-index: 2;
+  box-shadow: 0 8px 20px rgba(0,0,0,.06);
+}
+
+.cr-luxe-badge-{{ section.id }} {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  background: #E6A0AA;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 950;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  padding: 8px 10px;
+  border-radius: 9px;
+  z-index: 2;
+  box-shadow: 0 8px 20px rgba(230,160,170,.28);
+}
+
+.cr-info-{{ section.id }} {
+  padding: 14px 12px 16px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.cr-title-{{ section.id }} {
+  font-size: 15px;
+  font-weight: 950;
+  color: #111;
+  line-height: 1.15;
+  margin: 0 0 8px;
+  letter-spacing: -.02em;
+}
+
+.cr-price-{{ section.id }} {
+  margin: 4px 0 12px;
+  text-align: center;
+}
+
+.cr-price-{{ section.id }} .luna-price__sale-row {
+  justify-content: center;
+}
+
+.cr-price-{{ section.id }} .luna-price__save {
+  text-align: center;
+}
+
+.cr-button-{{ section.id }} {
+  width: 100%;
+  background: #E6A0AA;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 950;
+  padding: 13px 8px;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  transition: transform .18s ease, box-shadow .18s ease, opacity .18s ease;
+  box-shadow: 0 10px 24px rgba(230,160,170,.24);
+}
+
+.cr-button-{{ section.id }}:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 28px rgba(230,160,170,.30);
+}
+
+.cr-mini-note-{{ section.id }} {
+  font-size: 12px;
+  line-height: 1.3;
+  color: #777;
+  margin: 9px 0 0;
+  font-weight: 700;
+}
+
+.cr-footer-note-{{ section.id }} {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin: 16px auto 0;
+  color: #555;
+  text-align: center;
+  font-size: 13px;
+  line-height: 1.3;
+  font-weight: 750;
+}
+
+.cr-footer-note-{{ section.id }} span:first-child {
+  display: inline-flex;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.9);
+  border: 1px solid rgba(230,160,170,.28);
+  color: #111;
+  font-weight: 950;
+}
+
+.cr-arrow-{{ section.id }} {
+  position: absolute;
+  top: 42%;
+  transform: translateY(-50%);
+  z-index: 4;
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  border: 1px solid rgba(230,160,170,.4);
+  background: rgba(255,255,255,.94);
+  color: #111;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 8px 22px rgba(0,0,0,.10);
+}
+
+.cr-arrow-left-{{ section.id }} {
+  left: 2px;
+}
+
+.cr-arrow-right-{{ section.id }} {
+  right: 2px;
+}
+
+@media screen and (min-width: 990px) {
+  .complete-routine-{{ section.id }} {
+    padding: 58px 48px 64px;
+  }
+
+  .cr-products-{{ section.id }} {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 250px));
+    justify-content: center;
+    gap: 18px;
+    overflow: visible;
+    padding: 0;
+  }
+
+  .cr-card-{{ section.id }} {
+    max-width: none;
+    flex: none;
+  }
+
+  .cr-image-link-{{ section.id }} img {
+    padding: 20px;
+  }
+
+  .cr-arrow-{{ section.id }} {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 749px) {
+  .complete-routine-{{ section.id }} {
+    padding: 34px 0 40px;
+  }
+
+  .cr-heading-wrap-{{ section.id }} {
+    margin-bottom: 18px;
+  }
+
+  .cr-subtext-{{ section.id }} {
+    font-size: 14px;
+  }
+}
+</style>
+
+<script>
+(function() {
+  var section = document.querySelector('.complete-routine-{{ section.id }}');
+  if (!section) return;
+
+  var scroller = section.querySelector('.cr-products-{{ section.id }}');
+  var leftArrow = section.querySelector('.cr-arrow-left-{{ section.id }}');
+  var rightArrow = section.querySelector('.cr-arrow-right-{{ section.id }}');
+
+  if (scroller && leftArrow && rightArrow) {
+    leftArrow.addEventListener('click', function() {
+      scroller.scrollBy({ left: -300, behavior: 'smooth' });
+    });
+
+    rightArrow.addEventListener('click', function() {
+      scroller.scrollBy({ left: 300, behavior: 'smooth' });
+    });
+  }
+
+  section.addEventListener('click', async function(event) {
+    var button = event.target.closest('.cr-button-{{ section.id }}');
+    if (!button) return;
+
+    event.preventDefault();
+
+    var currentVariant = parseInt(button.dataset.currentVariant, 10);
+    var featuredVariant = parseInt(button.dataset.featuredVariant, 10);
+
+    if (!currentVariant || !featuredVariant) {
+      alert('Sorry, this bundle could not be added. Please refresh and try again.');
+      return;
+    }
+    var currentHandle = button.dataset.currentHandle;
+    var featuredHandle = button.dataset.featuredHandle;
+
+    var itemsToAdd = [
+      { id: currentVariant, quantity: 1 },
+      { id: featuredVariant, quantity: 1 }
+    ];
+
+    button.disabled = true;
+    button.textContent = 'Adding...';
+    button.style.opacity = '0.75';
+
+    try {
+      await fetch(window.Shopify.routes.root + 'cart/add.js', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          items: itemsToAdd
+        })
+      });
+
+      window.location.href = window.Shopify.routes.root + 'cart';
+    } catch (error) {
+      console.error('Bundle add failed:', error);
+      button.disabled = false;
+      button.textContent = '{{ section.settings.button_label | default: 'Add & Save' }}';
+      button.style.opacity = '1';
+      alert('Sorry, something went wrong adding your bundle. Please try again.');
+    }
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Complete Your Routine",
+  "settings": [
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "Kicker",
+      "default": "Complete Your Routine"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Add another Luna favourite & save 20%"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Pair this with another Luna tool. Spend $50+ and your saving applies automatically at checkout."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Add & Save"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product",
+      "name": "Routine product",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 5,
+  "presets": [
+    {
+      "name": "Complete Your Routine"
+    }
+  ]
+}
+{% endschema %}

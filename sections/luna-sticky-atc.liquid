@@ -1,0 +1,138 @@
+{% if product != blank %}
+  {% assign current_variant = product.selected_or_first_available_variant %}
+
+  <div class="luna-sticky-atc-{{ section.id }}">
+    <div class="luna-sticky-atc__info">
+      <strong>{{ product.title }}</strong>
+      <span>{{ current_variant.price | money }}</span>
+    </div>
+
+    <button
+      type="button"
+      class="luna-sticky-atc__button"
+      data-variant-id="{{ current_variant.id }}"
+      data-product-handle="{{ product.handle }}"
+    >
+      Add to Cart
+    </button>
+  </div>
+
+  <style>
+    .luna-sticky-atc-{{ section.id }} {
+      display: none;
+    }
+
+    @media screen and (max-width: 749px) {
+      .luna-sticky-atc-{{ section.id }} {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 80;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 10px 14px calc(10px + env(safe-area-inset-bottom));
+        background: rgba(255,255,255,0.96);
+        border-top: 1px solid rgba(0,0,0,0.08);
+        box-shadow: 0 -8px 24px rgba(0,0,0,0.08);
+      }
+
+      .luna-sticky-atc__info {
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        line-height: 1.2;
+      }
+
+      .luna-sticky-atc__info strong {
+        font-size: 12px;
+        color: #111;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 190px;
+      }
+
+      .luna-sticky-atc__info span {
+        font-size: 13px;
+        font-weight: 700;
+        color: #E6A0AA;
+      }
+
+      .luna-sticky-atc__button {
+        flex-shrink: 0;
+        background: #111;
+        color: #fff;
+        border: none;
+        border-radius: 10px;
+        padding: 13px 18px;
+        font-size: 13px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+
+      body {
+        padding-bottom: 74px;
+      }
+    }
+  </style>
+
+  <script>
+    (function() {
+      var section = document.querySelector('.luna-sticky-atc-{{ section.id }}');
+      if (!section) return;
+
+      var button = section.querySelector('.luna-sticky-atc__button');
+      if (!button) return;
+
+      button.addEventListener('click', async function() {
+        var variantId = parseInt(button.dataset.variantId, 10);
+        var productHandle = button.dataset.productHandle;
+        var luxeKitVariantId = 47990358474993;
+
+        var itemsToAdd = [
+          { id: variantId, quantity: 1 }
+        ];
+
+        if (productHandle === 'dryer') {
+          itemsToAdd.push({ id: luxeKitVariantId, quantity: 1 });
+        }
+
+        button.disabled = true;
+        button.textContent = 'Adding...';
+
+        try {
+          await fetch(window.Shopify.routes.root + 'cart/add.js', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+            },
+            body: JSON.stringify({ items: itemsToAdd })
+          });
+
+          window.location.href = window.Shopify.routes.root + 'cart';
+        } catch (error) {
+          button.disabled = false;
+          button.textContent = 'Add to Cart';
+          alert('Sorry, something went wrong. Please try again.');
+        }
+      });
+    })();
+  </script>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Luna Sticky Add to Cart",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Luna Sticky Add to Cart"
+    }
+  ]
+}
+{% endschema %}

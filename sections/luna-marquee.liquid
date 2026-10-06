@@ -1,0 +1,64 @@
+<style>
+  .luna-marquee {
+    background: #e8829a;
+    overflow: hidden;
+    padding: 10px 0;
+    width: 100%;
+  }
+
+  .luna-marquee__track {
+    display: flex;
+    width: max-content;
+    animation: lunaScroll 18s linear infinite;
+  }
+
+  .luna-marquee__track:hover {
+    animation-play-state: paused;
+  }
+
+  .luna-marquee__item {
+    white-space: nowrap;
+    font-size: 12px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding-right: 48px;
+  }
+
+  .luna-marquee__sep {
+    color: rgba(255,255,255,0.6);
+    padding-right: 48px;
+  }
+
+  @keyframes lunaScroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+</style>
+
+<div class="luna-marquee">
+  <div class="luna-marquee__track">
+    {%- for i in (1..8) -%}
+      <span class="luna-marquee__item">LUNA IONIC HAIR DRYER</span>
+      <span class="luna-marquee__item luna-marquee__sep">✦</span>
+      <span class="luna-marquee__item">ONLY $39.99</span>
+      <span class="luna-marquee__item luna-marquee__sep">✦</span>
+      <span class="luna-marquee__item">EVERYDAY STYLING ESSENTIALS</span>
+      <span class="luna-marquee__item luna-marquee__sep">✦</span>
+      <span class="luna-marquee__item">LIMITED OFFER</span>
+      <span class="luna-marquee__item luna-marquee__sep">✦</span>
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Luna Marquee",
+  "presets": [
+    {
+      "name": "Luna Marquee"
+    }
+  ]
+}
+{% endschema %}

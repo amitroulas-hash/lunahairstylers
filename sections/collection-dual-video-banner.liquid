@@ -1,0 +1,440 @@
+<section id="MiniRangeDualVideo-{{ section.id }}" class="mini-range-dual-video-section">
+  <div class="mini-range-dual-video__outer">
+    <div class="mini-range-dual-video__grid">
+
+      <div class="mini-range-dual-video__item mini-range-dual-video__item--left is-active" data-side="left">
+        <div class="mini-range-dual-video__glow"></div>
+        <div class="mini-range-dual-video__frame">
+          {% if section.settings.left_video != blank %}
+            {{
+              section.settings.left_video
+              | video_tag:
+                autoplay: false,
+                loop: false,
+                muted: true,
+                controls: false,
+                playsinline: true,
+                preload: 'metadata',
+                class: 'mini-range-dual-video__video'
+            }}
+          {% else %}
+            <div class="mini-range-dual-video__placeholder">Select left video</div>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="mini-range-dual-video__item mini-range-dual-video__item--right" data-side="right">
+        <div class="mini-range-dual-video__glow"></div>
+        <div class="mini-range-dual-video__frame">
+          {% if section.settings.right_video != blank %}
+            {{
+              section.settings.right_video
+              | video_tag:
+                autoplay: false,
+                loop: false,
+                muted: true,
+                controls: false,
+                playsinline: true,
+                preload: 'metadata',
+                class: 'mini-range-dual-video__video'
+            }}
+          {% else %}
+            <div class="mini-range-dual-video__placeholder">Select right video</div>
+          {% endif %}
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <style>
+    #MiniRangeDualVideo-{{ section.id }} {
+      --hero-height-desktop: {{ section.settings.height_desktop }}px;
+      --hero-height-mobile: {{ section.settings.height_mobile }}px;
+      --hero-gap: {{ section.settings.gap }}px;
+      --hero-radius: {{ section.settings.radius }}px;
+      --hero-glow: {{ section.settings.glow_color }};
+      --hero-glow-strength: {{ section.settings.glow_strength }}px;
+      margin-top: {{ section.settings.margin_top }}px;
+      margin-bottom: {{ section.settings.margin_bottom }}px;
+      background: transparent !important;
+    }
+
+#MiniRangeDualVideo-{{ section.id }} .mini-range-dual-video__outer {
+  width: 100%;
+  max-width: 1280px;
+  padding: 12px 24px;
+  box-sizing: border-box;
+  background: transparent !important;
+  margin: 0 auto;
+}
+    #MiniRangeDualVideo-{{ section.id }} .mini-range-dual-video__grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--hero-gap);
+      width: 100%;
+      background: transparent !important;
+      margin: 0;
+      align-items: stretch;
+    }
+
+    #MiniRangeDualVideo-{{ section.id }} .mini-range-dual-video__item {
+  position: relative;
+  padding: 6px;
+  border-radius: calc(var(--hero-radius) + 6px);
+  background: transparent !important;
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+    #MiniRangeDualVideo-{{ section.id }} .mini-range-dual-video__frame {
+      position: relative;
+      z-index: 2;
+      height: 360px;
+      overflow: hidden;
+      border-radius: var(--hero-radius);
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      line-height: 0;
+    }
+
+    #MiniRangeDualVideo-{{ section.id }} .mini-range-dual-video__video,
+    #MiniRangeDualVideo-{{ section.id }} .mini-range-dual-video__frame video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      border-radius: var(--hero-radius);
+      background: transparent !important;
+    }
+
+    #MiniRangeDualVideo-{{ section.id }} .mini-range-dual-video__placeholder {
+      width: 100%;
+      height: 100%;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, #fff5f9 0%, #eef8ff 100%);
+      color: #444;
+      font-size: 15px;
+      font-weight: 600;
+      text-align: center;
+      padding: 24px;
+      border-radius: var(--hero-radius);
+    }
+
+    #MiniRangeDualVideo-{{ section.id }} .mini-range-dual-video__glow {
+  position: absolute;
+  inset: -3px;
+  z-index: 1;
+  opacity: 0;
+  pointer-events: none;
+  border-radius: calc(var(--hero-radius) + 8px);
+  background: linear-gradient(
+    120deg,
+    transparent 0%,
+    var(--hero-glow) 18%,
+    #ffffff 34%,
+    #b6f0ff 50%,
+    var(--hero-glow) 66%,
+    #ffffff 82%,
+    transparent 100%
+  );
+  background-size: 220% 220%;
+}
+
+    #MiniRangeDualVideo-{{ section.id }} .mini-range-dual-video__item.is-active {
+  transform: translateY(-1px);
+  box-shadow:
+    0 0 0 2px rgba(243, 181, 208, 0.95),
+    0 0 18px rgba(243, 181, 208, 0.65),
+    0 0 34px rgba(243, 181, 208, 0.38);
+}
+
+#MiniRangeDualVideo-{{ section.id }} .mini-range-dual-video__item.is-active {
+  transform: translateY(-1px);
+  box-shadow:
+    0 0 0 2px rgba(243, 181, 208, 0.95),
+    0 0 18px rgba(243, 181, 208, 0.65),
+    0 0 34px rgba(243, 181, 208, 0.38);
+}
+
+#MiniRangeDualVideo-{{ section.id }} .mini-range-dual-video__item.is-active .mini-range-dual-video__glow {
+  opacity: 1;
+  animation:
+    miniHeroGlowMove-{{ section.id }} 1.9s linear infinite,
+    miniHeroGlowPulse-{{ section.id }} 1.6s ease-in-out infinite;
+  box-shadow:
+    0 0 0 2px rgba(243, 181, 208, 0.95),
+    0 0 22px rgba(243, 181, 208, 0.75),
+    0 0 40px rgba(243, 181, 208, 0.42);
+}
+
+    @keyframes miniHeroGlowMove-{{ section.id }} {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 200% 50%; }
+    }
+
+    @keyframes miniHeroGlowPulse-{{ section.id }} {
+      0%, 100% {
+        transform: scale(1);
+        filter: brightness(1);
+      }
+      50% {
+        transform: scale(1.005);
+        filter: brightness(1.06);
+      }
+    }
+
+    @media screen and (max-width: 749px) {
+       #MiniRangeDualVideo-{{ section.id }} .mini-range-dual-video__outer {
+    padding: 12px;
+    max-width: none;
+  }
+
+      #MiniRangeDualVideo-{{ section.id }} .mini-range-dual-video__grid {
+        gap: 12px;
+      }
+
+      #MiniRangeDualVideo-{{ section.id }} .mini-range-dual-video__item {
+        padding: 5px;
+      }
+
+      #MiniRangeDualVideo-{{ section.id }} .mini-range-dual-video__frame {
+    height: var(--hero-height-mobile);
+  }
+}
+  </style>
+
+  <script>
+    (function() {
+      var sectionId = 'MiniRangeDualVideo-{{ section.id }}';
+
+      function initMiniRangeHero(root) {
+        if (!root || root.dataset.heroInit === 'true') return;
+        root.dataset.heroInit = 'true';
+
+        var leftItem = root.querySelector('.mini-range-dual-video__item--left');
+        var rightItem = root.querySelector('.mini-range-dual-video__item--right');
+        var leftVideo = leftItem ? leftItem.querySelector('video') : null;
+        var rightVideo = rightItem ? rightItem.querySelector('video') : null;
+
+        if (!leftVideo && !rightVideo) return;
+
+        function setActive(side) {
+          if (leftItem) leftItem.classList.toggle('is-active', side === 'left');
+          if (rightItem) rightItem.classList.toggle('is-active', side === 'right');
+        }
+
+        function resetVideo(video) {
+          if (!video) return;
+          video.pause();
+          try { video.currentTime = 0; } catch(e) {}
+        }
+
+        function playVideo(video) {
+          if (!video) return Promise.resolve();
+          video.muted = true;
+          video.playsInline = true;
+          video.setAttribute('muted', 'muted');
+          video.setAttribute('playsinline', 'playsinline');
+          var p = video.play();
+          return p && typeof p.then === 'function' ? p : Promise.resolve();
+        }
+
+        function runSequence() {
+          resetVideo(leftVideo);
+          resetVideo(rightVideo);
+
+          if (leftVideo && rightVideo) {
+            setActive('left');
+
+            playVideo(leftVideo).catch(function() {
+              setActive('right');
+              return playVideo(rightVideo);
+            });
+
+            leftVideo.onended = function() {
+              leftVideo.pause();
+              setActive('right');
+              resetVideo(rightVideo);
+
+              playVideo(rightVideo).catch(function() {
+                setTimeout(runSequence, 300);
+              });
+
+              rightVideo.onended = function() {
+                rightVideo.pause();
+                setTimeout(runSequence, 300);
+              };
+            };
+          } else if (leftVideo) {
+            setActive('left');
+            playVideo(leftVideo).catch(function() {
+              setTimeout(runSequence, 600);
+            });
+            leftVideo.onended = function() {
+              leftVideo.pause();
+              setTimeout(runSequence, 300);
+            };
+          } else if (rightVideo) {
+            setActive('right');
+            playVideo(rightVideo).catch(function() {
+              setTimeout(runSequence, 600);
+            });
+            rightVideo.onended = function() {
+              rightVideo.pause();
+              setTimeout(runSequence, 300);
+            };
+          }
+        }
+
+        var videos = [leftVideo, rightVideo].filter(Boolean);
+        var readyCount = 0;
+
+        function handleReady() {
+          readyCount += 1;
+          if (readyCount >= videos.length) {
+            runSequence();
+          }
+        }
+
+        videos.forEach(function(video) {
+          if (video.readyState >= 1) {
+            handleReady();
+          } else {
+            video.addEventListener('loadedmetadata', handleReady, { once: true });
+          }
+        });
+
+        document.addEventListener('visibilitychange', function() {
+          if (!document.hidden) {
+            setTimeout(function() {
+              runSequence();
+            }, 250);
+          }
+        });
+      }
+
+      function boot() {
+        var root = document.getElementById(sectionId);
+        if (root) initMiniRangeHero(root);
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', boot);
+      } else {
+        boot();
+      }
+
+      document.addEventListener('shopify:section:load', function(event) {
+        var target = event.target && event.target.querySelector
+          ? event.target.querySelector('#' + sectionId)
+          : null;
+
+        if (target) {
+          target.dataset.heroInit = 'false';
+          initMiniRangeHero(target);
+        }
+      });
+    })();
+  </script>
+</section>
+
+{% schema %}
+{
+  "name": "Mini range dual video",
+  "settings": [
+    {
+      "type": "video",
+      "id": "left_video",
+      "label": "Left video"
+    },
+    {
+      "type": "video",
+      "id": "right_video",
+      "label": "Right video"
+    },
+    {
+      "type": "range",
+      "id": "height_desktop",
+      "min": 260,
+      "max": 720,
+      "step": 10,
+      "unit": "px",
+      "label": "Desktop height",
+      "default": 420
+    },
+    {
+      "type": "range",
+      "id": "height_mobile",
+      "min": 180,
+      "max": 420,
+      "step": 10,
+      "unit": "px",
+      "label": "Mobile height",
+      "default": 240
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "label": "Gap between videos",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "radius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "label": "Corner radius",
+      "default": 18
+    },
+    {
+      "type": "color",
+      "id": "glow_color",
+      "label": "Glow color",
+      "default": "#f3b5d0"
+    },
+    {
+      "type": "range",
+      "id": "glow_strength",
+      "min": 10,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "label": "Glow strength",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "label": "Top margin",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom margin",
+      "default": 8
+    }
+  ],
+  "presets": [
+    {
+      "name": "Mini range dual video"
+    }
+  ]
+}
+{% endschema %}

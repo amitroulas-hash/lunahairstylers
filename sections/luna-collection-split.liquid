@@ -1,0 +1,695 @@
+<section class="lcs-{{ section.id }}">
+  <div class="lcs-inner-{{ section.id }}">
+
+    <div class="lcs-content-{{ section.id }}">
+      {% if section.settings.kicker != blank %}
+        <p class="lcs-kicker-{{ section.id }}">{{ section.settings.kicker }}</p>
+      {% endif %}
+
+      {% if section.settings.heading != blank %}
+        <h2 class="lcs-heading-{{ section.id }}">{{ section.settings.heading }}</h2>
+      {% endif %}
+
+      {% if section.settings.image != blank %}
+        <img
+          class="lcs-hero-img-{{ section.id }}"
+          src="{{ section.settings.image | image_url: width: 1400 }}"
+          alt="{{ section.settings.heading | escape }}"
+          loading="lazy"
+        >
+      {% endif %}
+
+      {% if section.settings.body != blank %}
+        <div class="lcs-body-{{ section.id }}">{{ section.settings.body }}</div>
+      {% endif %}
+
+      <div class="lcs-proof-grid-{{ section.id }}">
+        {% if section.settings.proof_1 != blank %}
+          <div><strong>{{ section.settings.proof_1_number }}</strong><span>{{ section.settings.proof_1 }}</span></div>
+        {% endif %}
+        {% if section.settings.proof_2 != blank %}
+          <div><strong>{{ section.settings.proof_2_number }}</strong><span>{{ section.settings.proof_2 }}</span></div>
+        {% endif %}
+        {% if section.settings.proof_3 != blank %}
+          <div><strong>{{ section.settings.proof_3_number }}</strong><span>{{ section.settings.proof_3 }}</span></div>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="lcs-products-{{ section.id }}">
+      {% if section.settings.product_kicker != blank %}
+        <p class="lcs-product-kicker-{{ section.id }}">{{ section.settings.product_kicker }}</p>
+      {% endif %}
+
+      {% if section.settings.product_heading != blank %}
+        <h2 class="lcs-product-heading-{{ section.id }}">{{ section.settings.product_heading }}</h2>
+      {% endif %}
+
+      {% if section.settings.product_subheading != blank %}
+        <p class="lcs-product-subheading-{{ section.id }}">{{ section.settings.product_subheading }}</p>
+      {% endif %}
+
+      <div class="lcs-scroll-wrap-{{ section.id }}">
+        <button type="button" class="lcs-arrow-{{ section.id }} lcs-arrow-left-{{ section.id }}" aria-label="Scroll left">‹</button>
+
+        <div class="lcs-product-grid-{{ section.id }}">
+          {% for block in section.blocks %}
+            {% assign p = block.settings.product %}
+            {% if p != blank and p.handle != 'travel-dryer' %}
+              {% assign v = p.selected_or_first_available_variant %}
+              {% assign img1 = p.featured_image %}
+              {% assign img2 = p.images[1] %}
+              {% assign img3 = p.images[2] %}
+
+              <article class="lcs-card-{{ section.id }}" {{ block.shopify_attributes }}>
+                <a href="{{ p.url }}" class="lcs-media-{{ section.id }}">
+                  <span class="lcs-badge-{{ section.id }}">{{ settings.luna_spend_offer_title }}</span>
+
+                  
+
+                  <div class="lcs-rotator-{{ section.id }}">
+                    {% if img1 %}
+                      <img class="lcs-img-{{ section.id }} is-1" src="{{ img1 | image_url: width: 900 }}" alt="{{ p.title | escape }}" loading="lazy">
+                    {% endif %}
+                    {% if img2 %}
+                      <img class="lcs-img-{{ section.id }} is-2" src="{{ img2 | image_url: width: 900 }}" alt="{{ p.title | escape }}" loading="lazy">
+                    {% endif %}
+                    {% if img3 %}
+                      <img class="lcs-img-{{ section.id }} is-3" src="{{ img3 | image_url: width: 900 }}" alt="{{ p.title | escape }}" loading="lazy">
+                    {% endif %}
+                  </div>
+
+                  
+                </a>
+
+                <div class="lcs-card-info-{{ section.id }}">
+                  <div class="lcs-stars-{{ section.id }}">
+                    <div class="jdgm-widget jdgm-preview-badge" data-id="{{ p.id }}">
+                      {{ p.metafields.judgeme.badge }}
+                    </div>
+                  </div>
+
+                  <h3 class="lcs-title-{{ section.id }}">
+                    <a href="{{ p.url }}">{{ p.title }}</a>
+                  </h3>
+
+                 {% assign price_variant = p.selected_or_first_available_variant %}
+
+<div class="lcs-price-{{ section.id }} luna-price">
+  {% if price_variant.compare_at_price > price_variant.price %}
+    <div class="luna-price__sale-row">
+      <span class="luna-price__sale">{{ price_variant.price | money }}</span>
+      <s class="luna-price__compare">{{ price_variant.compare_at_price | money }}</s>
+    </div>
+    <div class="luna-price__save">
+      Save {{ price_variant.compare_at_price | minus: price_variant.price | money }}
+    </div>
+  {% else %}
+    <span class="luna-price__regular">{{ price_variant.price | money }}</span>
+  {% endif %}
+</div>
+
+                  <div class="lcs-buttons-{{ section.id }}">
+                    <button
+                      type="button"
+                      class="lcs-atc-{{ section.id }}"
+                      data-variant-id="{{ v.id }}"
+                      data-product-handle="{{ p.handle }}"
+                      {% unless v.available %}disabled{% endunless %}
+                    >
+                      {% if v.available %}Add to Cart{% else %}Sold Out{% endif %}
+                    </button>
+
+                    <a href="{{ p.url }}" class="lcs-view-{{ section.id }}">View Product</a>
+                  </div>
+                </div>
+              </article>
+            {% endif %}
+          {% endfor %}
+        </div>
+
+        <button type="button" class="lcs-arrow-{{ section.id }} lcs-arrow-right-{{ section.id }}" aria-label="Scroll right">›</button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<style>
+.lcs-{{ section.id }} {
+  background: {{ section.settings.bg_color }};
+  padding: 34px 16px 46px;
+}
+
+.lcs-inner-{{ section.id }} {
+  max-width: 1320px;
+  margin: 0 auto;
+  display: grid;
+  gap: 38px;
+}
+
+.lcs-content-{{ section.id }} {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.lcs-kicker-{{ section.id }},
+.lcs-product-kicker-{{ section.id }} {
+  margin: 0 0 8px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: #2C2C2C;
+}
+
+.lcs-heading-{{ section.id }},
+.lcs-product-heading-{{ section.id }} {
+  margin: 0 0 14px;
+  font-size: 32px;
+  line-height: 1.08;
+  font-weight: 800;
+  color: #111;
+}
+
+.lcs-hero-img-{{ section.id }} {
+  width: 100%;
+  display: block;
+  border-radius: 18px;
+  margin-bottom: 18px;
+}
+
+.lcs-body-{{ section.id }} {
+  font-size: 15px;
+  line-height: 1.65;
+  color: #444;
+}
+
+.lcs-body-{{ section.id }} p {
+  margin: 0 0 14px;
+}
+
+.lcs-proof-grid-{{ section.id }} {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.lcs-proof-grid-{{ section.id }} div {
+  border: 1px solid rgba(230,160,170,.28);
+  border-radius: 14px;
+  padding: 14px;
+  text-align: center;
+  background: #fff;
+}
+
+.lcs-proof-grid-{{ section.id }} strong {
+  display: block;
+  font-size: 24px;
+  color: #111;
+  line-height: 1;
+}
+
+.lcs-proof-grid-{{ section.id }} span {
+  display: block;
+  margin-top: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #555;
+}
+
+.lcs-products-{{ section.id }} {
+  min-width: 0;
+}
+
+.lcs-product-kicker-{{ section.id }},
+.lcs-product-heading-{{ section.id }},
+.lcs-product-subheading-{{ section.id }} {
+  text-align: center;
+}
+
+.lcs-product-subheading-{{ section.id }} {
+  margin: 0 auto 20px;
+  max-width: 520px;
+  font-size: 14px;
+  color: #555;
+  line-height: 1.45;
+}
+
+.lcs-scroll-wrap-{{ section.id }} {
+  position: relative;
+}
+
+.lcs-product-grid-{{ section.id }} {
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  padding: 4px 4px 16px;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.lcs-product-grid-{{ section.id }}::-webkit-scrollbar {
+  display: none;
+}
+
+.lcs-card-{{ section.id }} {
+  flex: 0 0 76%;
+  max-width: 300px;
+  scroll-snap-align: start;
+  border: 1px solid rgba(0,0,0,.08);
+  border-radius: 16px;
+  overflow: hidden;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+}
+
+.lcs-media-{{ section.id }} {
+  position: relative;
+  display: block;
+  aspect-ratio: 1 / 1;
+  background: #fff;
+  overflow: hidden;
+}
+
+.lcs-rotator-{{ section.id }} {
+  position: absolute;
+  inset: 0;
+}
+
+.lcs-img-{{ section.id }} {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 14px;
+  opacity: 0;
+  animation: lcsRotate{{ section.id }} 9s infinite;
+}
+
+.lcs-img-{{ section.id }}.is-1 { opacity: 1; }
+.lcs-img-{{ section.id }}.is-2 { animation-delay: 3s; }
+.lcs-img-{{ section.id }}.is-3 { animation-delay: 6s; }
+
+@keyframes lcsRotate{{ section.id }} {
+  0%, 28% { opacity: 1; }
+  33%, 100% { opacity: 0; }
+}
+
+.lcs-badge-{{ section.id }},
+.lcs-gift-badge-{{ section.id }} {
+  position: absolute;
+  z-index: 3;
+  left: 10px;
+  padding: 6px 8px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+
+.lcs-badge-{{ section.id }} {
+  top: 10px;
+  background: #FDF4F6;
+  border: 1px solid rgba(230,160,170,.5);
+  color: #111;
+}
+
+.lcs-gift-badge-{{ section.id }} {
+  bottom: 10px;
+  background: #E6A0AA;
+  color: #fff;
+}
+
+.lcs-gift-tile-{{ section.id }} {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  z-index: 4;
+  width: 58px;
+  height: 58px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid rgba(230,160,170,.35);
+}
+
+.lcs-gift-tile-{{ section.id }} img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.lcs-card-info-{{ section.id }} {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.lcs-stars-{{ section.id }} {
+  margin-bottom: 6px;
+  min-height: 18px;
+}
+
+.lcs-stars-{{ section.id }} .jdgm-star {
+  color: #E6A0AA !important;
+}
+
+.lcs-stars-{{ section.id }} .jdgm-prev-badge__text,
+.lcs-stars-{{ section.id }} .jdgm-preview-badge__text {
+  font-size: 12px !important;
+  color: #666 !important;
+}
+
+.lcs-title-{{ section.id }} {
+  margin: 0 0 6px;
+  min-height: 42px;
+  font-size: 15px;
+  line-height: 1.25;
+  font-weight: 800;
+}
+
+.lcs-title-{{ section.id }} a {
+  color: #111;
+  text-decoration: none;
+}
+
+.lcs-buttons-{{ section.id }} {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.lcs-atc-{{ section.id }},
+.lcs-view-{{ section.id }} {
+  width: 100%;
+  min-height: 44px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 800;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.lcs-atc-{{ section.id }} {
+  background: #111;
+  color: #fff;
+  border: none;
+}
+
+.lcs-view-{{ section.id }} {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #FDF4F6;
+  color: #111;
+  border: 1px solid rgba(230,160,170,.45);
+}
+
+.lcs-arrow-{{ section.id }} {
+  position: absolute;
+  top: 42%;
+  z-index: 5;
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  border: 1px solid rgba(230,160,170,.45);
+  background: rgba(255,255,255,.94);
+  color: #111;
+  font-size: 26px;
+  cursor: pointer;
+}
+
+.lcs-arrow-left-{{ section.id }} { left: 2px; }
+.lcs-arrow-right-{{ section.id }} { right: 2px; }
+
+@media screen and (min-width: 990px) {
+  .lcs-{{ section.id }} {
+    padding: 48px 48px 64px;
+  }
+
+  .lcs-inner-{{ section.id }} {
+    max-width: 1280px;
+    grid-template-columns: minmax(520px, 1fr) minmax(560px, 1.08fr);
+    align-items: start;
+    gap: 44px;
+  }
+
+  .lcs-content-{{ section.id }} {
+    max-width: none;
+    margin: 0;
+  }
+
+  .lcs-heading-{{ section.id }} {
+    font-size: 30px;
+    max-width: 620px;
+  }
+
+  .lcs-hero-img-{{ section.id }} {
+    max-height: 340px;
+    object-fit: cover;
+  }
+
+  .lcs-body-{{ section.id }} {
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  .lcs-proof-grid-{{ section.id }} {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .lcs-products-{{ section.id }} {
+    position: sticky;
+    top: 128px;
+    min-width: 0;
+  }
+
+  .lcs-product-heading-{{ section.id }} {
+    font-size: 28px;
+  }
+
+  .lcs-product-grid-{{ section.id }} {
+    display: grid;
+    grid-template-columns: repeat({{ section.settings.desktop_columns }}, minmax(0, 1fr));
+    gap: 16px;
+    overflow: visible;
+    padding: 0;
+  }
+
+  .lcs-card-{{ section.id }} {
+    max-width: none;
+    flex: none;
+  }
+
+  .lcs-media-{{ section.id }} {
+    aspect-ratio: 1 / 1;
+  }
+
+  .lcs-title-{{ section.id }} {
+    font-size: 14px;
+  }
+
+  .lcs-buttons-{{ section.id }} {
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+
+  .lcs-atc-{{ section.id }},
+  .lcs-view-{{ section.id }} {
+    font-size: 12px;
+    min-height: 40px;
+  }
+
+  .lcs-arrow-{{ section.id }} {
+    display: none;
+  }
+}
+</style>
+
+<script>
+(function() {
+  var section = document.querySelector('.lcs-{{ section.id }}');
+  if (!section) return;
+
+  var scroller = section.querySelector('.lcs-product-grid-{{ section.id }}');
+  var leftArrow = section.querySelector('.lcs-arrow-left-{{ section.id }}');
+  var rightArrow = section.querySelector('.lcs-arrow-right-{{ section.id }}');
+
+  if (scroller && leftArrow && rightArrow) {
+    leftArrow.addEventListener('click', function() {
+      scroller.scrollBy({ left: -300, behavior: 'smooth' });
+    });
+
+    rightArrow.addEventListener('click', function() {
+      scroller.scrollBy({ left: 300, behavior: 'smooth' });
+    });
+  }
+
+  section.addEventListener('click', async function(event) {
+    var button = event.target.closest('.lcs-atc-{{ section.id }}');
+    if (!button) return;
+
+    event.preventDefault();
+
+    var variantId = parseInt(button.dataset.variantId, 10);
+    var handle = button.dataset.productHandle;
+    var dryerHandle = '{{ section.settings.dryer_handle }}';
+
+    if (!variantId) return;
+
+    var itemsToAdd = [{ id: variantId, quantity: 1 }];
+
+    button.disabled = true;
+    button.textContent = 'Adding...';
+
+    try {
+      await fetch(window.Shopify.routes.root + 'cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({ items: itemsToAdd })
+      });
+
+      window.location.href = window.Shopify.routes.root + 'cart';
+    } catch (error) {
+      console.error('Luna collection split add failed:', error);
+      button.disabled = false;
+      button.textContent = 'Add to Cart';
+      alert('Sorry, something went wrong. Please try again.');
+    }
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Luna Collection Split",
+  "settings": [
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "Left kicker",
+      "default": "Meet Luna"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Left heading",
+      "default": "Proven performance. Modern styling. Smarter pricing."
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Left hero image"
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Left body copy",
+      "default": "<p>Luna was built to challenge the idea that great hair tools should come with an inflated price tag. Beauty-led tools, everyday results, smarter pricing.</p>"
+    },
+    {
+      "type": "text",
+      "id": "proof_1_number",
+      "label": "Proof 1 number",
+      "default": "500k+"
+    },
+    {
+      "type": "text",
+      "id": "proof_1",
+      "label": "Proof 1 text",
+      "default": "Australians have chosen Luna over time"
+    },
+    {
+      "type": "text",
+      "id": "proof_2_number",
+      "label": "Proof 2 number",
+      "default": "10+"
+    },
+    {
+      "type": "text",
+      "id": "proof_2",
+      "label": "Proof 2 text",
+      "default": "Years of trusted hair tool experience"
+    },
+    {
+      "type": "text",
+      "id": "proof_3_number",
+      "label": "Proof 3 number",
+      "default": "5"
+    },
+    {
+      "type": "text",
+      "id": "proof_3",
+      "label": "Proof 3 text",
+      "default": "Core styling tools across the Luna range"
+    },
+    {
+      "type": "text",
+      "id": "product_kicker",
+      "label": "Product kicker",
+      "default": "Shop Luna"
+    },
+    {
+      "type": "text",
+      "id": "product_heading",
+      "label": "Product heading",
+      "default": "Tools that do more for less"
+    },
+    {
+      "type": "text",
+      "id": "product_subheading",
+      "label": "Product subheading",
+      "default": "Choose your Luna tool, add to cart, or tap through to learn more."
+    },
+    {
+      "type": "text",
+      "id": "dryer_handle",
+      "label": "Dryer product handle",
+      "default": "dryer"
+    },
+    {
+      "type": "range",
+      "id": "desktop_columns",
+      "label": "Desktop product columns",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 2
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background colour",
+      "default": "#FFFFFF"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product",
+      "name": "Product card",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 8,
+  "presets": [
+    {
+      "name": "Luna Collection Split"
+    }
+  ]
+}
+{% endschema %}

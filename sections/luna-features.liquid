@@ -1,0 +1,406 @@
+<style>
+  .luna-features {
+    padding: 48px 16px;
+    background: linear-gradient(180deg, #fff8fb 0%, #eef9ff 100%);
+  }
+
+  .luna-features__inner {
+    max-width: 1180px;
+    margin: 0 auto;
+  }
+
+  .luna-features__header {
+    text-align: center;
+    max-width: 820px;
+    margin: 0 auto 30px;
+  }
+
+  .luna-features__eyebrow {
+    margin: 0 0 10px;
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: #E6A0AA;
+  }
+
+  .luna-features__heading {
+    margin: 0 0 14px;
+    font-size: 34px;
+    line-height: 1.05;
+    font-weight: 900;
+    color: #111;
+  }
+
+  .luna-features__sub {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.55;
+    color: #555;
+  }
+
+  .luna-features__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .luna-features__card {
+    background: #fff;
+    border: 1px solid rgba(230,160,170,.22);
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 16px 36px rgba(230,160,170,.12);
+  }
+
+  .luna-features__media {
+    aspect-ratio: 4 / 5;
+    background: #fff;
+    overflow: hidden;
+  }
+
+  .luna-features__media img,
+  .luna-features__media video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .luna-features__media--results {
+  aspect-ratio: 3 / 2;
+  background: #fff;
+}
+
+.luna-features__media--results img {
+  object-fit: contain;
+  object-position: center center;
+  transform: none;
+}
+
+
+  .luna-features__media--tech img {
+    object-fit: contain;
+    background: #fff;
+    padding: 0;
+  }
+
+  .luna-features__copy {
+    padding: 20px;
+  }
+
+  .luna-features__badge {
+    display: inline-flex;
+    margin-bottom: 12px;
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: #FDF4F6;
+    border: 1px solid rgba(230,160,170,.45);
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: .09em;
+    text-transform: uppercase;
+    color: #111;
+  }
+
+  .luna-features__title {
+    margin: 0 0 10px;
+    font-size: 24px;
+    line-height: 1.08;
+    font-weight: 900;
+    color: #111;
+  }
+
+  .luna-features__text {
+    margin: 0 0 14px;
+    font-size: 15px;
+    line-height: 1.5;
+    color: #555;
+  }
+
+  .luna-features__bullets {
+    display: grid;
+    gap: 8px;
+    margin: 0 0 16px;
+    padding: 0;
+    list-style: none;
+  }
+
+  .luna-features__bullets li {
+    font-size: 13px;
+    line-height: 1.35;
+    color: #333;
+    font-weight: 700;
+  }
+
+  .luna-features__bullets li::before {
+    content: "✦";
+    color: #E6A0AA;
+    margin-right: 7px;
+  }
+
+  .luna-features__link {
+    font-size: 13px;
+    font-weight: 900;
+    color: #111;
+    text-decoration: underline;
+    text-decoration-color: #E6A0AA;
+    text-decoration-thickness: 3px;
+    text-underline-offset: 4px;
+  }
+
+  .luna-features__mini-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 18px;
+  }
+
+  .luna-features__mini {
+    border-radius: 18px;
+    overflow: hidden;
+    background: #fff;
+    border: 1px solid rgba(230,160,170,.22);
+    box-shadow: 0 10px 24px rgba(230,160,170,.10);
+  }
+
+  .luna-features__mini-media {
+    aspect-ratio: 1 / 1.18;
+    overflow: hidden;
+    background: #fff;
+  }
+
+  .luna-features__mini-media video,
+  .luna-features__mini-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .luna-features__mini-caption {
+    padding: 12px;
+    font-size: 13px;
+    font-weight: 900;
+    line-height: 1.2;
+    color: #111;
+  }
+
+  .luna-features__proof-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+    margin-top: 18px;
+  }
+
+  .luna-features__proof {
+    background: rgba(255,255,255,.86);
+    border: 1px solid rgba(230,160,170,.22);
+    border-radius: 20px;
+    padding: 20px;
+  }
+
+  .luna-features__proof strong {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 17px;
+    color: #111;
+  }
+
+  .luna-features__proof span {
+    display: block;
+    font-size: 14px;
+    line-height: 1.45;
+    color: #555;
+  }
+
+  @media screen and (min-width: 900px) {
+    .luna-features {
+      padding: 66px 48px;
+    }
+
+    .luna-features__heading {
+      font-size: 44px;
+    }
+
+    .luna-features__grid {
+      grid-template-columns: 1.05fr .95fr;
+      align-items: start;
+    }
+
+    .luna-features__media {
+      aspect-ratio: 1 / .82;
+    }
+
+.luna-features__media--results {
+  aspect-ratio: 3 / 2;
+}
+
+.luna-features__media--results img {
+  object-fit: contain;
+  object-position: center center;
+  transform: none;
+}
+
+    .luna-features__proof-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+</style>
+
+<section class="luna-features">
+  <div class="luna-features__inner">
+
+    <div class="luna-features__header">
+      <p class="luna-features__eyebrow">Luna performance story</p>
+      <h2 class="luna-features__heading">Glossy results. Smart technology. Everyday prices.</h2>
+      <p class="luna-features__sub">
+        Luna brings together Argan Oil infused styling, ionic drying power and real-use results — beauty tools that look good, perform hard and make great hair feel easy.
+      </p>
+    </div>
+
+    <div class="luna-features__grid">
+
+      <div>
+        <div class="luna-features__card">
+          <div class="luna-features__media luna-features__media--results">
+            <img src="https://cdn.shopify.com/s/files/1/0609/7426/8657/files/StraightenerArganOil_hair_pic.png?v=1776433119" alt="Smooth shiny Luna hair results" loading="lazy">
+          </div>
+          <div class="luna-features__copy">
+            <span class="luna-features__badge">Argan Oil Infused Ceramic</span>
+            <h3 class="luna-features__title">Smooth shine for straight styles and soft curls.</h3>
+            <p class="luna-features__text">
+              Luna’s Argan Oil infused ceramic technology is used across the Straightener and Curling Wand to help create smooth, polished, glossy results.
+            </p>
+            <ul class="luna-features__bullets">
+              <li>Helps smooth the look of frizz</li>
+              <li>Supports shine and a polished finish</li>
+              <li>Ceramic glide for easier styling</li>
+              <li>Works across straight and curled looks</li>
+            </ul>
+            <a href="/collections/luna-range" class="luna-features__link">Explore Argan Oil Tools</a>
+          </div>
+        </div>
+
+        <div class="luna-features__card" style="margin-top:14px;">
+          <div class="luna-features__media luna-features__media--tech">
+            <img src="https://cdn.shopify.com/s/files/1/0609/7426/8657/files/Artboard1_1_3x_369b8461-0ff3-47c6-81bd-904e93a852c3.png?v=1776848608" alt="Argan Oil infused ceramic plate technology" loading="lazy">
+          </div>
+          <div class="luna-features__copy">
+            <span class="luna-features__badge">Straightener + Curler Tech</span>
+            <h3 class="luna-features__title">Argan Oil ceramic for polished styling.</h3>
+            <p class="luna-features__text">
+              Smooth-glide ceramic styling designed for everyday shine, control and easier finishing.
+            </p>
+          </div>
+        </div>
+
+        <div class="luna-features__mini-grid">
+          <div class="luna-features__mini">
+            <div class="luna-features__mini-media">
+              <video autoplay muted loop playsinline preload="metadata">
+                <source src="https://cdn.shopify.com/videos/c/o/v/f0e4929d939144d0bf1213959d1bded1.mp4" type="video/mp4">
+              </video>
+            </div>
+            <div class="luna-features__mini-caption">Curler quick result</div>
+          </div>
+
+          <div class="luna-features__mini">
+            <div class="luna-features__mini-media">
+              <video autoplay muted loop playsinline preload="metadata">
+                <source src="https://cdn.shopify.com/videos/c/o/v/e95390ada9cc4e95afa0403c1d44da5f.mp4" type="video/mp4">
+              </video>
+            </div>
+            <div class="luna-features__mini-caption">Straightener in action</div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="luna-features__card">
+          <div class="luna-features__media">
+            <img src="https://cdn.shopify.com/s/files/1/0609/7426/8657/files/Straightner_results_for_product_page_4x_7f610f45-5ff8-47ec-9aa3-409afeaef3af.png?v=1776417221" alt="Luna dryer smooth results" loading="lazy">
+          </div>
+          <div class="luna-features__copy">
+            <span class="luna-features__badge">Visible Results</span>
+            <h3 class="luna-features__title">Designed for everyday shine, control and confidence.</h3>
+            <p class="luna-features__text">
+              From smooth straight styles to polished finishes, Luna makes performance feel accessible.
+            </p>
+            <a href="/collections/luna-range" class="luna-features__link">Shop Luna Range</a>
+          </div>
+        </div>
+
+        <div class="luna-features__mini-grid">
+          <div class="luna-features__mini">
+            <div class="luna-features__mini-media">
+              <video autoplay muted loop playsinline preload="metadata">
+                <source src="https://cdn.shopify.com/videos/c/o/v/188382af210f41d6a4903e419363e586.mp4" type="video/mp4">
+              </video>
+            </div>
+            <div class="luna-features__mini-caption">Dryer real-use result</div>
+          </div>
+
+          <div class="luna-features__mini">
+            <div class="luna-features__mini-media">
+              <video autoplay muted loop playsinline preload="metadata">
+                <source src="https://cdn.shopify.com/videos/c/o/v/53f6c2f3a9d14001814e56ec412647de.mp4" type="video/mp4">
+              </video>
+            </div>
+            <div class="luna-features__mini-caption">Big hair energy</div>
+          </div>
+        </div>
+
+        <div class="luna-features__card" style="margin-top:14px;">
+          <div class="luna-features__media luna-features__media--tech">
+            <img src="https://cdn.shopify.com/s/files/1/0609/7426/8657/files/IonicTecnology.gif?v=1776439490" alt="Luna ionic dryer technology" loading="lazy">
+          </div>
+          <div class="luna-features__copy">
+            <span class="luna-features__badge">Ionic Dryer Power</span>
+            <h3 class="luna-features__title">Fast drying. Less frizz. Big hair energy.</h3>
+            <p class="luna-features__text">
+              2200W ionic performance helps smooth the look of frizz while supporting a fresh, salon-inspired finish at home.
+            </p>
+            <a href="/products/luna-ionic-hair-dryer-2200w" class="luna-features__link">Explore Dryer</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="luna-features__proof-grid">
+      <div class="luna-features__proof">
+        <strong>Argan Oil ceramic glide</strong>
+        <span>Designed to help hair feel smoother through every styling pass.</span>
+      </div>
+
+      <div class="luna-features__proof">
+        <strong>Straight + curl styling</strong>
+        <span>One beauty technology story across Luna’s core styling tools.</span>
+      </div>
+
+      <div class="luna-features__proof">
+        <strong>Real-use performance</strong>
+        <span>Visual results, practical tools and styling confidence at home.</span>
+      </div>
+
+      <div class="luna-features__proof">
+        <strong>Value without compromise</strong>
+        <span>Beauty-led hair tools without the inflated premium price tag.</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Luna Features",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Luna Features"
+    }
+  ]
+}
+{% endschema %}

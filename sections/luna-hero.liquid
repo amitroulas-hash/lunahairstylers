@@ -1,0 +1,426 @@
+{% comment %}
+  Luna Hero — stable campaign slideshow
+  2 slides, desktop/mobile image support, swipe, autoplay, Luna sticker CTA.
+{% endcomment %}
+
+<section class="luna-hero-{{ section.id }}" id="LunaHero-{{ section.id }}">
+  <div class="luna-hero__track-{{ section.id }}" data-luna-hero-track>
+
+    <article class="luna-hero__slide-{{ section.id }} is-active" data-luna-hero-slide>
+      {%- if section.settings.slide1_image != blank -%}
+        <picture>
+          {%- if section.settings.slide1_desktop_image != blank -%}
+            <source
+              media="(min-width: 990px)"
+              srcset="{{ section.settings.slide1_desktop_image | image_url: width: 2400 }}"
+            >
+          {%- endif -%}
+
+          <img
+            class="luna-hero__image-{{ section.id }}"
+            src="{{ section.settings.slide1_image | image_url: width: 1300 }}"
+            alt="{{ section.settings.slide1_image.alt | default: 'Luna Hair Stylers offer' | escape }}"
+            loading="eager"
+          >
+        </picture>
+      {%- else -%}
+        <div class="luna-hero__placeholder-{{ section.id }}">
+          Add Slide 1 image
+        </div>
+      {%- endif -%}
+
+      <div class="luna-hero__cta-wrap-{{ section.id }}">
+        {% if section.settings.slide1_pill != blank %}
+          <span class="luna-hero__pill-{{ section.id }}">{{ section.settings.slide1_pill }}</span>
+        {% endif %}
+
+        <a
+          href="{{ section.settings.slide1_link | default: '/products/dryer' }}"
+          class="luna-hero__btn-{{ section.id }}"
+        >
+          {{ section.settings.slide1_btn | default: 'Shop Hair Dryer' }}
+        </a>
+      </div>
+    </article>
+
+    <article class="luna-hero__slide-{{ section.id }}" data-luna-hero-slide>
+      {%- if section.settings.slide2_image != blank -%}
+        <picture>
+          {%- if section.settings.slide2_desktop_image != blank -%}
+            <source
+              media="(min-width: 990px)"
+              srcset="{{ section.settings.slide2_desktop_image | image_url: width: 2400 }}"
+            >
+          {%- endif -%}
+
+          <img
+            class="luna-hero__image-{{ section.id }}"
+            src="{{ section.settings.slide2_image | image_url: width: 1300 }}"
+            alt="{{ section.settings.slide2_image.alt | default: 'Luna Hair Stylers range' | escape }}"
+            loading="lazy"
+          >
+        </picture>
+      {%- else -%}
+        <div class="luna-hero__placeholder-{{ section.id }}">
+          Add Slide 2 image
+        </div>
+      {%- endif -%}
+
+      <div class="luna-hero__cta-wrap-{{ section.id }}">
+        {% if section.settings.slide2_pill != blank %}
+          <span class="luna-hero__pill-{{ section.id }}">{{ section.settings.slide2_pill }}</span>
+        {% endif %}
+
+        <a
+          href="{{ section.settings.slide2_link | default: '/collections/meet-luna' }}"
+          class="luna-hero__btn-{{ section.id }}"
+        >
+          {{ section.settings.slide2_btn | default: 'Shop Luna Hair Tools' }}
+        </a>
+      </div>
+    </article>
+
+  </div>
+
+  <div class="luna-hero__dots-{{ section.id }}" aria-label="Luna hero slides">
+    <button class="luna-hero__dot-{{ section.id }} is-active" type="button" data-luna-hero-dot="0" aria-label="Show slide 1"></button>
+    <button class="luna-hero__dot-{{ section.id }}" type="button" data-luna-hero-dot="1" aria-label="Show slide 2"></button>
+  </div>
+</section>
+
+<style>
+.luna-hero-{{ section.id }} {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background: #fff;
+  margin-bottom: -8px;
+}
+
+.luna-hero__track-{{ section.id }} {
+  display: flex;
+  transition: transform .65s cubic-bezier(.22,.72,.25,1);
+  will-change: transform;
+}
+
+.luna-hero__slide-{{ section.id }} {
+  position: relative;
+  min-width: 100%;
+  overflow: hidden;
+  background: #fff;
+}
+
+.luna-hero__image-{{ section.id }} {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  display: block;
+  transform: scale(1);
+  transition: transform 5.2s ease;
+}
+
+.luna-hero__slide-{{ section.id }}.is-active .luna-hero__image-{{ section.id }} {
+  transform: scale(1.012);
+}
+
+.luna-hero__placeholder-{{ section.id }} {
+  min-height: 420px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #58d3ff, #f2acb9);
+  color: #111;
+  font-weight: 900;
+}
+
+.luna-hero__cta-wrap-{{ section.id }} {
+  position: absolute;
+  z-index: 4;
+  left: 26px;
+  bottom: 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.luna-hero__pill-{{ section.id }} {
+  display: inline-flex;
+  width: fit-content;
+  padding: 8px 13px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.86);
+  color: #111;
+  border: 1px solid rgba(230,160,170,.42);
+  box-shadow: 0 10px 24px rgba(0,0,0,.12);
+  font-size: 11px;
+  line-height: 1;
+  font-weight: 950;
+  letter-spacing: .11em;
+  text-transform: uppercase;
+  backdrop-filter: blur(12px);
+}
+
+.luna-hero__btn-{{ section.id }} {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  padding: 12px 22px;
+  border-radius: 14px;
+  background: rgba(242,172,185,.88);
+  color: #111 !important;
+  border: 1px solid rgba(255,255,255,.46);
+  box-shadow: 0 14px 32px rgba(0,0,0,.16);
+  font-size: 14px;
+  font-weight: 950;
+  text-decoration: none;
+  letter-spacing: -.01em;
+  backdrop-filter: blur(14px);
+  transition: transform .2s ease, background .2s ease, box-shadow .2s ease;
+}
+
+.luna-hero__btn-{{ section.id }}:hover {
+  background: #f2acb9;
+  transform: translateY(-2px);
+  box-shadow: 0 18px 38px rgba(0,0,0,.18);
+}
+
+.luna-hero__dots-{{ section.id }} {
+  position: absolute;
+  z-index: 5;
+  left: 50%;
+  bottom: 10px;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 6px 8px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.22);
+  backdrop-filter: blur(10px);
+}
+
+.luna-hero__dot-{{ section.id }} {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  background: rgba(255,255,255,.64);
+  transition: width .25s ease, background .25s ease;
+}
+
+.luna-hero__dot-{{ section.id }}.is-active {
+  width: 20px;
+  background: #fff;
+}
+
+@media screen and (max-width: 749px) {
+  .luna-hero__cta-wrap-{{ section.id }} {
+    left: 50%;
+    right: auto;
+    bottom: 26px;
+    transform: translateX(-50%);
+    align-items: center;
+    width: calc(100% - 32px);
+  }
+
+  .luna-hero__pill-{{ section.id }} {
+    font-size: 10px;
+    padding: 7px 11px;
+  }
+
+  .luna-hero__btn-{{ section.id }} {
+    min-height: 46px;
+    padding: 12px 20px;
+    border-radius: 13px;
+    font-size: 14px;
+  }
+
+ .luna-hero-{{ section.id }} {
+  margin-bottom: 0;
+}
+
+.luna-hero__dots-{{ section.id }} {
+  position: relative;
+  left: auto;
+  bottom: auto;
+  transform: none;
+  width: fit-content;
+  margin: 10px auto 12px;
+  background: rgba(242,172,185,.24);
+  border: 1px solid rgba(230,160,170,.28);
+}
+}
+
+@media screen and (min-width: 990px) {
+  .luna-hero__btn-{{ section.id }} {
+    min-height: 42px;
+    padding: 10px 20px;
+    font-size: 13px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .luna-hero__track-{{ section.id }},
+  .luna-hero__image-{{ section.id }},
+  .luna-hero__btn-{{ section.id }},
+  .luna-hero__dot-{{ section.id }} {
+    transition: none !important;
+  }
+
+  .luna-hero__slide-{{ section.id }}.is-active .luna-hero__image-{{ section.id }} {
+    transform: none !important;
+  }
+}
+</style>
+
+<script>
+(function() {
+  var root = document.getElementById('LunaHero-{{ section.id }}');
+  if (!root) return;
+
+  var track = root.querySelector('[data-luna-hero-track]');
+  var slides = root.querySelectorAll('[data-luna-hero-slide]');
+  var dots = root.querySelectorAll('[data-luna-hero-dot]');
+  var current = 0;
+  var total = slides.length;
+  var autoplay;
+  var startX = 0;
+
+  if (!track || total < 1) return;
+
+  function goTo(index) {
+    current = (index + total) % total;
+
+    track.style.transform = 'translateX(-' + (current * 100) + '%)';
+
+    slides.forEach(function(slide, i) {
+      slide.classList.toggle('is-active', i === current);
+    });
+
+    dots.forEach(function(dot, i) {
+      dot.classList.toggle('is-active', i === current);
+    });
+  }
+
+  function next() {
+    goTo(current + 1);
+  }
+
+  function startAuto() {
+    stopAuto();
+    if (total > 1) {
+      autoplay = setInterval(next, 5000);
+    }
+  }
+
+  function stopAuto() {
+    if (autoplay) clearInterval(autoplay);
+  }
+
+  dots.forEach(function(dot) {
+    dot.addEventListener('click', function() {
+      var index = parseInt(dot.getAttribute('data-luna-hero-dot'), 10);
+      if (!isNaN(index)) {
+        stopAuto();
+        goTo(index);
+        startAuto();
+      }
+    });
+  });
+
+  root.addEventListener('touchstart', function(event) {
+    if (!event.touches || !event.touches.length) return;
+    startX = event.touches[0].clientX;
+    stopAuto();
+  }, { passive: true });
+
+  root.addEventListener('touchend', function(event) {
+    if (!event.changedTouches || !event.changedTouches.length) return;
+
+    var diff = startX - event.changedTouches[0].clientX;
+
+    if (Math.abs(diff) > 40) {
+      diff > 0 ? next() : goTo(current - 1);
+    }
+
+    startAuto();
+  }, { passive: true });
+
+  root.addEventListener('mouseenter', stopAuto);
+  root.addEventListener('mouseleave', startAuto);
+
+  startAuto();
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Luna Hero",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "slide1_image",
+      "label": "Slide 1 Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "slide1_desktop_image",
+      "label": "Slide 1 Desktop Image"
+    },
+    {
+      "type": "text",
+      "id": "slide1_pill",
+      "label": "Slide 1 Small Sticker Text",
+      "default": "Everyday styling"
+    },
+    {
+      "type": "text",
+      "id": "slide1_btn",
+      "label": "Slide 1 Button Text",
+      "default": "Shop Hair Dryer"
+    },
+    {
+      "type": "url",
+      "id": "slide1_link",
+      "label": "Slide 1 Button Link"
+    },
+    {
+      "type": "image_picker",
+      "id": "slide2_image",
+      "label": "Slide 2 Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "slide2_desktop_image",
+      "label": "Slide 2 Desktop Image"
+    },
+    {
+      "type": "text",
+      "id": "slide2_pill",
+      "label": "Slide 2 Small Sticker Text",
+      "default": "Big Hair Energy"
+    },
+    {
+      "type": "text",
+      "id": "slide2_btn",
+      "label": "Slide 2 Button Text",
+      "default": "Shop Luna Hair Tools"
+    },
+    {
+      "type": "url",
+      "id": "slide2_link",
+      "label": "Slide 2 Button Link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Luna Hero"
+    }
+  ]
+}
+{% endschema %}

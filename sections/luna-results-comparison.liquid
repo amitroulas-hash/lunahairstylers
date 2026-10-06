@@ -1,0 +1,520 @@
+<section class="luna-results-proof-{{ section.id }}">
+  <div class="lrp-inner-{{ section.id }}">
+    <div class="lrp-heading-wrap-{{ section.id }}">
+      <p class="lrp-kicker-{{ section.id }}">
+        {{ section.settings.kicker | default: 'Real Proof' | escape }}
+      </p>
+
+      <h2 class="lrp-heading-{{ section.id }}">
+        {{ section.settings.heading | default: 'Real results. Real routines.' | escape }}
+      </h2>
+
+      <p class="lrp-subheading-{{ section.id }}">
+        {{ section.settings.subheading | default: 'See Luna in action — quick styling, visible results and everyday beauty-tool energy.' | escape }}
+      </p>
+    </div>
+
+    <div class="lrp-grid-{{ section.id }}">
+      <div class="lrp-video-card-{{ section.id }}">
+<div class="lrp-card-badge-{{ section.id }} lrp-card-badge-video-{{ section.id }}">
+          {{ section.settings.video_badge | default: 'Real Routine' | escape }}
+        </div>
+
+        <div class="lrp-video-frame-{{ section.id }}">
+          {% if section.settings.result_video != blank %}
+            {{
+              section.settings.result_video
+              | video_tag:
+                autoplay: true,
+                loop: true,
+                muted: true,
+                controls: false,
+                playsinline: true,
+                preload: 'metadata'
+            }}
+          {% elsif section.settings.result_video_url != blank %}
+            <video autoplay loop muted playsinline preload="metadata">
+              <source src="{{ section.settings.result_video_url | escape }}" type="video/mp4">
+            </video>
+          {% elsif section.settings.result_image != blank %}
+            <img
+              src="{{ section.settings.result_image | image_url: width: 1000 }}"
+              alt="{{ section.settings.video_caption | default: 'Luna real styling result' | escape }}"
+              loading="lazy"
+            >
+          {% endif %}
+        </div>
+
+        <p class="lrp-caption-{{ section.id }}">
+          {{ section.settings.video_caption | default: 'Real styling from home.' | escape }}
+        </p>
+      </div>
+
+      <div class="lrp-compare-card-{{ section.id }}">
+<div class="lrp-card-badge-{{ section.id }} lrp-card-badge-compare-{{ section.id }}">
+          {{ section.settings.compare_badge | default: 'Before + After' | escape }}
+        </div>
+
+        <div class="lrp-compare-frame-{{ section.id }}" data-lrp-compare="{{ section.id }}">
+          {% if section.settings.before_image != blank %}
+            <img
+              class="lrp-before-img-{{ section.id }}"
+              src="{{ section.settings.before_image | image_url: width: 1200 }}"
+              alt="{{ section.settings.before_label | default: 'Before' | escape }}"
+              loading="lazy"
+            >
+          {% endif %}
+
+          {% if section.settings.after_image != blank %}
+            <div class="lrp-after-wrap-{{ section.id }}">
+              <img
+                class="lrp-after-img-{{ section.id }}"
+                src="{{ section.settings.after_image | image_url: width: 1200 }}"
+                alt="{{ section.settings.after_label | default: 'After' | escape }}"
+                loading="lazy"
+              >
+            </div>
+          {% endif %}
+
+          <span class="lrp-label lrp-label-before-{{ section.id }}">
+            {{ section.settings.before_label | default: 'Before' | escape }}
+          </span>
+
+          <span class="lrp-label lrp-label-after-{{ section.id }}">
+            {{ section.settings.after_label | default: 'After' | escape }}
+          </span>
+
+          <div class="lrp-slider-line-{{ section.id }}"></div>
+          <div class="lrp-slider-handle-{{ section.id }}">↔</div>
+
+          <input
+  class="lrp-range-{{ section.id }}"
+  type="range"
+  min="0"
+  max="100"
+  value="50"
+  aria-label="Before and after comparison slider"
+>
+        </div>
+
+        <p class="lrp-caption-{{ section.id }}">
+          {{ section.settings.compare_caption | default: 'See the difference in one pass.' | escape }}
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .luna-results-proof-{{ section.id }} {
+    position: relative;
+    z-index: 0;
+    isolation: isolate;
+    overflow: hidden;
+    padding: 48px 0 56px;
+    background:
+      radial-gradient(circle at 12% 8%, rgba(72,205,255,.12), transparent 28%),
+      radial-gradient(circle at 88% 8%, rgba(255,168,204,.18), transparent 30%),
+      linear-gradient(180deg, #fff8fb 0%, #fff 100%);
+  }
+
+  .lrp-inner-{{ section.id }} {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 0 16px;
+  }
+
+  .lrp-heading-wrap-{{ section.id }} {
+    text-align: center;
+    max-width: 760px;
+    margin: 0 auto 28px;
+  }
+
+  .lrp-kicker-{{ section.id }} {
+    margin: 0 0 8px;
+    color: #A7657B;
+    font-size: 12px;
+    font-weight: 950;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+  }
+
+  .lrp-heading-{{ section.id }} {
+    margin: 0 0 10px;
+    color: #111;
+    font-size: clamp(36px, 6vw, 58px);
+    line-height: .92;
+    font-weight: 950;
+    letter-spacing: -.06em;
+    text-transform: uppercase;
+  }
+
+  .lrp-subheading-{{ section.id }} {
+    margin: 0 auto;
+    color: #666;
+    font-size: 15px;
+    line-height: 1.45;
+    font-weight: 650;
+    max-width: 620px;
+  }
+
+  .lrp-grid-{{ section.id }} {
+    display: grid;
+    grid-template-columns: minmax(280px, 420px) minmax(320px, 620px);
+    gap: 34px;
+    align-items: start;
+    justify-content: center;
+  }
+
+  .lrp-video-card-{{ section.id }},
+  .lrp-compare-card-{{ section.id }} {
+    position: relative;
+  }
+
+  .lrp-card-badge-{{ section.id }} {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: rgba(255,255,255,.95);
+    border: 1px solid rgba(230,160,170,.42);
+    color: #111;
+    font-size: 11px;
+    font-weight: 950;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    box-shadow: 0 8px 20px rgba(0,0,0,.06);
+  }
+
+  .lrp-card-badge-video-{{ section.id }} {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    z-index: 3;
+  }
+
+  .lrp-card-badge-compare-{{ section.id }} {
+    position: relative;
+    z-index: 1;
+    margin: 0 0 12px;
+  }
+
+  .lrp-video-frame-{{ section.id }} {
+    overflow: hidden;
+    border-radius: 22px;
+    background: #fff;
+    border: 1px solid rgba(230,160,170,.22);
+    box-shadow: 0 18px 44px rgba(230,160,170,.12);
+  }
+
+  .lrp-video-frame-{{ section.id }} video,
+  .lrp-video-frame-{{ section.id }} img {
+    width: 100%;
+    aspect-ratio: 0.8 / 1;
+    object-fit: cover;
+    object-position: center center;
+    display: block;
+  }
+
+  .lrp-compare-frame-{{ section.id }} {
+    --position: 50%;
+    --before-label-opacity: 1;
+    --after-label-opacity: 1;
+    position: relative;
+    overflow: hidden;
+    border-radius: 22px;
+    background: #fff;
+    aspect-ratio: 1.16 / 1;
+    border: 1px solid rgba(230,160,170,.22);
+    box-shadow: 0 18px 44px rgba(230,160,170,.12);
+  }
+
+  .lrp-before-img-{{ section.id }},
+  .lrp-after-img-{{ section.id }} {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    object-fit: cover;
+    object-position: center center;
+    display: block;
+  }
+
+  .lrp-after-wrap-{{ section.id }} {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 1;
+  }
+
+  .lrp-after-img-{{ section.id }} {
+    z-index: 1;
+  }
+
+  .lrp-before-img-{{ section.id }} {
+    z-index: 2;
+    clip-path: inset(0 calc(100% - var(--position)) 0 0);
+  }
+
+  .lrp-slider-line-{{ section.id }} {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: var(--position);
+    width: 2px;
+    transform: translateX(-50%);
+    background: rgba(255,255,255,.95);
+    z-index: 4;
+    box-shadow: 0 0 14px rgba(0,0,0,.18);
+  }
+
+  .lrp-slider-handle-{{ section.id }} {
+    position: absolute;
+    top: 50%;
+    left: var(--position);
+    transform: translate(-50%, -50%);
+    z-index: 5;
+    width: 46px;
+    height: 46px;
+    border-radius: 999px;
+    display: grid;
+    place-items: center;
+    background: #fff;
+    color: #111;
+    font-size: 16px;
+    font-weight: 950;
+    box-shadow: 0 8px 24px rgba(0,0,0,.18);
+  }
+
+  .lrp-range-{{ section.id }} {
+    position: absolute;
+    inset: 0;
+    z-index: 8;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: ew-resize;
+  }
+
+  .lrp-label {
+    position: absolute;
+    top: 16px;
+    z-index: 6;
+    padding: 8px 12px;
+    border-radius: 12px;
+    background: #111;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 950;
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .lrp-label-before-{{ section.id }} {
+    left: 16px;
+    opacity: var(--before-label-opacity);
+    transition: opacity .18s ease;
+  }
+
+  .lrp-label-after-{{ section.id }} {
+    right: 16px;
+    opacity: var(--after-label-opacity);
+    transition: opacity .18s ease;
+  }
+
+  .lrp-caption-{{ section.id }} {
+    margin: 12px 0 0;
+    text-align: center;
+    color: #777;
+    font-size: 14px;
+    line-height: 1.3;
+    font-style: italic;
+    font-weight: 750;
+  }
+
+  @media screen and (max-width: 989px) {
+    .luna-results-proof-{{ section.id }} {
+      padding: 36px 0 44px;
+    }
+
+    .lrp-grid-{{ section.id }} {
+      grid-template-columns: 1fr;
+      gap: 22px;
+      max-width: 640px;
+      margin: 0 auto;
+    }
+
+    .lrp-heading-wrap-{{ section.id }} {
+      margin-bottom: 22px;
+    }
+
+    .lrp-heading-{{ section.id }} {
+      font-size: clamp(34px, 10vw, 48px);
+    }
+
+    .lrp-video-frame-{{ section.id }} video,
+    .lrp-video-frame-{{ section.id }} img {
+      aspect-ratio: 0.85 / 1;
+    }
+
+    .lrp-compare-frame-{{ section.id }} {
+      aspect-ratio: 4 / 5;
+    }
+
+    .lrp-slider-handle-{{ section.id }} {
+      width: 44px;
+      height: 44px;
+      font-size: 15px;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .luna-results-proof-{{ section.id }} {
+      padding: 30px 0 36px;
+    }
+
+    .lrp-subheading-{{ section.id }} {
+      font-size: 14px;
+    }
+
+    .lrp-card-badge-{{ section.id }} {
+      font-size: 10px;
+      padding: 7px 12px;
+    }
+
+    .lrp-card-badge-compare-{{ section.id }} {
+      margin: 0 0 10px;
+    }
+
+    .lrp-label {
+      top: 12px;
+      font-size: 11px;
+      padding: 7px 11px;
+    }
+  }
+</style>
+
+<script>
+  (function() {
+    var comparison = document.querySelector('[data-lrp-compare="{{ section.id }}"]');
+    if (!comparison) return;
+
+    var range = comparison.querySelector('.lrp-range-{{ section.id }}');
+    if (!range) return;
+
+    function clamp(number, min, max) {
+      return Math.min(Math.max(number, min), max);
+    }
+
+    function updateComparison() {
+      var value = parseInt(range.value || 50, 10);
+      if (isNaN(value)) value = 50;
+
+      comparison.style.setProperty('--position', value + '%');
+
+      var beforeLabelOpacity = clamp((value - 10) / 16, 0, 1);
+      var afterLabelOpacity = clamp((90 - value) / 16, 0, 1);
+
+      comparison.style.setProperty('--before-label-opacity', beforeLabelOpacity.toFixed(2));
+      comparison.style.setProperty('--after-label-opacity', afterLabelOpacity.toFixed(2));
+    }
+
+    range.addEventListener('input', updateComparison);
+    updateComparison();
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Luna results comparison",
+  "settings": [
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "Kicker",
+      "default": "Real Proof"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Real results. Real routines."
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "See Luna in action — quick styling, visible results and everyday beauty-tool energy."
+    },
+    {
+      "type": "text",
+      "id": "video_badge",
+      "label": "Video badge",
+      "default": "Real Routine"
+    },
+    {
+      "type": "video",
+      "id": "result_video",
+      "label": "Result video"
+    },
+    {
+      "type": "text",
+      "id": "result_video_url",
+      "label": "Fallback MP4 video URL"
+    },
+    {
+      "type": "image_picker",
+      "id": "result_image",
+      "label": "Fallback result image"
+    },
+    {
+      "type": "text",
+      "id": "video_caption",
+      "label": "Video caption",
+      "default": "Real styling from home."
+    },
+    {
+      "type": "text",
+      "id": "compare_badge",
+      "label": "Comparison badge",
+      "default": "Before + After"
+    },
+    {
+      "type": "image_picker",
+      "id": "before_image",
+      "label": "Before image"
+    },
+    {
+      "type": "image_picker",
+      "id": "after_image",
+      "label": "After image"
+    },
+    {
+      "type": "text",
+      "id": "before_label",
+      "label": "Before label",
+      "default": "Before"
+    },
+    {
+      "type": "text",
+      "id": "after_label",
+      "label": "After label",
+      "default": "After"
+    },
+    {
+      "type": "text",
+      "id": "compare_caption",
+      "label": "Comparison caption",
+      "default": "See the difference in one pass."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Luna results comparison"
+    }
+  ]
+}
+{% endschema %}

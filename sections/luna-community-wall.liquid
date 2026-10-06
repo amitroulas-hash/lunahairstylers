@@ -1,0 +1,564 @@
+<style>
+  .luna-community {
+    padding: 58px 16px;
+    background:
+      radial-gradient(circle at 8% 6%, rgba(75,206,238,.22), transparent 34%),
+      radial-gradient(circle at 92% 0%, rgba(242,172,185,.34), transparent 38%),
+      linear-gradient(180deg, #fff8fb 0%, #eef9ff 100%);
+    overflow: hidden;
+  }
+
+  .luna-community__inner {
+    max-width: 1220px;
+    margin: 0 auto;
+  }
+
+  .luna-community__header {
+    text-align: center;
+    max-width: 850px;
+    margin: 0 auto 30px;
+  }
+
+  .luna-community__eyebrow {
+    margin: 0 0 10px;
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: #E6A0AA;
+  }
+
+  .luna-community__heading {
+    margin: 0 0 14px;
+    font-size: 38px;
+    line-height: 1.03;
+    font-weight: 900;
+    color: #111;
+  }
+
+  .luna-community__sub {
+    margin: 0 auto;
+    max-width: 720px;
+    font-size: 16px;
+    line-height: 1.55;
+    color: #555;
+  }
+.luna-moodboard-rail {
+  margin: 34px calc(50% - 50vw) 44px;
+  padding: 0 16px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+.luna-moodboard-rail::-webkit-scrollbar {
+  display: none;
+}
+
+.luna-moodboard-track {
+  display: flex;
+  gap: 18px;
+  width: max-content;
+}
+
+.luna-moodboard-slide {
+  width: min(86vw, 1040px);
+  scroll-snap-align: center;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-auto-rows: 135px;
+  gap: 12px;
+}
+
+.mood {
+  border-radius: 24px;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid rgba(230,160,170,.24);
+  box-shadow: 0 14px 34px rgba(230,160,170,.11);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  text-align: center;
+  font-weight: 900;
+  color: #111;
+}
+
+.mood img,
+.mood video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.mood--image,
+.mood--video {
+  padding: 0;
+}
+
+.mood--hero {
+  grid-column: span 3;
+  grid-row: span 2;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  justify-content: flex-end;
+}
+
+.mood--hero span {
+  font-size: 11px;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.mood--hero h3 {
+  margin: 0;
+  font-size: 42px;
+  line-height: .98;
+  letter-spacing: -.04em;
+}
+
+.mood--gradient {
+  background: linear-gradient(135deg, #4fccee 0%, #f2acb9 80%);
+}
+
+.mood--dark {
+  background: #111;
+  color: #fff;
+}
+
+.mood--word {
+  font-size: 34px;
+  line-height: .9;
+  letter-spacing: -.04em;
+}
+
+.mood--mini,
+.mood--small {
+  font-size: 20px;
+  line-height: 1.1;
+}
+
+.mood--small {
+  grid-column: span 2;
+}
+
+.mood--mini {
+  grid-column: span 2;
+}
+
+.mood--image.tall,
+.mood--video.tall {
+  grid-row: span 2;
+}
+
+.mood--image.wide,
+.mood--video.wide {
+  grid-column: span 2;
+}
+
+.mood--image.tall {
+  grid-column: span 2;
+}
+
+.mood--blue,
+.blue {
+  background: #eef9ff;
+}
+
+.mood--pink,
+.pink {
+  background: #FDF4F6;
+}
+
+.dark {
+  background: #111;
+  color: #fff;
+}
+
+@media screen and (max-width: 749px) {
+  .luna-moodboard-rail {
+    padding: 0 14px;
+    margin-top: 28px;
+  }
+
+  .luna-moodboard-slide {
+    width: 86vw;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 104px;
+    gap: 10px;
+  }
+
+  .mood {
+    border-radius: 18px;
+    padding: 14px;
+  }
+
+  .mood--hero {
+    grid-column: span 4;
+    grid-row: span 2;
+  }
+
+  .mood--hero h3 {
+    font-size: 32px;
+  }
+
+  .mood--word {
+    font-size: 26px;
+  }
+
+  .mood--mini,
+  .mood--small {
+    font-size: 16px;
+  }
+
+  .mood--image.tall {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+
+  .mood--image.wide,
+  .mood--video.wide,
+  .mood--small,
+  .mood--mini {
+    grid-column: span 2;
+  }
+}
+
+  .luna-review-section-title {
+    text-align: center;
+    margin: 10px auto 18px;
+  }
+
+  .luna-review-section-title p {
+    margin: 0 0 8px;
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: #E6A0AA;
+  }
+
+  .luna-review-section-title h3 {
+    margin: 0;
+    font-size: 30px;
+    line-height: 1.08;
+    font-weight: 900;
+    color: #111;
+  }
+
+  .luna-review-rail {
+    display: flex;
+    gap: 14px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding: 4px 2px 16px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .luna-review-rail::-webkit-scrollbar {
+    display: none;
+  }
+
+  .luna-review-card {
+    flex: 0 0 84%;
+    scroll-snap-align: start;
+    background: #fff;
+    border: 1px solid rgba(230,160,170,.24);
+    border-radius: 24px;
+    padding: 20px;
+    box-shadow: 0 14px 34px rgba(230,160,170,.11);
+  }
+
+  .luna-review-card__stars {
+    color: #E6A0AA;
+    font-size: 16px;
+    letter-spacing: .06em;
+    margin-bottom: 10px;
+  }
+
+  .luna-review-card__product {
+    display: inline-flex;
+    margin-bottom: 12px;
+    padding: 7px 10px;
+    border-radius: 999px;
+    background: #FDF4F6;
+    border: 1px solid rgba(230,160,170,.38);
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: #111;
+  }
+
+  .luna-review-card h4 {
+    margin: 0 0 10px;
+    font-size: 20px;
+    line-height: 1.1;
+    font-weight: 900;
+    color: #111;
+  }
+
+  .luna-review-card p {
+    margin: 0 0 16px;
+    font-size: 14px;
+    line-height: 1.48;
+    color: #555;
+  }
+
+  .luna-review-card__author {
+    font-size: 13px;
+    font-weight: 900;
+    color: #111;
+  }
+
+  .luna-review-card__source {
+    margin-top: 4px;
+    font-size: 12px;
+    color: #777;
+  }
+
+  @media screen and (min-width: 900px) {
+    .luna-community {
+      padding: 78px 48px;
+    }
+
+    .luna-community__heading {
+      font-size: 54px;
+    }
+
+    .luna-wall {
+      grid-template-columns: repeat(6, 1fr);
+      grid-auto-rows: 150px;
+      gap: 14px;
+    }
+
+    .luna-wall__tile {
+      min-height: auto;
+    }
+
+    .luna-wall__tile--wide {
+      grid-column: span 3;
+    }
+
+    .luna-wall__tile--mid {
+      grid-column: span 2;
+    }
+
+    .luna-wall__tile--big {
+      grid-column: span 3;
+      grid-row: span 2;
+    }
+
+    .luna-wall__tile--image {
+      grid-column: span 2;
+      grid-row: span 2;
+    }
+
+    .luna-review-card {
+      flex: 0 0 31%;
+      min-height: 310px;
+    }
+  }
+</style>
+
+<section class="luna-community">
+  <div class="luna-community__inner">
+
+    <div class="luna-community__header">
+      <p class="luna-community__eyebrow">The Luna community</p>
+      <h2 class="luna-community__heading">Real people. Real hair days. Real value.</h2>
+      <p class="luna-community__sub">
+        Luna is built for the women who want glossy, easy, everyday styling without paying more than they need to.
+      </p>
+    </div>
+<div class="luna-moodboard-rail" aria-label="Luna brand moodboard">
+  <div class="luna-moodboard-track">
+
+    <div class="luna-moodboard-slide">
+      <div class="mood mood--hero mood--gradient">
+        <span>LUNA ENERGY</span>
+        <h3>Good hair. Clear choice. No overpaying.</h3>
+      </div>
+
+      <div class="mood mood--image tall">
+        <img src="https://cdn.shopify.com/s/files/1/0609/7426/8657/files/curler_action_square.png?v=1776849812" alt="Luna curler in real use">
+      </div>
+
+      <div class="mood mood--word blue">GLOSSY</div>
+      <div class="mood mood--mini dark">Performance without the premium.</div>
+
+      <div class="mood mood--video">
+        <video autoplay muted loop playsinline preload="metadata">
+          <source src="https://cdn.shopify.com/videos/c/o/v/9e8d778f2e3d41ed8f79e4bfb4bc8aed.mp4" type="video/mp4">
+        </video>
+      </div>
+
+      <div class="mood mood--word pink">EASY</div>
+      <div class="mood mood--small">For actual hair days.</div>
+      <div class="mood mood--image wide">
+        <img src="https://cdn.shopify.com/s/files/1/0609/7426/8657/files/Curl_Image_for_landing_4x_c93d66ca-d03a-4793-a160-ed94a8b3fa08.png?v=1740031093" alt="Styled Luna curl result">
+      </div>
+    </div>
+
+    <div class="luna-moodboard-slide">
+      <div class="mood mood--image wide">
+        <img src="https://cdn.shopify.com/s/files/1/0609/7426/8657/files/Artboard_3_3x_450ea2e7-d279-467e-9583-6594e5fad24a.png?v=1776848409" alt="Luna product close-up">
+      </div>
+
+      <div class="mood mood--word dark">SMART</div>
+
+      <div class="mood mood--image tall">
+        <img src="https://cdn.shopify.com/s/files/1/0609/7426/8657/files/Curler_hand_product_8960d62d-4142-4f90-9804-529b5ef0ab04.gif?v=1776453316" alt="Luna curler hand-held product">
+      </div>
+
+      <div class="mood mood--mini pink">Beauty tools made to be used, not just displayed.</div>
+
+      <div class="mood mood--image">
+        <img src="https://cdn.shopify.com/s/files/1/0609/7426/8657/files/Mid_curl_final1_3x_1d6bbdaf-5a65-43e4-b250-8c46b2c5904b.png?v=1774262552" alt="Luna curl styling result">
+      </div>
+
+      <div class="mood mood--word blue">VALUE</div>
+      <div class="mood mood--small dark">Fast. Fun. Affordable.</div>
+      <div class="mood mood--word pink">SHINE</div>
+    </div>
+
+    <div class="luna-moodboard-slide">
+      <div class="mood mood--hero mood--dark">
+        <span>THE LUNA FEEL</span>
+        <h3>Salon-inspired results without the salon-sized price.</h3>
+      </div>
+
+      <div class="mood mood--image tall">
+        <img src="https://cdn.shopify.com/s/files/1/0609/7426/8657/files/Dryer_for_website_gif.gif?v=1773891990" alt="Luna dryer in use">
+      </div>
+
+      <div class="mood mood--word blue">REAL</div>
+      <div class="mood mood--mini">For gym bags, work mornings, nights out and weekends away.</div>
+
+      <div class="mood mood--image wide">
+        <img src="https://cdn.shopify.com/s/files/1/0609/7426/8657/files/Artboard_3_3x_450ea2e7-d279-467e-9583-6594e5fad24a.png?v=1776848409" alt="Luna styling product">
+      </div>
+
+      <div class="mood mood--word pink">CONFIDENCE</div>
+    </div>
+
+  </div>
+</div>
+
+    <div class="luna-review-section-title">
+      <p>Real reviews</p>
+      <h3>Why customers choose Luna.</h3>
+    </div>
+
+    <div class="luna-review-rail">
+
+      <article class="luna-review-card">
+        <div class="luna-review-card__stars">★★★★★</div>
+        <span class="luna-review-card__product">Straightener</span>
+        <h4>These are AMAZING!!!</h4>
+        <p>“The reviews are spot on. These hair straighteners are AMAZING. They work really well and to be honest, they are even better than my expensive ones.”</p>
+        <div class="luna-review-card__author">Lu34</div>
+        <div class="luna-review-card__source">Verified product review</div>
+      </article>
+
+      <article class="luna-review-card">
+        <div class="luna-review-card__stars">★★★★★</div>
+        <span class="luna-review-card__product">Straightener</span>
+        <h4>Luna hair straightener</h4>
+        <p>“I have very curly hair and thick hair and this straightener does the trick. Leaves a nice sleek shine from the Argan Oil infused plates.”</p>
+        <div class="luna-review-card__author">Emz365</div>
+        <div class="luna-review-card__source">Verified product review</div>
+      </article>
+
+      <article class="luna-review-card">
+        <div class="luna-review-card__stars">★★★★★</div>
+        <span class="luna-review-card__product">Dryer</span>
+        <h4>I’m extremely satisfied</h4>
+        <p>“This product works like a champion. Its strong air flow is something I’ve never had before and dries my hair really fast.”</p>
+        <div class="luna-review-card__author">Pinokyo1</div>
+        <div class="luna-review-card__source">Verified product review</div>
+      </article>
+
+      <article class="luna-review-card">
+        <div class="luna-review-card__stars">★★★★★</div>
+        <span class="luna-review-card__product">Dryer</span>
+        <h4>Amazing!</h4>
+        <p>“I was sceptical about how its performance would be but I really was surprised. It dries my long hair so much faster. Absolutely great hairdryer for the price.”</p>
+        <div class="luna-review-card__author">Dawn073</div>
+        <div class="luna-review-card__source">Verified product review</div>
+      </article>
+
+      <article class="luna-review-card">
+        <div class="luna-review-card__stars">★★★★★</div>
+        <span class="luna-review-card__product">Curling Wand</span>
+        <h4>Great curling wand</h4>
+        <p>“Love this wand, it’s a great size and really easy to use.”</p>
+        <div class="luna-review-card__author">Highdhdh</div>
+        <div class="luna-review-card__source">Verified product review</div>
+      </article>
+
+      <article class="luna-review-card">
+        <div class="luna-review-card__stars">★★★★★</div>
+        <span class="luna-review-card__product">Straightener</span>
+        <h4>Value for money</h4>
+        <p>“Amazing price and works so well. Heats up in seconds, easy to clean and maintain.”</p>
+        <div class="luna-review-card__author">Char78</div>
+        <div class="luna-review-card__source">Verified product review</div>
+      </article>
+
+      <article class="luna-review-card">
+        <div class="luna-review-card__stars">★★★★★</div>
+        <span class="luna-review-card__product">Dryer</span>
+        <h4>Great value and super strong</h4>
+        <p>“Great price and strong powerful hairdryer. Comfortable to hold, not too heavy.”</p>
+        <div class="luna-review-card__author">VivSLY</div>
+        <div class="luna-review-card__source">Verified product review</div>
+      </article>
+
+      <article class="luna-review-card">
+        <div class="luna-review-card__stars">★★★★★</div>
+        <span class="luna-review-card__product">Straightener</span>
+        <h4>Lovely surprise</h4>
+        <p>“WOW. Genuinely way better than my old straighteners. Great value for money, warmed up very quickly and a single pass straightened my hair immediately.”</p>
+        <div class="luna-review-card__author">Noemi</div>
+        <div class="luna-review-card__source">Verified product review</div>
+      </article>
+
+      <article class="luna-review-card">
+        <div class="luna-review-card__stars">★★★★★</div>
+        <span class="luna-review-card__product">Dryer</span>
+        <h4>Great quality</h4>
+        <p>“Being a hairdresser of 35 years... this dryer has been put through its paces and has handled the pressure with ease.”</p>
+        <div class="luna-review-card__author">KABUKI</div>
+        <div class="luna-review-card__source">Verified product review</div>
+      </article>
+
+      <article class="luna-review-card">
+        <div class="luna-review-card__stars">★★★★★</div>
+        <span class="luna-review-card__product">Curling Wand</span>
+        <h4>Luna curling wand</h4>
+        <p>“Great curling iron for the price, exactly as described, quick delivery.”</p>
+        <div class="luna-review-card__author">Sue9</div>
+        <div class="luna-review-card__source">Verified product review</div>
+      </article>
+
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Luna Community Wall",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Luna Community Wall"
+    }
+  ]
+}
+{% endschema %}
