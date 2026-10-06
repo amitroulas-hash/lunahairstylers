@@ -38,7 +38,8 @@
           href="{{ section.settings.slide1_link | default: '/products/dryer' }}"
           class="luna-hero__btn-{{ section.id }}"
         >
-          {{ section.settings.slide1_btn | default: 'Shop Hair Dryer' }}
+          <span class="luna-hero__btn-label-desktop-{{ section.id }}">{{ section.settings.slide1_btn | default: 'Shop Hair Dryer' }}</span>
+          <span class="luna-hero__btn-label-mobile-{{ section.id }}">Shop Luna</span>
         </a>
       </div>
     </article>
@@ -190,6 +191,10 @@
   box-shadow: 0 18px 38px rgba(0,0,0,.18);
 }
 
+.luna-hero__btn-label-mobile-{{ section.id }} {
+  display: none;
+}
+
 .luna-hero__dots-{{ section.id }} {
   position: absolute;
   z-index: 5;
@@ -236,6 +241,14 @@
 
   .luna-hero__pill-{{ section.id }} {
     display: none;
+  }
+
+  .luna-hero__btn-label-desktop-{{ section.id }} {
+    display: none;
+  }
+
+  .luna-hero__btn-label-mobile-{{ section.id }} {
+    display: inline;
   }
 
   .luna-hero__cta-wrap-{{ section.id }} {
