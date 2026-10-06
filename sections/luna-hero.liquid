@@ -224,40 +224,42 @@
 
 @media screen and (max-width: 749px) {
   .luna-hero__cta-wrap-{{ section.id }} {
-    left: 50%;
-    right: auto;
-    bottom: 26px;
-    transform: translateX(-50%);
+    position: static;
+    transform: none;
+    width: 100%;
+    padding: 14px 16px 18px;
     align-items: center;
-    width: calc(100% - 32px);
+    gap: 0;
+    background: #fff7f8;
   }
 
   .luna-hero__pill-{{ section.id }} {
-    font-size: 10px;
-    padding: 7px 11px;
+    display: none;
   }
 
   .luna-hero__btn-{{ section.id }} {
-    min-height: 46px;
+    width: min(100%, 340px);
+    min-height: 48px;
     padding: 12px 20px;
-    border-radius: 13px;
+    border-radius: 14px;
     font-size: 14px;
+    box-shadow: none;
   }
 
- .luna-hero-{{ section.id }} {
-  margin-bottom: 0;
-}
+  .luna-hero-{{ section.id }} {
+    margin-bottom: 0;
+  }
 
-.luna-hero__dots-{{ section.id }} {
-  position: relative;
-  left: auto;
-  bottom: auto;
-  transform: none;
-  width: fit-content;
-  margin: 10px auto 12px;
-  background: rgba(242,172,185,.24);
-  border: 1px solid rgba(230,160,170,.28);
-}
+  .luna-hero__dots-{{ section.id }} {
+    position: relative;
+    left: auto;
+    bottom: auto;
+    transform: none;
+    width: fit-content;
+    margin: 10px auto 12px;
+    background: rgba(242,172,185,.24);
+    border: 1px solid rgba(230,160,170,.28);
+  }
 }
 
 @media screen and (min-width: 990px) {
