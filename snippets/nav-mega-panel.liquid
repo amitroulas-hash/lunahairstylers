@@ -6,19 +6,6 @@
   elsif parent_link != blank
     assign panel_links = parent_link.links
   endif
-
-  assign featured_link = blank
-  assign luxe_link = blank
-
-  for item in panel_links
-    if item.title == 'Hair Dryer + FREE Kit'
-      assign featured_link = item
-    endif
-
-    if item.title contains 'Luxe'
-      assign luxe_link = item
-    endif
-  endfor
 %}
 
 <div class="luna-mega-panel">
@@ -26,36 +13,24 @@
 
     <div class="luna-mega-panel__feature">
       <div class="luna-mega-panel__intro">
-              <span class="luna-mega-panel__eyebrow">Explore the Luna range</span>
-        <h3 class="luna-mega-panel__headline">Start with the offer. Find your styler.</h3>
+        <span class="luna-mega-panel__eyebrow">Explore the Luna range</span>
+        <h3 class="luna-mega-panel__headline">Find your styler.</h3>
         <p class="luna-mega-panel__sub">
-          Choose the Ionic Hair Dryer + FREE Luxe Kit offer, or browse smoothing, curling and travel-ready styling.
+          Choose the right Luna tool for smoothing, curling, drying or travel-ready styling.
         </p>
 
         <div class="luna-mega-panel__chips">
-          <span class="luna-mega-panel__chip">Free Luxe Kit with Dryer</span>
-          <span class="luna-mega-panel__chip">Bundle & Save 30%</span>
+          <span class="luna-mega-panel__chip">Spend $50 &amp; Save 20%</span>
           <span class="luna-mega-panel__chip">Salon-worthy styling</span>
+          <span class="luna-mega-panel__chip">12-month warranty</span>
         </div>
       </div>
-
-      <a href="/products/dryer" class="luna-mega-panel__gift-tile">
-                <img
-          src="https://cdn.shopify.com/s/files/1/0609/7426/8657/files/website_26_offer_1.gif?v=1775184170"
-          alt="Free Luna Luxe Hair Kit"
-          loading="lazy"
-        >
-        <div>
-          <strong>FREE Luxe Kit</strong>
-          <span>Included with Ionic Dryer</span>
-        </div>
-      </a>
     </div>
 
     <div class="luna-mega-panel__links">
       <div class="luna-mega-panel__links-grid">
         {% for item in panel_links %}
-          {% if item.title == 'Offers' %}
+          {% if item.title == 'Offers' or item.title contains 'Luxe' %}
             {% continue %}
           {% endif %}
 

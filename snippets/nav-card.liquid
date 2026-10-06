@@ -1,6 +1,7 @@
 {% liquid
   assign nav_image = blank
   assign nav_title = nav_link.title
+  assign nav_title = nav_title | replace: ' + FREE Kit', '' | replace: ' + FREE KIT', ''
   assign nav_badge = blank
   assign nav_caption = blank
 
@@ -65,29 +66,6 @@
 <a href="{{ nav_link.url }}" class="luna-nav-card full-unstyled-link">
   <div class="luna-nav-card__media">
     {% if nav_image != blank %}
-      {% if nav_title contains 'Hair dryer + FREE Kit' or nav_title contains 'Hair Dryer + FREE Kit' %}
-        <div class="luna-nav-card__rotator">
-          {{
-            nav_image
-            | image_url: width: 900
-            | image_tag:
-              class: 'luna-nav-card__image luna-nav-card__image--rotate is-1',
-              loading: 'lazy',
-              widths: '240, 360, 480, 720, 900',
-              sizes: '(min-width: 990px) 280px, 42vw',
-              alt: nav_title | escape
-          }}
-
-          <img
-            class="luna-nav-card__image luna-nav-card__image--rotate is-2"
-            src="https://cdn.shopify.com/s/files/1/0609/7426/8657/files/website_26_offer_1.gif?v=1775184170"
-            alt="Free Luxe Kit included"
-            loading="lazy"
-          >
-        </div>
-
-        <span class="luna-nav-card__free-badge">FREE KIT</span>
-      {% else %}
         {{
           nav_image
           | image_url: width: 900
@@ -98,7 +76,7 @@
             sizes: '(min-width: 990px) 280px, 42vw',
             alt: nav_title | escape
         }}
-      {% endif %}
+
     {% else %}
       <div class="luna-nav-card__placeholder">
         <span>{{ nav_title }}</span>

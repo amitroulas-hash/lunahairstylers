@@ -253,44 +253,6 @@
     color: #111;
   }
 
-  .luna-mega-panel__gift-tile {
-    display: grid;
-    grid-template-columns: 96px 1fr;
-    gap: 12px;
-    align-items: center;
-    margin-top: auto;
-    padding: 12px;
-    border-radius: 18px;
-    background: #fff;
-    border: 1px solid rgba(230,160,170,0.22);
-    text-decoration: none;
-    box-shadow: 0 12px 28px rgba(230,160,170,0.10);
-  }
-
-  .luna-mega-panel__gift-tile img {
-    width: 96px;
-    height: 96px;
-    object-fit: cover;
-    border-radius: 14px;
-    display: block;
-  }
-
-  .luna-mega-panel__gift-tile strong {
-    display: block;
-    font-size: 17px;
-    line-height: 1.1;
-    color: #111;
-    font-weight: 800;
-  }
-
-  .luna-mega-panel__gift-tile span {
-    display: block;
-    margin-top: 5px;
-    font-size: 13px;
-    line-height: 1.35;
-    color: #555;
-  }
-
   .luna-nav-card {
     display: block;
     background: #fff;
@@ -532,22 +494,11 @@
 .header > details-modal.header__search {
   display: none !important;
 }
-/* ===== LUXE KIT FEATURE BOOST ===== */
+/* ===== DESKTOP MEGA MENU TUNING ===== */
 @media screen and (min-width: 990px) {
 
   .luna-mega-panel__inner {
     grid-template-columns: 360px minmax(0, 1fr) !important;
-  }
-
-  .luna-mega-panel__gift-tile {
-    grid-template-columns: 120px 1fr !important;
-    padding: 14px !important;
-  }
-
-  .luna-mega-panel__gift-tile img {
-    width: 120px !important;
-    height: 120px !important;
-    border-radius: 16px !important;
   }
 
   .luna-mega-panel__headline {
@@ -739,7 +690,7 @@
 
    <div class="luna-mobile-drawer-visual__grid">
   {%- for link in section.settings.menu.links -%}
-        {%- if link.title == 'Offers' -%}
+        {%- if link.title == 'Offers' or link.title contains 'Luxe' -%}
       {% continue %}
     {%- endif -%}
     {%- if mobile_featured_link != blank and link.title == mobile_featured_link.title and link.url == mobile_featured_link.url -%}
@@ -758,41 +709,41 @@
                 <nav class="menu-drawer__navigation">
                   <ul class="menu-drawer__menu list-menu" role="list">
                    {%- for link in section.settings.menu.links -%}
-  {%- if link.title == 'Offers' -%}
+  {%- if link.title == 'Offers' or link.title contains 'Luxe' -%}
     {% continue %}
   {%- endif -%}
   <li>
                         {%- if link.links != blank -%}
                           <details>
                             <summary class="menu-drawer__menu-item list-menu__item link link--text focus-inset{% if link.child_active %} menu-drawer__menu-item--active{% endif %}">
-                              {{ link.title | escape }}
+                              {{ link.title | replace: ' + FREE Kit', '' | replace: ' + FREE KIT', '' | escape }}
                               {% render 'icon-arrow' %}
                               {% render 'icon-caret' %}
                             </summary>
-                            <div id="link-{{ link.title | escape }}" class="menu-drawer__submenu motion-reduce" tabindex="-1">
+                            <div id="link-{{ link.title | replace: ' + FREE Kit', '' | replace: ' + FREE KIT', '' | escape }}" class="menu-drawer__submenu motion-reduce" tabindex="-1">
                               <div class="menu-drawer__inner-submenu">
                                 <button class="menu-drawer__close-button link link--text focus-inset" aria-expanded="true">
                                   {% render 'icon-arrow' %}
-                                  {{ link.title | escape }}
+                                  {{ link.title | replace: ' + FREE Kit', '' | replace: ' + FREE KIT', '' | escape }}
                                 </button>
                                 <ul class="menu-drawer__menu list-menu" role="list" tabindex="-1">
                                   {%- for childlink in link.links -%}
                                     <li>
                                       {%- if childlink.links == blank -%}
                                         <a href="{{ childlink.url }}" class="menu-drawer__menu-item link link--text list-menu__item focus-inset{% if childlink.current %} menu-drawer__menu-item--active{% endif %}"{% if childlink.current %} aria-current="page"{% endif %}>
-                                          {{ childlink.title | escape }}
+                                          {{ childlink.title | replace: ' + FREE Kit', '' | replace: ' + FREE KIT', '' | escape }}
                                         </a>
                                       {%- else -%}
                                         <details>
                                           <summary class="menu-drawer__menu-item link link--text list-menu__item focus-inset">
-                                            {{ childlink.title | escape }}
+                                            {{ childlink.title | replace: ' + FREE Kit', '' | replace: ' + FREE KIT', '' | escape }}
                                             {% render 'icon-arrow' %}
                                             {% render 'icon-caret' %}
                                           </summary>
-                                          <div id="childlink-{{ childlink.title | escape }}" class="menu-drawer__submenu motion-reduce">
+                                          <div id="childlink-{{ childlink.title | replace: ' + FREE Kit', '' | replace: ' + FREE KIT', '' | escape }}" class="menu-drawer__submenu motion-reduce">
                                             <button class="menu-drawer__close-button link link--text focus-inset" aria-expanded="true">
                                               {% render 'icon-arrow' %}
-                                              {{ childlink.title | escape }}
+                                              {{ childlink.title | replace: ' + FREE Kit', '' | replace: ' + FREE KIT', '' | escape }}
                                             </button>
                                             <ul class="menu-drawer__menu list-menu" role="list" tabindex="-1">
                                               {%- for grandchildlink in childlink.links -%}
@@ -814,7 +765,7 @@
                           </details>
                         {%- else -%}
                           <a href="{{ link.url }}" class="menu-drawer__menu-item list-menu__item link link--text focus-inset{% if link.current %} menu-drawer__menu-item--active{% endif %}"{% if link.current %} aria-current="page"{% endif %}>
-                            {{ link.title | escape }}
+                            {{ link.title | replace: ' + FREE Kit', '' | replace: ' + FREE KIT', '' | escape }}
                           </a>
                         {%- endif -%}
                       </li>
@@ -1017,7 +968,7 @@
       <nav class="header__inline-menu">
         <ul class="list-menu list-menu--inline" role="list">
           {%- for link in section.settings.menu.links -%}
-  {%- if link.title == 'Offers' -%}
+  {%- if link.title == 'Offers' or link.title contains 'Luxe' -%}
     {% continue %}
   {%- endif -%}
 <li class="{% if link.title == 'Shop All' %}luna-menu-item-shopall{% endif %}">
@@ -1025,7 +976,7 @@
                 <details-disclosure>
                   <details>
                     <summary class="header__menu-item list-menu__item link focus-inset">
-                      <span {%- if link.child_active %} class="header__active-menu-item"{% endif %}>{{ link.title | escape }}</span>
+                      <span {%- if link.child_active %} class="header__active-menu-item"{% endif %}>{{ link.title | replace: ' + FREE Kit', '' | replace: ' + FREE KIT', '' | escape }}</span>
                       {% render 'icon-caret' %}
                     </summary>
                     <ul class="header__submenu list-menu list-menu--disclosure caption-large motion-reduce" role="list" tabindex="-1">
@@ -1033,12 +984,12 @@
                         <li>
                           {%- if childlink.links == blank -%}
                             <a href="{{ childlink.url }}" class="header__menu-item list-menu__item link link--text focus-inset caption-large{% if childlink.current %} list-menu__item--active{% endif %}"{% if childlink.current %} aria-current="page"{% endif %}>
-                              {{ childlink.title | escape }}
+                              {{ childlink.title | replace: ' + FREE Kit', '' | replace: ' + FREE KIT', '' | escape }}
                             </a>
                           {%- else -%}
                             <details>
                               <summary class="header__menu-item link link--text list-menu__item focus-inset caption-large">
-                                {{ childlink.title | escape }}
+                                {{ childlink.title | replace: ' + FREE Kit', '' | replace: ' + FREE KIT', '' | escape }}
                                 {% render 'icon-caret' %}
                               </summary>
                               <ul class="header__submenu list-menu motion-reduce">
@@ -1062,7 +1013,7 @@
     <details-disclosure class="luna-desktop-shopall">
       <details>
         <summary class="header__menu-item list-menu__item link focus-inset">
-          <span {%- if link.current %} class="header__active-menu-item"{% endif %}>{{ link.title | escape }}</span>
+          <span {%- if link.current %} class="header__active-menu-item"{% endif %}>{{ link.title | replace: ' + FREE Kit', '' | replace: ' + FREE KIT', '' | escape }}</span>
           {% render 'icon-caret' %}
         </summary>
         <div class="header__submenu list-menu list-menu--disclosure caption-large motion-reduce luna-header-mega" tabindex="-1">
@@ -1072,7 +1023,7 @@
     </details-disclosure>
   {%- else -%}
     <a href="{{ link.url }}" class="header__menu-item header__menu-item list-menu__item link link--text focus-inset"{% if link.current %} aria-current="page"{% endif %}>
-      <span {%- if link.current %} class="header__active-menu-item"{% endif %}>{{ link.title | escape }}</span>
+      <span {%- if link.current %} class="header__active-menu-item"{% endif %}>{{ link.title | replace: ' + FREE Kit', '' | replace: ' + FREE KIT', '' | escape }}</span>
     </a>
   {%- endif -%}
 {%- endif -%}

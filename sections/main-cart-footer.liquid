@@ -27,24 +27,11 @@
                   <p class="totals__subtotal-value">{{ cart.total_price | money_with_currency }}</p>
                 </div>
 
-                {% assign has_dryer = false %}
-                {% for item in cart.items %}
-                  {% if item.product.handle == 'dryer' %}
-                    {% assign has_dryer = true %}
-                  {% endif %}
-                {% endfor %}
-
                 <div class="luna-cart-summary">
                   <p>
                     💸 <strong>{{ settings.luna_spend_offer_title }}</strong><br>
                     {{ settings.luna_spend_offer_text }}
                   </p>
-
-                  {% if has_dryer %}
-                    <p>
-                      🎁 <strong>Free Luxe Kit included</strong> with your Ionic Hair Dryer.
-                    </p>
-                  {% endif %}
                 </div>
 
                 {%- if cart.cart_level_discount_applications.size > 0 -%}

@@ -19,7 +19,7 @@
           {% assign setting_id = 'hero_product_' | append: i %}
           {% assign p = section.settings[setting_id] %}
           {% if p != blank and p.handle != 'travel-dryer' %}
-            {% render 'luna-product-home-card', product: p, section_id: section.id, luxe_kit_variant_id: section.settings.luxe_kit_variant_id, dryer_handle: section.settings.dryer_handle, luxe_kit_gif: section.settings.luxe_kit_gif %}
+            {% render 'luna-product-home-card', product: p, section_id: section.id, dryer_handle: section.settings.dryer_handle %}
           {% endif %}
         {% endfor %}
 
@@ -27,7 +27,7 @@
           {% assign setting_id = 'travel_product_' | append: i %}
           {% assign p = section.settings[setting_id] %}
           {% if p != blank and p.handle != 'travel-dryer' %}
-            {% render 'luna-product-home-card', product: p, section_id: section.id, luxe_kit_variant_id: section.settings.luxe_kit_variant_id, dryer_handle: section.settings.dryer_handle, luxe_kit_gif: section.settings.luxe_kit_gif %}
+            {% render 'luna-product-home-card', product: p, section_id: section.id, dryer_handle: section.settings.dryer_handle %}
           {% endif %}
         {% endfor %}
       </div>
@@ -279,8 +279,7 @@
   }
 }
 
-.lpv2-badge-{{ section.id }},
-.lpv2-gift-badge-{{ section.id }} {
+.lpv2-badge-{{ section.id }} {
   position: absolute;
   z-index: 3;
   left: 10px;
@@ -302,31 +301,6 @@
   color: #111;
 }
 
-.lpv2-gift-badge-{{ section.id }} {
-  bottom: 10px;
-  background: #E6A0AA;
-  color: #fff;
-}
-
-.lpv2-gift-tile-{{ section.id }} {
-  position: absolute;
-  right: 10px;
-  bottom: 10px;
-  z-index: 4;
-  width: 58px;
-  height: 58px;
-  border-radius: 12px;
-  overflow: hidden;
-  background: #fff;
-  border: 1px solid rgba(230,160,170,.35);
-  box-shadow: 0 8px 18px rgba(0,0,0,.12);
-}
-
-.lpv2-gift-tile-{{ section.id }} img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
 
 .lpv2-info-{{ section.id }} {
   padding: 12px;
@@ -575,7 +549,6 @@
 
     var variantId = parseInt(button.dataset.variantId, 10);
     var handle = button.dataset.productHandle;
-    var dryerHandle = '{{ section.settings.dryer_handle }}';
 
     if (!variantId) return;
 
@@ -609,7 +582,7 @@
     {
       "type": "product",
       "id": "hero_product_1",
-      "label": "Product 1 — Dryer / Bundle"
+      "label": "Product 1 — Hair Dryer"
     },
     {
       "type": "product",

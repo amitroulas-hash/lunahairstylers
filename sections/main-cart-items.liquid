@@ -124,10 +124,6 @@
 
             <tbody>
               {%- for item in cart.items -%}
-                {%- assign is_luxe_gift = false -%}
-                {%- if item.variant.id == 47990358474993 -%}
-                  {%- assign is_luxe_gift = true -%}
-                {%- endif -%}
                 <tr class="cart-item" id="CartItem-{{ item.index | plus: 1 }}">
   <td class="cart-item__media">
     {% if item.image %}
@@ -149,13 +145,6 @@
                     {%- endif -%}
 
                     <a href="{{ item.url }}" class="cart-item__name h4 break">{{ item.product.title | escape }}</a>
-                    {% if is_luxe_gift %}
-  <p class="luna-cart-badge luna-cart-badge--gift">🎁 FREE Luxe Kit included</p>
-{% endif %}
-
-{% if item.product.handle == 'dryer' %}
-  <p class="luna-cart-badge luna-cart-badge--gift">🎁 FREE Luxe Kit unlocked</p>
-{% endif %}
 
 {% if item.original_line_price > item.final_line_price or item.discounts.size > 0 %}
 <p class="luna-cart-badge luna-cart-badge--bundle">💸 Bundle offer active</p>
@@ -261,27 +250,6 @@
                   </td>
 
                   <td class="cart-item__quantity">
-  {% if is_luxe_gift %}
-    <div class="quantity" style="opacity:0.72; pointer-events:none;">
-      <button class="quantity__button no-js-hidden" type="button" disabled>
-        {% render 'icon-minus' %}
-      </button>
-      <input class="quantity__input"
-        type="number"
-        value="1"
-        min="1"
-        max="1"
-        disabled
-        aria-label="Free gift quantity locked"
-      >
-      <button class="quantity__button no-js-hidden" type="button" disabled>
-        {% render 'icon-plus' %}
-      </button>
-    </div>
-    <div style="font-size:1.2rem; color:#777; margin-top:0.8rem;">
-      Free gift limited to 1 per order
-    </div>
-  {% else %}
     <label class="visually-hidden" for="Quantity-{{ item.index | plus: 1 }}">
       {{ 'products.product.quantity.label' | t }}
     </label>
@@ -310,7 +278,6 @@
         {% render 'icon-remove' %}
       </a>
     </cart-remove-button>
-  {% endif %}
 </td>
 
                   <td class="cart-item__totals right small-hide">
@@ -373,114 +340,34 @@
   </form>
 </cart-items>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-  var giftVariantId = 47990358474993;
-  var dryerTitleMatch = 'Luna Ionic Hair Dryer';
-  var syncingGift = false;
-  var syncTimer;
+document.addEventListener('DOMContentLoaded', async function() {
+  var legacyLuxeVariantId = 47990358474993;
 
-  function queueGiftSync() {
-    clearTimeout(syncTimer);
-    syncTimer = setTimeout(syncGiftRules, 500);
-  }
-
-  async function syncGiftRules() {
-    if (syncingGift) return;
-    syncingGift = true;
-
-    try {
-      var response = await fetch('{{ routes.root_url }}cart.js', {
-        headers: { 'Accept': 'application/json' }
-      });
-      var cart = await response.json();
-
-      var giftItem = cart.items.find(function(item) {
-        return item.variant_id === giftVariantId;
-      });
-
-      var hasDryer = cart.items.some(function(item) {
-        return item.product_title && item.product_title.indexOf(dryerTitleMatch) !== -1 && item.variant_id !== giftVariantId;
-      });
-      if (!giftItem && hasDryer) {
-  await fetch('{{ routes.root_url }}cart/add.js', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json'
-    },
-    body: JSON.stringify({
-      id: giftVariantId,
-      quantity: 1
-    })
-  });
-  window.location.reload();
-  return;
-}
-      if (giftItem && !hasDryer) {
-        await fetch('{{ routes.root_url }}cart/change.js', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          },
-          body: JSON.stringify({
-            id: giftItem.key,
-            quantity: 0
-          })
-        });
-        window.location.reload();
-        return;
-      }
-
-      if (giftItem && giftItem.quantity !== 1) {
-        await fetch('{{ routes.root_url }}cart/change.js', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          },
-          body: JSON.stringify({
-            id: giftItem.key,
-            quantity: 1
-          })
-        });
-        window.location.reload();
-        return;
-      }
-    } catch (error) {
-      console.error('Gift cart sync failed:', error);
-    } finally {
-      syncingGift = false;
-    }
-  }
-
-  syncGiftRules();
-
-  document.addEventListener('click', function(event) {
-    if (
-      event.target.closest('cart-remove-button') ||
-      event.target.closest('.quantity__button')
-    ) {
-      queueGiftSync();
-    }
-  });
-
-  document.addEventListener('change', function(event) {
-    if (event.target.matches('input[name="updates[]"]')) {
-      queueGiftSync();
-    }
-  });
-
-  var cartContainer = document.getElementById('main-cart-items');
-  if (cartContainer) {
-    var observer = new MutationObserver(function() {
-      queueGiftSync();
+  try {
+    var response = await fetch('{{ routes.root_url }}cart.js', {
+      headers: { 'Accept': 'application/json' }
+    });
+    var cart = await response.json();
+    var legacyItem = cart.items.find(function(item) {
+      return item.variant_id === legacyLuxeVariantId;
     });
 
-    observer.observe(cartContainer, {
-      childList: true,
-      subtree: true
-    });
+    if (legacyItem) {
+      await fetch('{{ routes.root_url }}cart/change.js', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          id: legacyItem.key,
+          quantity: 0
+        })
+      });
+      window.location.reload();
+    }
+  } catch (error) {
+    console.error('Legacy cart cleanup failed:', error);
   }
 });
 </script>
@@ -495,11 +382,6 @@ document.addEventListener('DOMContentLoaded', function() {
     line-height: 1.2;
   }
 
-  .luna-cart-badge--gift {
-    background: #FDF4F6;
-    color: #111;
-    border: 1px solid rgba(230,160,170,0.45);
-  }
 
   .luna-cart-badge--bundle {
     background: #111;

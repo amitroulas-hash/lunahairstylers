@@ -1,6 +1,6 @@
 {% comment %}
-  Luna Hero — stable campaign slideshow
-  2 slides, desktop/mobile image support, swipe, autoplay, Luna sticker CTA.
+  Luna Hero — stable campaign banner/slideshow
+  One primary slide with optional second slide, desktop/mobile image support, swipe, autoplay, Luna sticker CTA.
 {% endcomment %}
 
 <section class="luna-hero-{{ section.id }}" id="LunaHero-{{ section.id }}">
@@ -43,6 +43,7 @@
       </div>
     </article>
 
+    {%- if section.settings.slide2_image != blank -%}
     <article class="luna-hero__slide-{{ section.id }}" data-luna-hero-slide>
       {%- if section.settings.slide2_image != blank -%}
         <picture>
@@ -79,13 +80,16 @@
         </a>
       </div>
     </article>
+    {%- endif -%}
 
   </div>
 
-  <div class="luna-hero__dots-{{ section.id }}" aria-label="Luna hero slides">
-    <button class="luna-hero__dot-{{ section.id }} is-active" type="button" data-luna-hero-dot="0" aria-label="Show slide 1"></button>
-    <button class="luna-hero__dot-{{ section.id }}" type="button" data-luna-hero-dot="1" aria-label="Show slide 2"></button>
-  </div>
+  {%- if section.settings.slide2_image != blank -%}
+    <div class="luna-hero__dots-{{ section.id }}" aria-label="Luna hero slides">
+      <button class="luna-hero__dot-{{ section.id }} is-active" type="button" data-luna-hero-dot="0" aria-label="Show slide 1"></button>
+      <button class="luna-hero__dot-{{ section.id }}" type="button" data-luna-hero-dot="1" aria-label="Show slide 2"></button>
+    </div>
+  {%- endif -%}
 </section>
 
 <style>
