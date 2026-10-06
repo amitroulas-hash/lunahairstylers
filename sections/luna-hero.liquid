@@ -224,7 +224,8 @@
 
 @media screen and (max-width: 749px) {
   .luna-hero-{{ section.id }} {
-    margin-bottom: 0;
+    margin-bottom: 30px;
+    overflow: visible;
   }
 
   .luna-hero__slide-{{ section.id }} {
@@ -239,28 +240,29 @@
     position: absolute;
     left: 50%;
     right: auto;
-    bottom: 22px;
+    bottom: -22px;
     transform: translateX(-50%);
     width: auto;
     padding: 0;
     align-items: center;
     gap: 0;
     background: transparent;
+    z-index: 6;
   }
 
   .luna-hero__btn-{{ section.id }} {
     width: auto;
-    min-width: 220px;
-    max-width: calc(100vw - 64px);
-    min-height: 44px;
-    padding: 10px 22px;
+    min-width: 150px;
+    max-width: calc(100vw - 110px);
+    min-height: 42px;
+    padding: 9px 20px;
     border-radius: 999px;
     font-size: 13px;
     font-weight: 900;
-    background: rgba(236, 176, 193, 0.88);
+    background: rgba(236, 176, 193, 0.94);
     color: #111 !important;
-    border: 1px solid rgba(255,255,255,.58);
-    box-shadow: 0 10px 26px rgba(17,17,17,.14);
+    border: 1px solid rgba(255,255,255,.68);
+    box-shadow: 0 8px 22px rgba(17,17,17,.14);
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
   }
