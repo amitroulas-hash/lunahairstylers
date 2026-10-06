@@ -1,0 +1,210 @@
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+<style>
+ .fb-{{ ai_gen_id }} {
+    position: fixed;
+    bottom: 80px;
+    right: 16px;
+    z-index: 999;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: {{ block.settings.badge_color }};
+    color: {{ block.settings.text_color }};
+    font-size: {{ block.settings.font_size }}px;
+    font-weight: {{ block.settings.font_weight }};
+    padding: {{ block.settings.padding_vertical }}px {{ block.settings.padding_horizontal }}px;
+    border-radius: {{ block.settings.border_radius }}px;
+    box-shadow: {{ block.settings.shadow_horizontal }}px {{ block.settings.shadow_vertical }}px {{ block.settings.shadow_blur }}px {{ block.settings.shadow_color }};
+    text-decoration: none;
+    text-align: center;
+    line-height: 1.3;
+    cursor: pointer;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+    max-width: 160px;
+  }
+
+  .fb-{{ ai_gen_id }}:hover {
+    transform: scale(1.05);
+  }
+
+  .fb-{{ ai_gen_id }}.is-hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(12px);
+  }
+
+  @media screen and (max-width: 749px) {
+    .fb-{{ ai_gen_id }} {
+      right: 12px;
+      bottom: 88px;
+      max-width: 150px;
+    }
+  }
+</style>
+{% if block.settings.badge_link != blank %}
+<a href="{{ block.settings.badge_link }}" id="fb-{{ ai_gen_id }}" class="fb-{{ ai_gen_id }}" {{ block.shopify_attributes }}>  
+    <span>{{ block.settings.line_1 }}</span>
+    <span>{{ block.settings.line_2 }}</span>
+  </a>
+{% else %}
+<div id="fb-{{ ai_gen_id }}" class="fb-{{ ai_gen_id }}" {{ block.shopify_attributes }}> 
+     <span>{{ block.settings.line_1 }}</span>
+    <span>{{ block.settings.line_2 }}</span>
+  </div>
+{% endif %}
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var badge = document.getElementById('fb-{{ ai_gen_id }}');
+    var reviewsSection = document.querySelector('[class*="pbuy-reviews-accordion-"]');
+
+    if (!badge || !reviewsSection) return;
+
+    function toggleBadgeVisibility() {
+      var rect = reviewsSection.getBoundingClientRect();
+      var triggerPoint = window.innerHeight * 0.78;
+
+      if (rect.top <= triggerPoint) {
+        badge.classList.add('is-hidden');
+      } else {
+        badge.classList.remove('is-hidden');
+      }
+    }
+
+    window.addEventListener('scroll', toggleBadgeVisibility, { passive: true });
+    window.addEventListener('resize', toggleBadgeVisibility);
+    toggleBadgeVisibility();
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Floating badge",
+  "settings": [
+    {
+      "type": "text",
+      "id": "line_1",
+      "label": "Line 1",
+      "default": "IONIC POWER"
+    },
+    {
+      "type": "text",
+      "id": "line_2",
+      "label": "Line 2",
+      "default": "CLAIM NOW"
+    },
+    {
+      "type": "url",
+      "id": "badge_link",
+      "label": "Badge link"
+    },
+    {
+      "type": "color",
+      "id": "badge_color",
+      "label": "Badge colour",
+      "default": "#F4A0A0"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text colour",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "font_size",
+      "min": 8,
+      "max": 20,
+      "step": 1,
+      "label": "Font size",
+      "default": 12
+    },
+    {
+      "type": "select",
+      "id": "font_weight",
+      "label": "Font weight",
+      "options": [
+        {
+          "value": "400",
+          "label": "Normal"
+        },
+        {
+          "value": "600",
+          "label": "Semi-bold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "range",
+      "id": "padding_vertical",
+      "min": 4,
+      "max": 40,
+      "step": 2,
+      "label": "Padding vertical",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "padding_horizontal",
+      "min": 4,
+      "max": 40,
+      "step": 2,
+      "label": "Padding horizontal",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "label": "Border radius",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "shadow_horizontal",
+      "min": -10,
+      "max": 10,
+      "step": 1,
+      "label": "Shadow horizontal",
+      "default": -2
+    },
+    {
+      "type": "range",
+      "id": "shadow_vertical",
+      "min": -10,
+      "max": 10,
+      "step": 1,
+      "label": "Shadow vertical",
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "shadow_blur",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "label": "Shadow blur",
+      "default": 8
+    },
+    {
+      "type": "text",
+      "id": "shadow_color",
+      "label": "Shadow colour",
+      "default": "rgba(0,0,0,0.15)"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Floating badge"
+    }
+  ]
+}
+{% endschema %}

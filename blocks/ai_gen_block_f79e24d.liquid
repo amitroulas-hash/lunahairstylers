@@ -1,0 +1,97 @@
+{% doc %}
+  @prompt
+    Create a small custom CSS/Liquid code block that handles mobile landscape orientation for the dual image banner section (ID: template--15358365270257__1773920975ee0dde89). Add a setting to upload a landscape image, then use CSS media queries with orientation: landscape to hide the portrait mobile image and show the landscape image when the phone is rotated. Keep it lightweight and non-destructive to existing sections.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-landscape-helper-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+  }
+
+  .ai-landscape-helper__image-{{ ai_gen_id }} {
+    display: none;
+    width: 100%;
+    height: auto;
+  }
+
+  @media screen and (max-width: 749px) and (orientation: landscape) {
+    .ai-landscape-helper__image-{{ ai_gen_id }} {
+      display: block;
+    }
+
+    {% if block.settings.target_section_id != blank %}
+      #{{ block.settings.target_section_id }} .banner__media {
+        display: none !important;
+      }
+
+      #{{ block.settings.target_section_id }} .banner__content {
+        position: static !important;
+      }
+    {% endif %}
+  }
+
+  @media screen and (min-width: 750px) {
+    .ai-landscape-helper-{{ ai_gen_id }} {
+      display: none;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-landscape-helper-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  {% if block.settings.landscape_image %}
+    <img
+      src="{{ block.settings.landscape_image | image_url: width: 1200 }}"
+      alt="{{ block.settings.landscape_image.alt | escape }}"
+      class="ai-landscape-helper__image-{{ ai_gen_id }}"
+      width="{{ block.settings.landscape_image.width }}"
+      height="{{ block.settings.landscape_image.height }}"
+      loading="lazy"
+    >
+  {% else %}
+    <div class="ai-landscape-helper__placeholder-{{ ai_gen_id }}" style="display: none;">
+      <p style="text-align: center; padding: 20px; color: #666; font-size: 14px;">
+        Upload a landscape image for mobile landscape orientation
+      </p>
+    </div>
+  {% endif %}
+</div>
+
+{% schema %}
+{
+  "name": "Mobile landscape image",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Configuration"
+    },
+    {
+      "type": "paragraph",
+      "content": "This block shows a landscape image when mobile devices are rotated to landscape orientation. Place this block near your dual image banner section."
+    },
+    {
+      "type": "text",
+      "id": "target_section_id",
+      "label": "Target section ID",
+      "default": "template--15358365270257__1773920975ee0dde89",
+      "info": "The section ID to hide when landscape image is shown"
+    },
+    {
+      "type": "header",
+      "content": "Landscape image"
+    },
+    {
+      "type": "image_picker",
+      "id": "landscape_image",
+      "label": "Landscape image",
+      "info": "Recommended: 1200x600px or wider aspect ratio for landscape viewing"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Mobile landscape image"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,154 @@
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-ugc-showcase-{{ ai_gen_id }} {
+    display: block;
+    background-color: #FFFFFF;
+    padding: 28px 20px;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    font-family: system-ui, sans-serif;
+  }
+  .ai-ugc-showcase__part1-{{ ai_gen_id }} {
+    margin-bottom: 32px;
+  }
+ .ai-ugc-showcase__media-wrapper-{{ ai_gen_id }} {
+  width: 70%;
+  margin: 0 auto;
+  border-radius: 8px;
+  overflow: hidden;
+  }
+  .ai-ugc-showcase__media-{{ ai_gen_id }} {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 8px;
+  }
+  .ai-ugc-showcase__part2-{{ ai_gen_id }} {
+    width: 100%;
+  }
+  .ai-ugc-showcase__heading-{{ ai_gen_id }} {
+    font-family: system-ui, sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    font-style: normal;
+    color: #2C2C2C;
+    letter-spacing: 1px;
+    text-align: center;
+    margin: 0 0 24px 0;
+  }
+  .ai-ugc-showcase__benefits-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-bottom: 28px;
+  }
+  .ai-ugc-showcase__benefit-row-{{ ai_gen_id }} {
+    padding: 14px 0;
+    border-bottom: 1px solid #EEEEEE;
+  }
+  .ai-ugc-showcase__benefit-row-{{ ai_gen_id }}:last-child {
+    border-bottom: none;
+  }
+  .ai-ugc-showcase__benefit-title-{{ ai_gen_id }} {
+    color: #2C2C2C;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 0 0 4px 0;
+    font-family: system-ui, sans-serif;
+  }
+  .ai-ugc-showcase__benefit-desc-{{ ai_gen_id }} {
+    color: #888888;
+    font-size: 12px;
+    font-weight: 400;
+    margin: 0;
+    line-height: 1.5;
+    font-family: system-ui, sans-serif;
+  }
+  
+  @media screen and (max-width: 749px) {
+    .ai-ugc-showcase-{{ ai_gen_id }} {
+      padding: 24px 16px;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-ugc-showcase-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+
+  {% if block.settings.showcase_gif %}
+    <div class="ai-ugc-showcase__part1-{{ ai_gen_id }}">
+      <div class="ai-ugc-showcase__media-wrapper-{{ ai_gen_id }}">
+        <img
+          src="{{ block.settings.showcase_gif | image_url: width: 1200 }}"
+          alt="{{ block.settings.showcase_gif.alt | escape }}"
+          loading="lazy"
+          width="{{ block.settings.showcase_gif.width }}"
+          height="{{ block.settings.showcase_gif.height }}"
+          class="ai-ugc-showcase__media-{{ ai_gen_id }}"
+        >
+      </div>
+    </div>
+  {% endif %}
+
+  <div class="ai-ugc-showcase__part2-{{ ai_gen_id }}">
+    <h2 class="ai-ugc-showcase__heading-{{ ai_gen_id }}">Why the Luna Ionic Dryer?</h2>
+    <div class="ai-ugc-showcase__benefits-{{ ai_gen_id }}">
+      <div class="ai-ugc-showcase__benefit-row-{{ ai_gen_id }}">
+        <h3 class="ai-ugc-showcase__benefit-title-{{ ai_gen_id }}">2200W Ionic Power</h3>
+        <p class="ai-ugc-showcase__benefit-desc-{{ ai_gen_id }}">Dries hair 2x faster with less heat exposure.</p>
+      </div>
+      <div class="ai-ugc-showcase__benefit-row-{{ ai_gen_id }}">
+        <h3 class="ai-ugc-showcase__benefit-title-{{ ai_gen_id }}">Frizz-Free Finish</h3>
+        <p class="ai-ugc-showcase__benefit-desc-{{ ai_gen_id }}">Ionic technology seals moisture for smooth shiny hair.</p>
+      </div>
+      <div class="ai-ugc-showcase__benefit-row-{{ ai_gen_id }}">
+        <h3 class="ai-ugc-showcase__benefit-title-{{ ai_gen_id }}">3 Heat & 2 Speed Settings</h3>
+        <p class="ai-ugc-showcase__benefit-desc-{{ ai_gen_id }}">Tailored control for every hair type.</p>
+      </div>
+      <div class="ai-ugc-showcase__benefit-row-{{ ai_gen_id }}">
+        <h3 class="ai-ugc-showcase__benefit-title-{{ ai_gen_id }}">Precision Concentrator Nozzle</h3>
+        <p class="ai-ugc-showcase__benefit-desc-{{ ai_gen_id }}">Salon-style results, reduced heat damage.</p>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+
+{% schema %}
+{
+  "name": "UGC product showcase",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Media"
+    },
+    {
+      "type": "image_picker",
+      "id": "showcase_gif",
+      "label": "Product GIF or Video"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    }
+  ],
+  "presets": [
+    {
+      "name": "UGC product showcase"
+    }
+  ]
+}
+{% endschema %}

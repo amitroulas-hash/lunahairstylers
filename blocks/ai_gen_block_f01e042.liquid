@@ -1,0 +1,523 @@
+{% doc %}
+  @prompt
+    Create a product image gallery block called "Gallery custom 4 options" with the following exact specifications: Layout options selectable in theme editor: thumbnails (default), stacked, carousel, and grid. Grid columns on desktop: configurable (default 2). Image spacing: 12px gap. Border radius: configurable (default 0px). In thumbnails mode, show a large main image with clickable thumbnails below. Carousel navigation: white background (#ffffff) with black icons (#000000) and black dot indicators. Active thumbnail border: black (#000000). ADD: a desktop image size setting with options Small (400px max-width), Medium (600px max-width), Large (800px max-width), and Full Width — this controls the overall gallery container width on desktop only. On mobile, always remain full width. All settings should be editable in the Shopify theme editor sidebar. Clean minimal styling with no heavy shadows.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-gallery-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+  }
+
+  .ai-gallery-container-{{ ai_gen_id }} {
+    margin: 0 auto;
+  }
+
+  @media screen and (min-width: 750px) {
+    .ai-gallery-container-{{ ai_gen_id }}[data-size="small"] {
+      max-width: 400px;
+    }
+
+    .ai-gallery-container-{{ ai_gen_id }}[data-size="medium"] {
+      max-width: 600px;
+    }
+
+    .ai-gallery-container-{{ ai_gen_id }}[data-size="large"] {
+      max-width: 800px;
+    }
+
+    .ai-gallery-container-{{ ai_gen_id }}[data-size="full"] {
+      max-width: 100%;
+    }
+  }
+
+  .ai-gallery-thumbnails-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: {{ block.settings.image_spacing }}px;
+  }
+
+  .ai-gallery-main-image-{{ ai_gen_id }} {
+    width: 100%;
+    border-radius: {{ block.settings.border_radius }}px;
+    overflow: hidden;
+  }
+
+  .ai-gallery-main-image-{{ ai_gen_id }} img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .ai-gallery-thumbnail-list-{{ ai_gen_id }} {
+    display: flex;
+    gap: {{ block.settings.image_spacing }}px;
+    overflow-x: auto;
+  }
+
+  .ai-gallery-thumbnail-{{ ai_gen_id }} {
+    flex-shrink: 0;
+    width: 80px;
+    height: 80px;
+    border-radius: {{ block.settings.border_radius }}px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border-color 0.2s ease;
+  }
+
+  .ai-gallery-thumbnail-{{ ai_gen_id }}.active {
+    border-color: #000000;
+  }
+
+  .ai-gallery-thumbnail-{{ ai_gen_id }} img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .ai-gallery-stacked-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: {{ block.settings.image_spacing }}px;
+  }
+
+  .ai-gallery-stacked-image-{{ ai_gen_id }} {
+    width: 100%;
+    border-radius: {{ block.settings.border_radius }}px;
+    overflow: hidden;
+  }
+
+  .ai-gallery-stacked-image-{{ ai_gen_id }} img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .ai-gallery-carousel-{{ ai_gen_id }} {
+    position: relative;
+  }
+
+  .ai-gallery-carousel-track-{{ ai_gen_id }} {
+    display: flex;
+    overflow: hidden;
+    border-radius: {{ block.settings.border_radius }}px;
+  }
+
+  .ai-gallery-carousel-slide-{{ ai_gen_id }} {
+    min-width: 100%;
+    flex-shrink: 0;
+  }
+
+  .ai-gallery-carousel-slide-{{ ai_gen_id }} img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .ai-gallery-carousel-nav-{{ ai_gen_id }} {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #ffffff;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+  }
+
+  .ai-gallery-carousel-nav-{{ ai_gen_id }}:hover {
+    opacity: 0.8;
+  }
+
+  .ai-gallery-carousel-nav-{{ ai_gen_id }} svg {
+    width: 20px;
+    height: 20px;
+    stroke: #000000;
+  }
+
+  .ai-gallery-carousel-prev-{{ ai_gen_id }} {
+    left: 10px;
+  }
+
+  .ai-gallery-carousel-next-{{ ai_gen_id }} {
+    right: 10px;
+  }
+
+  .ai-gallery-carousel-dots-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 16px;
+  }
+
+  .ai-gallery-carousel-dot-{{ ai_gen_id }} {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #000000;
+    opacity: 0.3;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+  }
+
+  .ai-gallery-carousel-dot-{{ ai_gen_id }}.active {
+    opacity: 1;
+  }
+
+  .ai-gallery-grid-{{ ai_gen_id }} {
+    display: grid;
+    gap: {{ block.settings.image_spacing }}px;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media screen and (min-width: 750px) {
+    .ai-gallery-grid-{{ ai_gen_id }} {
+      grid-template-columns: repeat({{ block.settings.grid_columns }}, 1fr);
+    }
+  }
+
+  .ai-gallery-grid-image-{{ ai_gen_id }} {
+    width: 100%;
+    border-radius: {{ block.settings.border_radius }}px;
+    overflow: hidden;
+  }
+
+  .ai-gallery-grid-image-{{ ai_gen_id }} img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .ai-gallery-placeholder-{{ ai_gen_id }} {
+    position: relative;
+    background-color: #f4f4f4;
+    border-radius: {{ block.settings.border_radius }}px;
+    overflow: hidden;
+  }
+
+  .ai-gallery-placeholder-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .ai-gallery-empty-state-{{ ai_gen_id }} {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 20px;
+    font-size: 14px;
+    color: #666;
+    text-align: center;
+    pointer-events: none;
+  }
+{% endstyle %}
+
+<product-gallery-{{ ai_gen_id }}
+  class="ai-gallery-{{ ai_gen_id }}"
+  data-layout="{{ block.settings.layout }}"
+  {{ block.shopify_attributes }}
+>
+  <div class="ai-gallery-container-{{ ai_gen_id }}" data-size="{{ block.settings.desktop_size }}">
+    {% if product.images.size > 0 %}
+      {% if block.settings.layout == 'thumbnails' %}
+        <div class="ai-gallery-thumbnails-{{ ai_gen_id }}">
+          <div class="ai-gallery-main-image-{{ ai_gen_id }}">
+            <img
+              src="{{ product.images[0] | image_url: width: 1200 }}"
+              alt="{{ product.images[0].alt | escape }}"
+              width="{{ product.images[0].width }}"
+              height="{{ product.images[0].height }}"
+              loading="lazy"
+              data-main-image
+            >
+          </div>
+          {% if product.images.size > 1 %}
+            <div class="ai-gallery-thumbnail-list-{{ ai_gen_id }}">
+              {% for image in product.images %}
+                <div class="ai-gallery-thumbnail-{{ ai_gen_id }} {% if forloop.first %}active{% endif %}" data-index="{{ forloop.index0 }}">
+                  <img
+                    src="{{ image | image_url: width: 160 }}"
+                    alt="{{ image.alt | escape }}"
+                    width="80"
+                    height="80"
+                    loading="lazy"
+                  >
+                </div>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+      {% elsif block.settings.layout == 'stacked' %}
+        <div class="ai-gallery-stacked-{{ ai_gen_id }}">
+          {% for image in product.images %}
+            <div class="ai-gallery-stacked-image-{{ ai_gen_id }}">
+              <img
+                src="{{ image | image_url: width: 1200 }}"
+                alt="{{ image.alt | escape }}"
+                width="{{ image.width }}"
+                height="{{ image.height }}"
+                loading="lazy"
+              >
+            </div>
+          {% endfor %}
+        </div>
+      {% elsif block.settings.layout == 'carousel' %}
+        <div class="ai-gallery-carousel-{{ ai_gen_id }}">
+          <div class="ai-gallery-carousel-track-{{ ai_gen_id }}">
+            {% for image in product.images %}
+              <div class="ai-gallery-carousel-slide-{{ ai_gen_id }}">
+                <img
+                  src="{{ image | image_url: width: 1200 }}"
+                  alt="{{ image.alt | escape }}"
+                  width="{{ image.width }}"
+                  height="{{ image.height }}"
+                  loading="lazy"
+                >
+              </div>
+            {% endfor %}
+          </div>
+          {% if product.images.size > 1 %}
+            <button class="ai-gallery-carousel-nav-{{ ai_gen_id }} ai-gallery-carousel-prev-{{ ai_gen_id }}" aria-label="Previous image">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+            <button class="ai-gallery-carousel-nav-{{ ai_gen_id }} ai-gallery-carousel-next-{{ ai_gen_id }}" aria-label="Next image">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+            <div class="ai-gallery-carousel-dots-{{ ai_gen_id }}">
+              {% for image in product.images %}
+                <button class="ai-gallery-carousel-dot-{{ ai_gen_id }} {% if forloop.first %}active{% endif %}" data-index="{{ forloop.index0 }}" aria-label="Go to image {{ forloop.index }}"></button>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+      {% elsif block.settings.layout == 'grid' %}
+        <div class="ai-gallery-grid-{{ ai_gen_id }}">
+          {% for image in product.images %}
+            <div class="ai-gallery-grid-image-{{ ai_gen_id }}">
+              <img
+                src="{{ image | image_url: width: 800 }}"
+                alt="{{ image.alt | escape }}"
+                width="{{ image.width }}"
+                height="{{ image.height }}"
+                loading="lazy"
+              >
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% else %}
+      <div class="ai-gallery-placeholder-{{ ai_gen_id }}">
+        {{ 'product-1' | placeholder_svg_tag }}
+        <div class="ai-gallery-empty-state-{{ ai_gen_id }}">
+          Next, add product images
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</product-gallery-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class ProductGallery{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+        this.layout = this.dataset.layout;
+      }
+
+      connectedCallback() {
+        if (this.layout === 'thumbnails') {
+          this.initThumbnails();
+        } else if (this.layout === 'carousel') {
+          this.initCarousel();
+        }
+      }
+
+      initThumbnails() {
+        const thumbnails = this.querySelectorAll('.ai-gallery-thumbnail-{{ ai_gen_id }}');
+        const mainImage = this.querySelector('[data-main-image]');
+
+        if (!mainImage) return;
+
+        thumbnails.forEach((thumbnail) => {
+          thumbnail.addEventListener('click', () => {
+            const index = parseInt(thumbnail.dataset.index);
+            const img = thumbnail.querySelector('img');
+            const newSrc = img.src.replace('width=160', 'width=1200');
+
+            mainImage.src = newSrc;
+            mainImage.alt = img.alt;
+
+            thumbnails.forEach((t) => t.classList.remove('active'));
+            thumbnail.classList.add('active');
+          });
+        });
+      }
+
+      initCarousel() {
+        const track = this.querySelector('.ai-gallery-carousel-track-{{ ai_gen_id }}');
+        const slides = this.querySelectorAll('.ai-gallery-carousel-slide-{{ ai_gen_id }}');
+        const prevBtn = this.querySelector('.ai-gallery-carousel-prev-{{ ai_gen_id }}');
+        const nextBtn = this.querySelector('.ai-gallery-carousel-next-{{ ai_gen_id }}');
+        const dots = this.querySelectorAll('.ai-gallery-carousel-dot-{{ ai_gen_id }}');
+
+        if (!track || slides.length === 0) return;
+
+        let currentIndex = 0;
+
+        const updateCarousel = () => {
+          track.style.transform = `translateX(-${currentIndex * 100}%)`;
+          track.style.transition = 'transform 0.3s ease';
+
+          dots.forEach((dot, index) => {
+            if (index === currentIndex) {
+              dot.classList.add('active');
+            } else {
+              dot.classList.remove('active');
+            }
+          });
+        };
+
+        if (prevBtn) {
+          prevBtn.addEventListener('click', () => {
+            currentIndex = currentIndex > 0 ? currentIndex - 1 : slides.length - 1;
+            updateCarousel();
+          });
+        }
+
+        if (nextBtn) {
+          nextBtn.addEventListener('click', () => {
+            currentIndex = currentIndex < slides.length - 1 ? currentIndex + 1 : 0;
+            updateCarousel();
+          });
+        }
+
+        dots.forEach((dot) => {
+          dot.addEventListener('click', () => {
+            currentIndex = parseInt(dot.dataset.index);
+            updateCarousel();
+          });
+        });
+      }
+    }
+
+    customElements.define('product-gallery-{{ ai_gen_id }}', ProductGallery{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Gallery custom 4 options",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout style",
+      "options": [
+        {
+          "value": "thumbnails",
+          "label": "Thumbnails"
+        },
+        {
+          "value": "stacked",
+          "label": "Stacked"
+        },
+        {
+          "value": "carousel",
+          "label": "Carousel"
+        },
+        {
+          "value": "grid",
+          "label": "Grid"
+        }
+      ],
+      "default": "thumbnails"
+    },
+    {
+      "type": "select",
+      "id": "desktop_size",
+      "label": "Desktop image size",
+      "options": [
+        {
+          "value": "small",
+          "label": "Small (400px)"
+        },
+        {
+          "value": "medium",
+          "label": "Medium (600px)"
+        },
+        {
+          "value": "large",
+          "label": "Large (800px)"
+        },
+        {
+          "value": "full",
+          "label": "Full width"
+        }
+      ],
+      "default": "full",
+      "info": "Controls gallery width on desktop only. Mobile is always full width."
+    },
+    {
+      "type": "range",
+      "id": "grid_columns",
+      "label": "Grid columns (desktop)",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 2,
+      "info": "Only applies to grid layout"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "range",
+      "id": "image_spacing",
+      "label": "Image spacing",
+      "min": 0,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Gallery custom 4 options"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,133 @@
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .luna-why-buy-{{ ai_gen_id }} {
+    padding: 28px 16px 34px;
+    background: #fff;
+  }
+
+  .luna-why-buy__inner-{{ ai_gen_id }} {
+    max-width: 1180px;
+    margin: 0 auto;
+  }
+
+  .luna-why-buy__heading-{{ ai_gen_id }} {
+    margin: 0 0 18px;
+    text-align: center;
+    font-size: 28px;
+    line-height: 1.08;
+    font-weight: 900;
+    color: #111;
+  }
+
+  .luna-why-buy__grid-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .luna-why-buy__card-{{ ai_gen_id }} {
+    background: #fff;
+    border: 1px solid rgba(230,160,170,.28);
+    border-radius: 18px;
+    padding: 18px;
+    box-shadow: 0 12px 30px rgba(230,160,170,.08);
+  }
+
+  .luna-why-buy__card-{{ ai_gen_id }}--primary {
+    background: linear-gradient(135deg, #fff4f7 0%, #ffffff 100%);
+    border-color: rgba(230,160,170,.58);
+  }
+
+  .luna-why-buy__icon-{{ ai_gen_id }} {
+    width: 34px;
+    height: 34px;
+    border-radius: 999px;
+    display: grid;
+    place-items: center;
+    background: #E6A0AA;
+    color: #fff;
+    font-weight: 900;
+    margin-bottom: 12px;
+  }
+
+  .luna-why-buy__title-{{ ai_gen_id }} {
+    margin: 0 0 6px;
+    font-size: 18px;
+    line-height: 1.1;
+    font-weight: 900;
+    color: #111;
+  }
+
+  .luna-why-buy__text-{{ ai_gen_id }} {
+    margin: 0 0 14px;
+    font-size: 14px;
+    line-height: 1.45;
+    color: #555;
+  }
+
+  .luna-why-buy__button-{{ ai_gen_id }} {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 42px;
+    padding: 10px 16px;
+    border-radius: 999px;
+    background: #111;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 900;
+    text-decoration: none;
+  }
+
+  @media screen and (min-width: 750px) {
+    .luna-why-buy-{{ ai_gen_id }} {
+      padding: 38px 24px 44px;
+    }
+
+    .luna-why-buy__grid-{{ ai_gen_id }} {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .luna-why-buy__heading-{{ ai_gen_id }} {
+      font-size: 34px;
+    }
+  }
+{% endstyle %}
+
+<section class="luna-why-buy-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="luna-why-buy__inner-{{ ai_gen_id }}">
+    <h2 class="luna-why-buy__heading-{{ ai_gen_id }}">Why buy Luna?</h2>
+
+    <div class="luna-why-buy__grid-{{ ai_gen_id }}">
+      
+
+      <div class="luna-why-buy__card-{{ ai_gen_id }}">
+        <div class="luna-why-buy__icon-{{ ai_gen_id }}">2</div>
+        <h3 class="luna-why-buy__title-{{ ai_gen_id }}">Bundle & Save 30%</h3>
+        <p class="luna-why-buy__text-{{ ai_gen_id }}">Add any second Luna tool and save automatically at checkout.</p>
+        <a href="/collections/all" class="luna-why-buy__button-{{ ai_gen_id }}">Shop the Range</a>
+      </div>
+
+      <div class="luna-why-buy__card-{{ ai_gen_id }}">
+        <div class="luna-why-buy__icon-{{ ai_gen_id }}">3</div>
+        <h3 class="luna-why-buy__title-{{ ai_gen_id }}">Performance. Smarter price.</h3>
+        <p class="luna-why-buy__text-{{ ai_gen_id }}">Beauty-led styling tools without the premium markup.</p>
+        <a href="/pages/meet-luna" class="luna-why-buy__button-{{ ai_gen_id }}">Meet Luna</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Why buy Luna",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Why buy Luna"
+    }
+  ]
+}
+{% endschema %}

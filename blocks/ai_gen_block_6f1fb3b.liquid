@@ -1,0 +1,233 @@
+{% doc %}
+  @prompt
+    Create an animated horizontal scrolling marquee ribbon banner block for a luxury hair brand landing page. The ribbon should continuously scroll text from right to left in a smooth infinite loop animation at a calm, elegant pace (animation duration of 35-40 seconds for a full loop — slow enough to feel premium and readable, not rushed). The scrolling text should repeat multiple times: "Luna Ionic Hair Dryer — Only $49.99  ✦  FREE Luxe Hair Kit Included  ✦  Limited Offer  ✦  " Styling: Background colour: deep charcoal #2C2C2C. Text colour: rose-gold #C4956A. Font: modern sans-serif, uppercase, letter-spacing 2px, font size 13px, font weight 500. Ribbon height: compact approximately 36-40px tall, vertically centred text. Smooth CSS keyframe animation, infinite loop, linear timing, no pause on hover. Fully responsive on mobile. No border radius — full width edge to edge. Premium luxe feel for a high-end beauty brand.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-marquee-ribbon-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    background-color: {{ block.settings.background_color }};
+    height: {{ block.settings.ribbon_height }}px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .ai-marquee-ribbon-track-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    width: max-content;
+    animation: ai-marquee-scroll-{{ ai_gen_id }} {{ block.settings.animation_duration }}s linear infinite;
+  }
+
+  .ai-marquee-ribbon-content-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    padding: 0 {{ block.settings.item_spacing }}px;
+  }
+
+  .ai-marquee-ribbon-text-{{ ai_gen_id }} {
+    color: {{ block.settings.text_color }};
+    font-size: {{ block.settings.font_size }}px;
+    font-weight: {{ block.settings.font_weight }};
+    text-transform: uppercase;
+    letter-spacing: {{ block.settings.letter_spacing }}px;
+    font-family: {{ block.settings.font_family.family }}, {{ block.settings.font_family.fallback_families }};
+    margin: 0;
+  }
+
+  @keyframes ai-marquee-scroll-{{ ai_gen_id }} {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-marquee-ribbon-{{ ai_gen_id }} {
+      height: {{ block.settings.ribbon_height_mobile }}px;
+    }
+
+    .ai-marquee-ribbon-text-{{ ai_gen_id }} {
+      font-size: {{ block.settings.font_size_mobile }}px;
+    }
+  }
+{% endstyle %}
+
+<marquee-ribbon-{{ ai_gen_id }}
+  class="ai-marquee-ribbon-{{ ai_gen_id }}"
+  {{ block.shopify_attributes }}
+>
+  <div class="ai-marquee-ribbon-track-{{ ai_gen_id }}">
+    {% for i in (1..2) %}
+      <div class="ai-marquee-ribbon-content-{{ ai_gen_id }}">
+        <p class="ai-marquee-ribbon-text-{{ ai_gen_id }}">
+          {{ block.settings.marquee_text }}
+        </p>
+      </div>
+    {% endfor %}
+  </div>
+</marquee-ribbon-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class MarqueeRibbon{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+        this.duplicateContent();
+      }
+
+      duplicateContent() {
+        const track = this.querySelector('.ai-marquee-ribbon-track-{{ ai_gen_id }}');
+        const content = this.querySelector('.ai-marquee-ribbon-content-{{ ai_gen_id }}');
+        
+        if (!track || !content) return;
+
+        const contentWidth = content.offsetWidth;
+        const viewportWidth = this.offsetWidth;
+        const repetitionsNeeded = Math.ceil((viewportWidth * 2) / contentWidth) + 2;
+
+        for (let i = 2; i < repetitionsNeeded; i++) {
+          const clone = content.cloneNode(true);
+          track.appendChild(clone);
+        }
+      }
+    }
+
+    customElements.define('marquee-ribbon-{{ ai_gen_id }}', MarqueeRibbon{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Marquee ribbon banner",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#2C2C2C"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#C4956A"
+    },
+    {
+      "type": "font_picker",
+      "id": "font_family",
+      "label": "Font",
+      "default": "sans-serif"
+    },
+    {
+      "type": "range",
+      "id": "font_size",
+      "label": "Font size",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 13
+    },
+    {
+      "type": "range",
+      "id": "font_size_mobile",
+      "label": "Font size on mobile",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 11
+    },
+    {
+      "type": "range",
+      "id": "font_weight",
+      "label": "Font weight",
+      "min": 100,
+      "max": 900,
+      "step": 100,
+      "default": 500
+    },
+    {
+      "type": "range",
+      "id": "letter_spacing",
+      "label": "Letter spacing",
+      "min": 0,
+      "max": 5,
+      "step": 0.5,
+      "unit": "px",
+      "default": 2
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "ribbon_height",
+      "label": "Ribbon height",
+      "min": 30,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 38
+    },
+    {
+      "type": "range",
+      "id": "ribbon_height_mobile",
+      "label": "Ribbon height on mobile",
+      "min": 30,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "item_spacing",
+      "label": "Item spacing",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Animation"
+    },
+    {
+      "type": "range",
+      "id": "animation_duration",
+      "label": "Animation duration",
+      "min": 20,
+      "max": 60,
+      "step": 5,
+      "unit": "s",
+      "default": 35
+    }
+  ],
+  "presets": [
+    {
+      "name": "Marquee ribbon banner"
+    }
+  ]
+}
+{% endschema %}

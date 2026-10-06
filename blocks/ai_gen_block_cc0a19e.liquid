@@ -1,0 +1,85 @@
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+<style>
+  .dvc-{{ ai_gen_id }} {
+    background: #ffffff;
+    padding: 40px 20px;
+    font-family: system-ui, sans-serif;
+  }
+  .dvc-heading-{{ ai_gen_id }} {
+    font-size: 22px;
+    font-weight: 700;
+    text-align: center;
+    margin: 0 0 8px;
+    color: #2C2C2C;
+  }
+  .dvc-subheading-{{ ai_gen_id }} {
+    font-size: 15px;
+    text-align: center;
+    margin: 0 0 20px;
+    color: #888;
+  }
+  .dvc-grid-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .dvc-video-{{ ai_gen_id }} {
+    width: 100%;
+    border-radius: 8px;
+    display: block;
+  }
+  .dvc-caption-{{ ai_gen_id }} {
+    font-size: 13px;
+    color: #555;
+    text-align: center;
+    margin-top: 8px;
+  }
+  @media (max-width: 749px) {
+    .dvc-grid-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<div class="dvc-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  {% if block.settings.section_heading != blank %}
+    <h2 class="dvc-heading-{{ ai_gen_id }}">{{ block.settings.section_heading }}</h2>
+  {% endif %}
+  {% if block.settings.section_subheading != blank %}
+    <p class="dvc-subheading-{{ ai_gen_id }}">{{ block.settings.section_subheading }}</p>
+  {% endif %}
+  <div class="dvc-grid-{{ ai_gen_id }}">
+    <div>
+      {% if block.settings.video_1 != blank %}
+        {{ block.settings.video_1 | video_tag: autoplay: false, loop: true, muted: true, controls: true, class: 'dvc-video-' | append: ai_gen_id }}
+      {% endif %}
+      {% if block.settings.video_1_caption != blank %}
+        <p class="dvc-caption-{{ ai_gen_id }}">{{ block.settings.video_1_caption }}</p>
+      {% endif %}
+    </div>
+    <div>
+      {% if block.settings.video_2 != blank %}
+        {{ block.settings.video_2 | video_tag: autoplay: false, loop: true, muted: true, controls: true, class: 'dvc-video-' | append: ai_gen_id }}
+      {% endif %}
+      {% if block.settings.video_2_caption != blank %}
+        <p class="dvc-caption-{{ ai_gen_id }}">{{ block.settings.video_2_caption }}</p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Dual Video with Copy",
+  "settings": [
+    { "type": "text", "id": "section_heading", "label": "Heading", "default": "See It In Action" },
+    { "type": "text", "id": "section_subheading", "label": "Subheading" },
+    { "type": "video", "id": "video_1", "label": "Video 1" },
+    { "type": "text", "id": "video_1_caption", "label": "Video 1 caption" },
+    { "type": "video", "id": "video_2", "label": "Video 2" },
+    { "type": "text", "id": "video_2_caption", "label": "Video 2 caption" }
+  ],
+  "presets": [{ "name": "Dual Video with Copy" }]
+}
+{% endschema %}

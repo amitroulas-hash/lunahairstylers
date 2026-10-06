@@ -1,0 +1,120 @@
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+<style>
+  .cpf-{{ ai_gen_id }} {
+    max-width: {{ block.settings.max_width }}px;
+    margin: 0 auto;
+    padding: 20px;
+    color: {{ block.settings.text_color }};
+    font-family: system-ui, sans-serif;
+  }
+  .cpf-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.title_size }}px;
+    font-weight: 700;
+    margin: 0 0 12px;
+    color: {{ block.settings.text_color }};
+  }
+  .cpf-price-{{ ai_gen_id }} {
+    font-size: {{ block.settings.price_size }}px;
+    font-weight: 600;
+    margin: 0 0 16px;
+    color: {{ block.settings.accent_color }};
+  }
+  .cpf-rating-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 16px;
+    font-size: 14px;
+    color: {{ block.settings.text_color }};
+  }
+  .cpf-stars-{{ ai_gen_id }} {
+    color: {{ block.settings.star_color }};
+    font-size: 16px;
+  }
+  .cpf-stock-{{ ai_gen_id }} {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    background: {{ block.settings.in_stock_bg }};
+    color: {{ block.settings.in_stock_color }};
+  }
+  .cpf-atc-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    background: {{ block.settings.button_bg_color }};
+    color: {{ block.settings.button_text_color }};
+    border: none;
+    border-radius: {{ block.settings.button_border_radius }}px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    text-align: center;
+    margin-bottom: 12px;
+    transition: background 0.2s ease;
+  }
+  .cpf-atc-{{ ai_gen_id }}:hover {
+    background: {{ block.settings.button_hover_color }};
+  }
+</style>
+
+<div class="cpf-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <h1 class="cpf-title-{{ ai_gen_id }}">{{ product.title }}</h1>
+
+  <div class="cpf-price-{{ ai_gen_id }}">
+    {{ product.selected_or_first_available_variant.price | money }}
+    {% if product.selected_or_first_available_variant.compare_at_price > product.selected_or_first_available_variant.price %}
+      <span style="text-decoration:line-through;font-size:0.8em;color:#999;margin-left:8px;">
+        {{ product.selected_or_first_available_variant.compare_at_price | money }}
+      </span>
+    {% endif %}
+  </div>
+
+  {% if block.settings.show_rating %}
+    <div class="cpf-rating-{{ ai_gen_id }}">
+      <span class="cpf-stars-{{ ai_gen_id }}">★★★★★</span>
+      <span>{{ block.settings.star_rating }} / 5</span>
+    </div>
+  {% endif %}
+
+  {% if block.settings.show_stock %}
+    <div class="cpf-stock-{{ ai_gen_id }}">In Stock</div>
+  {% endif %}
+
+  {% form 'product', product %}
+    <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+    {% if block.settings.show_dynamic_checkout %}
+      {{ form | payment_button }}
+    {% endif %}
+    <button type="submit" class="cpf-atc-{{ ai_gen_id }}">Add to Cart</button>
+  {% endform %}
+</div>
+
+{% schema %}
+{
+  "name": "Custom Product Form",
+  "settings": [
+    { "type": "range", "id": "max_width", "min": 400, "max": 1400, "step": 100, "label": "Max width", "default": 1400 },
+    { "type": "range", "id": "title_size", "min": 16, "max": 48, "step": 2, "label": "Title size", "default": 32 },
+    { "type": "range", "id": "price_size", "min": 14, "max": 36, "step": 2, "label": "Price size", "default": 24 },
+    { "type": "color", "id": "text_color", "label": "Text colour", "default": "#000000" },
+    { "type": "color", "id": "accent_color", "label": "Accent colour", "default": "#000000" },
+    { "type": "color", "id": "star_color", "label": "Star colour", "default": "#ffc107" },
+    { "type": "color", "id": "button_bg_color", "label": "Button background", "default": "#000000" },
+    { "type": "color", "id": "button_text_color", "label": "Button text colour", "default": "#ffffff" },
+    { "type": "color", "id": "button_hover_color", "label": "Button hover colour", "default": "#333333" },
+    { "type": "range", "id": "button_border_radius", "min": 0, "max": 30, "step": 2, "label": "Button border radius", "default": 4 },
+    { "type": "color", "id": "in_stock_bg", "label": "In stock background", "default": "#e8f5e9" },
+    { "type": "color", "id": "in_stock_color", "label": "In stock text colour", "default": "#2e7d32" },
+    { "type": "checkbox", "id": "show_rating", "label": "Show rating", "default": true },
+    { "type": "text", "id": "star_rating", "label": "Star rating", "default": "4.5" },
+    { "type": "checkbox", "id": "show_stock", "label": "Show stock status", "default": true },
+    { "type": "checkbox", "id": "show_dynamic_checkout", "label": "Show dynamic checkout", "default": true }
+  ],
+  "presets": [{ "name": "Custom Product Form" }]
+}
+{% endschema %}

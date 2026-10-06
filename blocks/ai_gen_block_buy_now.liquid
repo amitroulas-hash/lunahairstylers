@@ -1,0 +1,95 @@
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+<style>
+  .bn-{{ ai_gen_id }} {
+    background: #fff;
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 16px 20px 20px;
+    text-align: center;
+    font-family: system-ui, sans-serif;
+  }
+  .bn-title-{{ ai_gen_id }} { font-size: 15px; font-weight: 600; color: #333; margin: 0 0 4px; }
+  .bn-price-{{ ai_gen_id }} { font-size: 30px; font-weight: 700; color: #111; margin: 0 0 6px; }
+  .bn-offer-{{ ai_gen_id }} { font-size: 13px; color: #7B5EA7; margin: 0 0 14px; }
+  .bn-btn-{{ ai_gen_id }} {
+    display: block; width: 100%; background: #CC0000; color: #fff;
+    border: none; border-radius: 6px; padding: 14px;
+    font-size: 15px; font-weight: 700; cursor: pointer; margin-bottom: 10px;
+  }
+  .bn-btn-{{ ai_gen_id }}:hover { background: #AA0000; }
+  .bn-reassurance-{{ ai_gen_id }} { font-size: 11px; color: #777; margin: 0 0 20px; }
+  .bn-reviews-{{ ai_gen_id }} { display: flex; flex-direction: column; gap: 10px; text-align: left; }
+  .bn-review-{{ ai_gen_id }} { background: #FAFAFA; border: 1px solid #eee; border-radius: 8px; padding: 12px; }
+  .bn-stars-{{ ai_gen_id }} { color: #F5A623; font-size: 12px; margin-bottom: 3px; }
+  .bn-review-title-{{ ai_gen_id }} { font-size: 12px; font-weight: 700; color: #222; margin-bottom: 3px; }
+  .bn-review-author-{{ ai_gen_id }} { font-size: 10px; color: #C4956A; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+  .bn-review-body-{{ ai_gen_id }} { font-size: 11px; color: #555; line-height: 1.5; margin: 0; }
+</style>
+
+<div id="buy-now" class="bn-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <p class="bn-title-{{ ai_gen_id }}">Luna Ionic Hair Dryer</p>
+  <p class="bn-price-{{ ai_gen_id }}">$49.99</p>
+  
+
+  <form action="/cart/add" method="post">
+    <input type="hidden" name="id" value="42033357783281">
+    <input type="hidden" name="quantity" value="1">
+    <button type="submit" class="bn-btn-{{ ai_gen_id }}">Add to Cart</button>
+  </form>
+
+  <p class="bn-reassurance-{{ ai_gen_id }}">Secure checkout&nbsp;•&nbsp;Ships from Australia&nbsp;•&nbsp;Limited time offer</p>
+
+  <div class="buy-now-split-{{ ai_gen_id }}" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;">
+  <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+    <div style="width:100%;aspect-ratio:3/5;border-radius:18px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.08);border:1px solid #F0F0F0;">
+      <img src="https://cdn.shopify.com/s/files/1/0609/7426/8657/files/PHOTO-2026-04-08-16-45-17.jpg?v=1775734100"
+           alt="Luna Ionic Hair Dryer"
+           style="width:100%;height:100%;object-fit:cover;display:block;">
+    </div>
+    <p style="font-size:10px;color:#888;text-align:center;letter-spacing:0.5px;">High-performance drying for under $50</p>
+  </div>
+  <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+    <div style="width:100%;aspect-ratio:3/5;border-radius:18px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.08);border:1px solid #F0F0F0;">
+      <video autoplay muted loop playsinline preload="none" style="width:100%;height:100%;object-fit:cover;display:block;">
+        <source src="https://cdn.shopify.com/videos/c/vp/53f6c2f3a9d14001814e56ec412647de/53f6c2f3a9d14001814e56ec412647de.SD-480p-1.5Mbps-80859303.mp4" type="video/mp4">
+      </video>
+    </div>
+    <p style="font-size:10px;color:#888;text-align:center;letter-spacing:0.5px;">Real demo. Real shine.</p>
+  </div>
+</div>
+
+
+  <div class="bn-reviews-{{ ai_gen_id }}">
+    <div class="bn-review-{{ ai_gen_id }}">
+      <div class="bn-stars-{{ ai_gen_id }}">★★★★★</div>
+      <p class="bn-review-title-{{ ai_gen_id }}">Great yet compact</p>
+      <p class="bn-review-author-{{ ai_gen_id }}">Fern</p>
+      <p class="bn-review-body-{{ ai_gen_id }}">It dries a lot and very fast! Which is awesome and it does make the hair shinier in my opinion. Recommended!</p>
+    </div>
+    <div class="bn-review-{{ ai_gen_id }}">
+      <div class="bn-stars-{{ ai_gen_id }}">★★★★★</div>
+      <p class="bn-review-title-{{ ai_gen_id }}">Value for money</p>
+      <p class="bn-review-author-{{ ai_gen_id }}">RosC</p>
+      <p class="bn-review-body-{{ ai_gen_id }}">Excellent value, most powerful hairdryer for its price range, better than more expensive dryers.</p>
+    </div>
+    <div class="bn-review-{{ ai_gen_id }}">
+      <div class="bn-stars-{{ ai_gen_id }}">★★★★★</div>
+      <p class="bn-review-title-{{ ai_gen_id }}">Impressed!</p>
+      <p class="bn-review-author-{{ ai_gen_id }}">Georgea</p>
+      <p class="bn-review-body-{{ ai_gen_id }}">This hairdryer is enormous value for money! Lightweight, powerful and easy to use, can't recommend enough.</p>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Buy Now",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Buy Now"
+    }
+  ]
+}
+{% endschema %}

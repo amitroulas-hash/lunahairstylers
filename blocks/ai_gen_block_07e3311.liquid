@@ -1,0 +1,898 @@
+{% doc %}
+  @prompt
+    Create a collapsible dropdown block for a product page with a fully customisable title (editable in theme editor settings). Inside the dropdown, merchants should be able to add multiple content rows, each with a choice of content type: a Heading/Title, a Bullet point list item, a Tick/checkmark list item, or Regular paragraph copy. Each content row should match the theme's native typography styles (using existing CSS variables and font settings for headings, body text, etc). The block should have a clickable header with a toggle arrow that expands and collapses the content. All content rows should be editable in the Shopify theme editor sidebar.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-collapsible-dropdown-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    border: 1px solid {{ block.settings.border_color }};
+    border-radius: {{ block.settings.border_radius }}px;
+    background-color: {{ block.settings.background_color }};
+    overflow: hidden;
+  }
+
+  .ai-collapsible-dropdown__header-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: {{ block.settings.header_padding }}px;
+    cursor: pointer;
+    background-color: {{ block.settings.header_background_color }};
+    transition: background-color 0.3s ease;
+  }
+
+  .ai-collapsible-dropdown__header-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.header_hover_background_color }};
+  }
+
+  .ai-collapsible-dropdown__title-{{ ai_gen_id }} {
+    margin: 0;
+    font-family: var(--font-heading-family);
+    font-size: {{ block.settings.title_font_size }}px;
+    font-weight: var(--font-heading-weight);
+    color: {{ block.settings.title_color }};
+  }
+
+  .ai-collapsible-dropdown__arrow-{{ ai_gen_id }} {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+    color: {{ block.settings.arrow_color }};
+  }
+
+  .ai-collapsible-dropdown__arrow-{{ ai_gen_id }}.active {
+    transform: rotate(180deg);
+  }
+
+  .ai-collapsible-dropdown__content-{{ ai_gen_id }} {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+
+  .ai-collapsible-dropdown__content-{{ ai_gen_id }}.active {
+    max-height: 2000px;
+  }
+
+  .ai-collapsible-dropdown__content-inner-{{ ai_gen_id }} {
+    padding: {{ block.settings.content_padding }}px;
+  }
+
+  .ai-collapsible-dropdown__row-{{ ai_gen_id }} {
+    margin-bottom: {{ block.settings.row_spacing }}px;
+  }
+
+  .ai-collapsible-dropdown__row-{{ ai_gen_id }}:last-child {
+    margin-bottom: 0;
+  }
+
+  .ai-collapsible-dropdown__heading-{{ ai_gen_id }} {
+    margin: 0;
+    font-family: var(--font-heading-family);
+    font-size: calc(var(--font-heading-scale) * 1.6rem);
+    font-weight: var(--font-heading-weight);
+    color: {{ block.settings.content_text_color }};
+  }
+
+  .ai-collapsible-dropdown__paragraph-{{ ai_gen_id }} {
+    margin: 0;
+    font-family: var(--font-body-family);
+    font-size: calc(var(--font-body-scale) * 1.4rem);
+    line-height: 1.6;
+    color: {{ block.settings.content_text_color }};
+  }
+
+  .ai-collapsible-dropdown__list-{{ ai_gen_id }} {
+    margin: 0;
+    padding-left: 0;
+    list-style: none;
+  }
+
+  .ai-collapsible-dropdown__list-item-{{ ai_gen_id }} {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-family: var(--font-body-family);
+    font-size: calc(var(--font-body-scale) * 1.4rem);
+    line-height: 1.6;
+    color: {{ block.settings.content_text_color }};
+  }
+
+  .ai-collapsible-dropdown__bullet-{{ ai_gen_id }} {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: {{ block.settings.bullet_color }};
+    flex-shrink: 0;
+    margin-top: 0.6em;
+  }
+
+  .ai-collapsible-dropdown__checkmark-{{ ai_gen_id }} {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    color: {{ block.settings.checkmark_color }};
+    margin-top: 0.2em;
+  }
+{% endstyle %}
+
+<collapsible-dropdown-{{ ai_gen_id }}
+  class="ai-collapsible-dropdown-{{ ai_gen_id }}"
+  {{ block.shopify_attributes }}
+>
+  <div
+    class="ai-collapsible-dropdown__header-{{ ai_gen_id }}"
+    role="button"
+    aria-expanded="false"
+    tabindex="0"
+  >
+    <h3 class="ai-collapsible-dropdown__title-{{ ai_gen_id }}">
+      {{ block.settings.title }}
+    </h3>
+    <svg
+      class="ai-collapsible-dropdown__arrow-{{ ai_gen_id }}"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <polyline points="6 9 12 15 18 9"></polyline>
+    </svg>
+  </div>
+
+  <div class="ai-collapsible-dropdown__content-{{ ai_gen_id }}">
+    <div class="ai-collapsible-dropdown__content-inner-{{ ai_gen_id }}">
+      {% if block.settings.row_1_type != 'none' %}
+        <div class="ai-collapsible-dropdown__row-{{ ai_gen_id }}">
+          {% if block.settings.row_1_type == 'heading' %}
+            <h4 class="ai-collapsible-dropdown__heading-{{ ai_gen_id }}">
+              {{ block.settings.row_1_heading }}
+            </h4>
+          {% elsif block.settings.row_1_type == 'paragraph' %}
+            <p class="ai-collapsible-dropdown__paragraph-{{ ai_gen_id }}">
+              {{ block.settings.row_1_paragraph }}
+            </p>
+          {% elsif block.settings.row_1_type == 'bullet' %}
+            <ul class="ai-collapsible-dropdown__list-{{ ai_gen_id }}">
+              <li class="ai-collapsible-dropdown__list-item-{{ ai_gen_id }}">
+                <span class="ai-collapsible-dropdown__bullet-{{ ai_gen_id }}"></span>
+                <span>{{ block.settings.row_1_bullet }}</span>
+              </li>
+            </ul>
+          {% elsif block.settings.row_1_type == 'checkmark' %}
+            <ul class="ai-collapsible-dropdown__list-{{ ai_gen_id }}">
+              <li class="ai-collapsible-dropdown__list-item-{{ ai_gen_id }}">
+                <svg
+                  class="ai-collapsible-dropdown__checkmark-{{ ai_gen_id }}"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                <span>{{ block.settings.row_1_checkmark }}</span>
+              </li>
+            </ul>
+          {% endif %}
+        </div>
+      {% endif %}
+
+      {% if block.settings.row_2_type != 'none' %}
+        <div class="ai-collapsible-dropdown__row-{{ ai_gen_id }}">
+          {% if block.settings.row_2_type == 'heading' %}
+            <h4 class="ai-collapsible-dropdown__heading-{{ ai_gen_id }}">
+              {{ block.settings.row_2_heading }}
+            </h4>
+          {% elsif block.settings.row_2_type == 'paragraph' %}
+            <p class="ai-collapsible-dropdown__paragraph-{{ ai_gen_id }}">
+              {{ block.settings.row_2_paragraph }}
+            </p>
+          {% elsif block.settings.row_2_type == 'bullet' %}
+            <ul class="ai-collapsible-dropdown__list-{{ ai_gen_id }}">
+              <li class="ai-collapsible-dropdown__list-item-{{ ai_gen_id }}">
+                <span class="ai-collapsible-dropdown__bullet-{{ ai_gen_id }}"></span>
+                <span>{{ block.settings.row_2_bullet }}</span>
+              </li>
+            </ul>
+          {% elsif block.settings.row_2_type == 'checkmark' %}
+            <ul class="ai-collapsible-dropdown__list-{{ ai_gen_id }}">
+              <li class="ai-collapsible-dropdown__list-item-{{ ai_gen_id }}">
+                <svg
+                  class="ai-collapsible-dropdown__checkmark-{{ ai_gen_id }}"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                <span>{{ block.settings.row_2_checkmark }}</span>
+              </li>
+            </ul>
+          {% endif %}
+        </div>
+      {% endif %}
+
+      {% if block.settings.row_3_type != 'none' %}
+        <div class="ai-collapsible-dropdown__row-{{ ai_gen_id }}">
+          {% if block.settings.row_3_type == 'heading' %}
+            <h4 class="ai-collapsible-dropdown__heading-{{ ai_gen_id }}">
+              {{ block.settings.row_3_heading }}
+            </h4>
+          {% elsif block.settings.row_3_type == 'paragraph' %}
+            <p class="ai-collapsible-dropdown__paragraph-{{ ai_gen_id }}">
+              {{ block.settings.row_3_paragraph }}
+            </p>
+          {% elsif block.settings.row_3_type == 'bullet' %}
+            <ul class="ai-collapsible-dropdown__list-{{ ai_gen_id }}">
+              <li class="ai-collapsible-dropdown__list-item-{{ ai_gen_id }}">
+                <span class="ai-collapsible-dropdown__bullet-{{ ai_gen_id }}"></span>
+                <span>{{ block.settings.row_3_bullet }}</span>
+              </li>
+            </ul>
+          {% elsif block.settings.row_3_type == 'checkmark' %}
+            <ul class="ai-collapsible-dropdown__list-{{ ai_gen_id }}">
+              <li class="ai-collapsible-dropdown__list-item-{{ ai_gen_id }}">
+                <svg
+                  class="ai-collapsible-dropdown__checkmark-{{ ai_gen_id }}"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                <span>{{ block.settings.row_3_checkmark }}</span>
+              </li>
+            </ul>
+          {% endif %}
+        </div>
+      {% endif %}
+
+      {% if block.settings.row_4_type != 'none' %}
+        <div class="ai-collapsible-dropdown__row-{{ ai_gen_id }}">
+          {% if block.settings.row_4_type == 'heading' %}
+            <h4 class="ai-collapsible-dropdown__heading-{{ ai_gen_id }}">
+              {{ block.settings.row_4_heading }}
+            </h4>
+          {% elsif block.settings.row_4_type == 'paragraph' %}
+            <p class="ai-collapsible-dropdown__paragraph-{{ ai_gen_id }}">
+              {{ block.settings.row_4_paragraph }}
+            </p>
+          {% elsif block.settings.row_4_type == 'bullet' %}
+            <ul class="ai-collapsible-dropdown__list-{{ ai_gen_id }}">
+              <li class="ai-collapsible-dropdown__list-item-{{ ai_gen_id }}">
+                <span class="ai-collapsible-dropdown__bullet-{{ ai_gen_id }}"></span>
+                <span>{{ block.settings.row_4_bullet }}</span>
+              </li>
+            </ul>
+          {% elsif block.settings.row_4_type == 'checkmark' %}
+            <ul class="ai-collapsible-dropdown__list-{{ ai_gen_id }}">
+              <li class="ai-collapsible-dropdown__list-item-{{ ai_gen_id }}">
+                <svg
+                  class="ai-collapsible-dropdown__checkmark-{{ ai_gen_id }}"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                <span>{{ block.settings.row_4_checkmark }}</span>
+              </li>
+            </ul>
+          {% endif %}
+        </div>
+      {% endif %}
+
+      {% if block.settings.row_5_type != 'none' %}
+        <div class="ai-collapsible-dropdown__row-{{ ai_gen_id }}">
+          {% if block.settings.row_5_type == 'heading' %}
+            <h4 class="ai-collapsible-dropdown__heading-{{ ai_gen_id }}">
+              {{ block.settings.row_5_heading }}
+            </h4>
+          {% elsif block.settings.row_5_type == 'paragraph' %}
+            <p class="ai-collapsible-dropdown__paragraph-{{ ai_gen_id }}">
+              {{ block.settings.row_5_paragraph }}
+            </p>
+          {% elsif block.settings.row_5_type == 'bullet' %}
+            <ul class="ai-collapsible-dropdown__list-{{ ai_gen_id }}">
+              <li class="ai-collapsible-dropdown__list-item-{{ ai_gen_id }}">
+                <span class="ai-collapsible-dropdown__bullet-{{ ai_gen_id }}"></span>
+                <span>{{ block.settings.row_5_bullet }}</span>
+              </li>
+            </ul>
+          {% elsif block.settings.row_5_type == 'checkmark' %}
+            <ul class="ai-collapsible-dropdown__list-{{ ai_gen_id }}">
+              <li class="ai-collapsible-dropdown__list-item-{{ ai_gen_id }}">
+                <svg
+                  class="ai-collapsible-dropdown__checkmark-{{ ai_gen_id }}"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                <span>{{ block.settings.row_5_checkmark }}</span>
+              </li>
+            </ul>
+          {% endif %}
+        </div>
+      {% endif %}
+
+      {% if block.settings.row_6_type != 'none' %}
+        <div class="ai-collapsible-dropdown__row-{{ ai_gen_id }}">
+          {% if block.settings.row_6_type == 'heading' %}
+            <h4 class="ai-collapsible-dropdown__heading-{{ ai_gen_id }}">
+              {{ block.settings.row_6_heading }}
+            </h4>
+          {% elsif block.settings.row_6_type == 'paragraph' %}
+            <p class="ai-collapsible-dropdown__paragraph-{{ ai_gen_id }}">
+              {{ block.settings.row_6_paragraph }}
+            </p>
+          {% elsif block.settings.row_6_type == 'bullet' %}
+            <ul class="ai-collapsible-dropdown__list-{{ ai_gen_id }}">
+              <li class="ai-collapsible-dropdown__list-item-{{ ai_gen_id }}">
+                <span class="ai-collapsible-dropdown__bullet-{{ ai_gen_id }}"></span>
+                <span>{{ block.settings.row_6_bullet }}</span>
+              </li>
+            </ul>
+          {% elsif block.settings.row_6_type == 'checkmark' %}
+            <ul class="ai-collapsible-dropdown__list-{{ ai_gen_id }}">
+              <li class="ai-collapsible-dropdown__list-item-{{ ai_gen_id }}">
+                <svg
+                  class="ai-collapsible-dropdown__checkmark-{{ ai_gen_id }}"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                <span>{{ block.settings.row_6_checkmark }}</span>
+              </li>
+            </ul>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</collapsible-dropdown-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class CollapsibleDropdown{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+        this.header = this.querySelector('.ai-collapsible-dropdown__header-{{ ai_gen_id }}');
+        this.content = this.querySelector('.ai-collapsible-dropdown__content-{{ ai_gen_id }}');
+        this.arrow = this.querySelector('.ai-collapsible-dropdown__arrow-{{ ai_gen_id }}');
+
+        this.setupEventListeners();
+      }
+
+      setupEventListeners() {
+        this.header.addEventListener('click', () => this.toggle());
+        this.header.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            this.toggle();
+          }
+        });
+      }
+
+      toggle() {
+        const isActive = this.content.classList.contains('active');
+        
+        if (isActive) {
+          this.content.classList.remove('active');
+          this.arrow.classList.remove('active');
+          this.header.setAttribute('aria-expanded', 'false');
+        } else {
+          this.content.classList.add('active');
+          this.arrow.classList.add('active');
+          this.header.setAttribute('aria-expanded', 'true');
+        }
+      }
+    }
+
+    customElements.define('collapsible-dropdown-{{ ai_gen_id }}', CollapsibleDropdown{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Collapsible dropdown",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Dropdown title"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Product details"
+    },
+    {
+      "type": "range",
+      "id": "title_font_size",
+      "label": "Title font size",
+      "min": 12,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Header style"
+    },
+    {
+      "type": "color",
+      "id": "header_background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "header_hover_background_color",
+      "label": "Hover background color",
+      "default": "#f9f9f9"
+    },
+    {
+      "type": "range",
+      "id": "header_padding",
+      "label": "Padding",
+      "min": 8,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "arrow_color",
+      "label": "Arrow color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Content style"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "content_text_color",
+      "label": "Text color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "content_padding",
+      "label": "Content padding",
+      "min": 8,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "row_spacing",
+      "label": "Row spacing",
+      "min": 4,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "color",
+      "id": "bullet_color",
+      "label": "Bullet color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "checkmark_color",
+      "label": "Checkmark color",
+      "default": "#008060"
+    },
+    {
+      "type": "header",
+      "content": "Border"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border color",
+      "default": "#e0e0e0"
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "header",
+      "content": "Content row 1"
+    },
+    {
+      "type": "select",
+      "id": "row_1_type",
+      "label": "Content type",
+      "options": [
+        {
+          "value": "none",
+          "label": "None"
+        },
+        {
+          "value": "heading",
+          "label": "Heading"
+        },
+        {
+          "value": "paragraph",
+          "label": "Paragraph"
+        },
+        {
+          "value": "bullet",
+          "label": "Bullet point"
+        },
+        {
+          "value": "checkmark",
+          "label": "Checkmark item"
+        }
+      ],
+      "default": "heading"
+    },
+    {
+      "type": "text",
+      "id": "row_1_heading",
+      "label": "Heading text",
+      "default": "Features"
+    },
+    {
+      "type": "textarea",
+      "id": "row_1_paragraph",
+      "label": "Paragraph text"
+    },
+    {
+      "type": "text",
+      "id": "row_1_bullet",
+      "label": "Bullet text"
+    },
+    {
+      "type": "text",
+      "id": "row_1_checkmark",
+      "label": "Checkmark text"
+    },
+    {
+      "type": "header",
+      "content": "Content row 2"
+    },
+    {
+      "type": "select",
+      "id": "row_2_type",
+      "label": "Content type",
+      "options": [
+        {
+          "value": "none",
+          "label": "None"
+        },
+        {
+          "value": "heading",
+          "label": "Heading"
+        },
+        {
+          "value": "paragraph",
+          "label": "Paragraph"
+        },
+        {
+          "value": "bullet",
+          "label": "Bullet point"
+        },
+        {
+          "value": "checkmark",
+          "label": "Checkmark item"
+        }
+      ],
+      "default": "checkmark"
+    },
+    {
+      "type": "text",
+      "id": "row_2_heading",
+      "label": "Heading text"
+    },
+    {
+      "type": "textarea",
+      "id": "row_2_paragraph",
+      "label": "Paragraph text"
+    },
+    {
+      "type": "text",
+      "id": "row_2_bullet",
+      "label": "Bullet text"
+    },
+    {
+      "type": "text",
+      "id": "row_2_checkmark",
+      "label": "Checkmark text",
+      "default": "Premium quality materials"
+    },
+    {
+      "type": "header",
+      "content": "Content row 3"
+    },
+    {
+      "type": "select",
+      "id": "row_3_type",
+      "label": "Content type",
+      "options": [
+        {
+          "value": "none",
+          "label": "None"
+        },
+        {
+          "value": "heading",
+          "label": "Heading"
+        },
+        {
+          "value": "paragraph",
+          "label": "Paragraph"
+        },
+        {
+          "value": "bullet",
+          "label": "Bullet point"
+        },
+        {
+          "value": "checkmark",
+          "label": "Checkmark item"
+        }
+      ],
+      "default": "checkmark"
+    },
+    {
+      "type": "text",
+      "id": "row_3_heading",
+      "label": "Heading text"
+    },
+    {
+      "type": "textarea",
+      "id": "row_3_paragraph",
+      "label": "Paragraph text"
+    },
+    {
+      "type": "text",
+      "id": "row_3_bullet",
+      "label": "Bullet text"
+    },
+    {
+      "type": "text",
+      "id": "row_3_checkmark",
+      "label": "Checkmark text",
+      "default": "Easy to use and maintain"
+    },
+    {
+      "type": "header",
+      "content": "Content row 4"
+    },
+    {
+      "type": "select",
+      "id": "row_4_type",
+      "label": "Content type",
+      "options": [
+        {
+          "value": "none",
+          "label": "None"
+        },
+        {
+          "value": "heading",
+          "label": "Heading"
+        },
+        {
+          "value": "paragraph",
+          "label": "Paragraph"
+        },
+        {
+          "value": "bullet",
+          "label": "Bullet point"
+        },
+        {
+          "value": "checkmark",
+          "label": "Checkmark item"
+        }
+      ],
+      "default": "checkmark"
+    },
+    {
+      "type": "text",
+      "id": "row_4_heading",
+      "label": "Heading text"
+    },
+    {
+      "type": "textarea",
+      "id": "row_4_paragraph",
+      "label": "Paragraph text"
+    },
+    {
+      "type": "text",
+      "id": "row_4_bullet",
+      "label": "Bullet text"
+    },
+    {
+      "type": "text",
+      "id": "row_4_checkmark",
+      "label": "Checkmark text",
+      "default": "Durable and long-lasting"
+    },
+    {
+      "type": "header",
+      "content": "Content row 5"
+    },
+    {
+      "type": "select",
+      "id": "row_5_type",
+      "label": "Content type",
+      "options": [
+        {
+          "value": "none",
+          "label": "None"
+        },
+        {
+          "value": "heading",
+          "label": "Heading"
+        },
+        {
+          "value": "paragraph",
+          "label": "Paragraph"
+        },
+        {
+          "value": "bullet",
+          "label": "Bullet point"
+        },
+        {
+          "value": "checkmark",
+          "label": "Checkmark item"
+        }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "text",
+      "id": "row_5_heading",
+      "label": "Heading text"
+    },
+    {
+      "type": "textarea",
+      "id": "row_5_paragraph",
+      "label": "Paragraph text"
+    },
+    {
+      "type": "text",
+      "id": "row_5_bullet",
+      "label": "Bullet text"
+    },
+    {
+      "type": "text",
+      "id": "row_5_checkmark",
+      "label": "Checkmark text"
+    },
+    {
+      "type": "header",
+      "content": "Content row 6"
+    },
+    {
+      "type": "select",
+      "id": "row_6_type",
+      "label": "Content type",
+      "options": [
+        {
+          "value": "none",
+          "label": "None"
+        },
+        {
+          "value": "heading",
+          "label": "Heading"
+        },
+        {
+          "value": "paragraph",
+          "label": "Paragraph"
+        },
+        {
+          "value": "bullet",
+          "label": "Bullet point"
+        },
+        {
+          "value": "checkmark",
+          "label": "Checkmark item"
+        }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "text",
+      "id": "row_6_heading",
+      "label": "Heading text"
+    },
+    {
+      "type": "textarea",
+      "id": "row_6_paragraph",
+      "label": "Paragraph text"
+    },
+    {
+      "type": "text",
+      "id": "row_6_bullet",
+      "label": "Bullet text"
+    },
+    {
+      "type": "text",
+      "id": "row_6_checkmark",
+      "label": "Checkmark text"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collapsible dropdown"
+    }
+  ]
+}
+{% endschema %}
