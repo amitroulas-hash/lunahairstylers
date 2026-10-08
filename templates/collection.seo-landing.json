@@ -1,5 +1,5 @@
 {
-  "sections": {
+  "sections": {"luna_tool_buying_guide":{"type":"luna-tool-guide","settings":{"heading":"Which Luna hair tool suits your routine?"}},
     "seo_landing": {
       "type": "collection-seo-landing",
       "settings": {}
@@ -7,5 +7,5 @@
   },
   "order": [
     "seo_landing"
-  ]
+  ,"luna_tool_buying_guide"]
 }
