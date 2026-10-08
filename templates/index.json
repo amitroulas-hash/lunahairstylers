@@ -8,7 +8,7 @@
  * ------------------------------------------------------------
  */
 {
-  "sections": {
+  "sections": {"luna_tool_buying_guide":{"type":"luna-tool-guide","settings":{"heading":"Which Luna hair tool suits your routine?"}},
     "luna_hero_dyTwNC": {
       "type": "luna-hero",
       "name": "Luna Hero",
@@ -317,5 +317,5 @@
     "blocks_PfGLzc",
     "1774578915702132df",
     "luna_community_wall_AeCe6a"
-  ]
+  ,"luna_tool_buying_guide"]
 }

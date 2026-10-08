@@ -1757,7 +1757,11 @@ video.pbuy-main-image-{{ ai_gen_id }} {
 <div class="pbuy-info-{{ ai_gen_id }}">
   <div class="pbuy-inner-{{ ai_gen_id }}">
     <p class="pbuy-product-kicker-{{ ai_gen_id }}">{{ block.settings.pbuy_product_kicker | escape }}</p>
-      <h2 class="pbuy-title-{{ ai_gen_id }}">{{ product.title }}</h2>
+      {% if request.page_type == 'product' %}
+        <h1 class="pbuy-title-{{ ai_gen_id }}">{{ product.title | escape }}</h1>
+      {% else %}
+        <h2 class="pbuy-title-{{ ai_gen_id }}">{{ product.title | escape }}</h2>
+      {% endif %}
      <div class="pbuy-promise-{{ ai_gen_id }}">
   <strong>{{ block.settings.pbuy_promise_heading | escape }}</strong>
   <span>{{ block.settings.pbuy_promise_text | escape }}</span>

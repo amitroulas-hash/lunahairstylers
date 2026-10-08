@@ -402,6 +402,7 @@
   <script src="{{ 'product-model.js' | asset_url }}" defer></script>
 {%- endif -%}
 
+{% unless template.name == 'product' %}
 <script type="application/ld+json">
   {
     "@context": "http://schema.org/",
@@ -438,6 +439,7 @@
     ]
   }
 </script>
+{% endunless %}
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {

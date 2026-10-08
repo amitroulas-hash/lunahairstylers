@@ -1,0 +1,63 @@
+{% liquid
+  assign tool_handles = 'travel-straightener,ceramic-argan-oil-infused-straightener,curling-tong,dryer' | split: ','
+  assign collection_handles = collection.products | map: 'handle'
+  assign tool_count = 0
+  for handle in tool_handles
+    assign tool = all_products[handle]
+    if tool != blank
+      if request.page_type != 'collection' or collection_handles contains handle
+        assign tool_count = tool_count | plus: 1
+      endif
+    endif
+  endfor
+%}
+{% if tool_count > 0 %}
+  {% style %}
+    #LunaToolGuide-{{ section.id }} { padding-top: 32px; padding-bottom: 32px; }
+    #LunaToolGuide-{{ section.id }} .luna-tool-guide__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 20px; }
+    #LunaToolGuide-{{ section.id }} article { padding: 20px; border: 1px solid rgba(0,0,0,.15); border-radius: 12px; }
+    #LunaToolGuide-{{ section.id }} h3 { margin-top: 0; }
+    #LunaToolGuide-{{ section.id }} a { color: inherit; text-decoration: underline; text-underline-offset: .2em; }
+    #LunaToolGuide-{{ section.id }} a:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
+  {% endstyle %}
+  <section id="LunaToolGuide-{{ section.id }}" class="page-width" aria-labelledby="LunaToolGuideHeading-{{ section.id }}">
+    <h2 id="LunaToolGuideHeading-{{ section.id }}">{{ section.settings.heading | escape }}</h2>
+    <p>Choose a tool for the way you style. Compare the product details before deciding which one suits your routine.</p>
+    <div class="luna-tool-guide__grid">
+      {% for handle in tool_handles %}
+        {% assign tool = all_products[handle] %}
+        {% if tool != blank %}
+          {% if request.page_type != 'collection' or collection_handles contains handle %}
+            <article>
+              {% case handle %}
+                {% when 'travel-straightener' %}
+                  <h3>Mini travel hair straightener</h3>
+                  <p>For fringes, small sections and quick touch-ups. Floating ceramic plates and a fixed 180°C temperature in a compact tool.</p>
+                  <a href="{{ tool.url }}">Explore the mini travel hair straightener</a>
+                {% when 'ceramic-argan-oil-infused-straightener' %}
+                  <h3>Argan oil ceramic hair straightener</h3>
+                  <p>For straight styles or flowing waves. Compare its argan oil infused ceramic plates and styling details with the mini straightener.</p>
+                  <a href="{{ tool.url }}">Explore the argan oil ceramic hair straightener</a>
+                {% when 'curling-tong' %}
+                  <h3>25mm ceramic curling tong</h3>
+                  <p>For creating curls and waves with a 25mm ceramic barrel. Review the styling instructions and temperature details on the product page.</p>
+                  <a href="{{ tool.url }}">Explore the 25mm ceramic curling tong</a>
+                {% when 'dryer' %}
+                  <h3>2200W ionic hair dryer</h3>
+                  <p>For everyday drying with two speeds, three heat settings, a cool shot and a concentrator nozzle.</p>
+                  <a href="{{ tool.url }}">Explore the 2200W ionic hair dryer</a>
+              {% endcase %}
+            </article>
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+    </div>
+  </section>
+{% endif %}
+{% schema %}
+{
+  "name": "Luna tool buying guide",
+  "settings": [{"type": "text", "id": "heading", "label": "Heading", "default": "Which Luna hair tool suits your routine?"}],
+  "presets": [{"name": "Luna tool buying guide"}]
+}
+{% endschema %}
