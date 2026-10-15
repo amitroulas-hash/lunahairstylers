@@ -1352,6 +1352,9 @@
   {
     "@context": "http://schema.org",
     "@type": "Organization",
+    {% if shop.refund_policy.body != blank and shop.refund_policy.url != blank %}
+      {% render 'luna-merchant-return-policy' %},
+    {% endif %}
     "name": {{ shop.name | json }},
     {% if section.settings.logo %}
       {% assign image_size = section.settings.logo.width | append: 'x' %}
