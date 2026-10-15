@@ -1,0 +1,21 @@
+{%- comment -%}
+  Store-level change-of-mind policy. Render only when the full Shopify refund
+  policy is published; that page governs eligibility, approval and ACL remedies.
+  Shipping prices/transit estimates are deliberately not inferred from checkout.
+{%- endcomment -%}
+"hasMerchantReturnPolicy": {
+  "@type": "MerchantReturnPolicy",
+  "name": "Luna Australia change-of-mind returns",
+  "applicableCountry": "AU",
+  "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+  "merchantReturnDays": 14,
+  "returnMethod": "https://schema.org/ReturnByMail",
+  "returnFees": "https://schema.org/ReturnShippingFees",
+  "returnShippingFeesAmount": {
+    "@type": "MonetaryAmount",
+    "value": 9.95,
+    "currency": "AUD"
+  },
+  "merchantReturnLink": {{ shop.url | append: shop.refund_policy.url | json }},
+  "description": "Change-of-mind returns may be accepted within 14 days of delivery, subject to approval. Items must be unused, unopened, in original condition and include all original components and packaging. Approved mailed change-of-mind returns carry an AUD 9.95 return shipping fee, deducted from the refund or charged during the return process. No change-of-mind exchanges. These terms do not limit Australian Consumer Law rights; faulty, damaged or incorrect items are assessed separately under the full policy."
+}
